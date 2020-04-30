@@ -16,6 +16,11 @@
 #%>% 
 #  replace_na(list(`2015` = '-', `2016` = '-'))
 
+# rzis[[4]]
+# 
+# rzis[[4]] %>% anti_join(rzis[[1]], by = rzis_col_name)
+# rzis[[1]] %>% anti_join(rzis[[4]], by = rzis_col_name)
+# 
 
 library('tidyverse')
 library('readxl')
@@ -30,17 +35,7 @@ fdata <- c(
 # Read RZiS
 rzis = fdata %>% map(read_excel, sheet = 6)
 # Clean up stray data
-# rzis[[1]] <- rzis[[1]] %>% rename('2015' = '...4', '2016' = '...3') %>% 
-#   select(-'...2') %>% slice(-1L)
-# rzis[[2]] <- rzis[[2]] %>% rename('2016' = '...4', '2017' = '...3') %>% 
-#   select(-'...2') %>% filter(between(row_number(), 3, n()))
-# rzis[[3]] <- rzis[[3]] %>% rename('2017' = '...4', '2018' = '...3') %>% 
-#   select(-'...2') %>% filter(between(row_number(), 2, n() - 1))
-# rzis[[4]] <- rzis[[4]] %>% rename('2018' = '...4', '2019' = '...3') %>% 
-#   select(-c('...2', '...5', '...6')) %>% slice(-1L)
- 
 rzis_col_name = 'RACHUNEK ZYSKÓW I STRAT (WARIANT PORÓWNAWCZY)'
-
 rzis[[1]] <- rzis[[1]] %>% rename(`2015` = '...4', `2016` = '...3') %>%
   select(-'...2') %>% slice(-1L) %>%
   mutate(`2015` = abs(as.integer(`2015`)), `2016` = abs(as.integer(`2016`)))
@@ -65,50 +60,31 @@ rzis_razem <- rzis[[4]] %>% left_join(rzis[[3]] %>% select(-`2018`), by = rzis_c
 rzis_s <- rzis_razem %>% filter(row_number() %in% c(1, 5, 15, 16, 21, 25, 26, 33, 39:42)) %>% 
   replace(is.na(.), 0)
 
-rzis_strktr <- rzis_s %>% add_row(`RACHUNEK ZYSKÓW I STRAT (WARIANT PORÓWNAWCZY)` = '   Przychody ogółem', .before = 1) %>% 
+# Struktura
+rzis_s <- rzis_s %>% add_row(`RACHUNEK ZYSKÓW I STRAT (WARIANT PORÓWNAWCZY)` = '   Przychody ogółem', .before = 1) %>% 
   add_row(`RACHUNEK ZYSKÓW I STRAT (WARIANT PORÓWNAWCZY)` = '   Koszty ogółem', .before = 2)
 
-rzis_strktr
-x <- '2019'
-rzis_strktr[[x]][[1]]
-
 for (yr in c('2015', '2016', '2017', '2018', '2019')) {
-  rzis_strktr[[yr]][[1]] <- rzis_strktr[[yr]][[3]] + rzis_strktr[[yr]][[6]] +
-    rzis_strktr[[yr]][[9]]
-  rzis_strktr[[yr]][[2]] <- rzis_strktr[[yr]][[4]] + rzis_strktr[[yr]][[7]] +
-    rzis_strktr[[yr]][[10]]
+  rzis_s[[yr]][[1]] <- rzis_s[[yr]][[3]] + rzis_s[[yr]][[6]] + rzis_s[[yr]][[9]]
+  rzis_s[[yr]][[2]] <- rzis_s[[yr]][[4]] + rzis_s[[yr]][[7]] + rzis_s[[yr]][[10]]
 }
 
-%>% 
-  replace(is.na(.), 0)
+rzis_s
 
-rzis_strktr
+rzis_s <- rzis_s %>% mutate(`2019_s` = `2019` / rzis_s[['2019']][[1]] * 100,
+                            `2018_s` = `2018` / rzis_s[['2018']][[1]] * 100,
+                            `2017_s` = `2017` / rzis_s[['2017']][[1]] * 100,
+                            `2016_s` = `2016` / rzis_s[['2016']][[1]] * 100, 
+                            `2015_s` = `2015` / rzis_s[['2015']][[1]] * 100)
 
-# rzis[[4]]
-# 
-# rzis[[4]] %>% anti_join(rzis[[1]], by = rzis_col_name)
-# rzis[[1]] %>% anti_join(rzis[[4]], by = rzis_col_name)
-# 
+rzis_s
+
+# ggplot(data = rzis_s) +
+#   geom_col(mapping = aes(x = get(rzis_col_name), y = `2019_s`, fill = get(rzis_col_name))) +
+#   geom_col(mapping = aes(x = get(rzis_col_name), y = `2018_s`, fill = get(rzis_col_name))) 
+
+# Dynamika
+rzis_d <- rzis_s
+
 
 options(tibble.print_min = 10) 
-
-
-# slice(rzis[[1]][, 1], -1)
-# 
-# x <- rzis[[1]][, 1]
-# filter(x, row_number() == 1L)
-# filter(x, between(row_number(), 5, n()))
-
-
-# rzis_razem <- tibble(
-#   slice(first(rzis)[, 1], -1),
-#   '2015' = 0L,
-# #  2016 = 0L,
-# #  2017 = 0L,
-# #  2018 = 0L,
-# #  2019 = 0L,
-# )
-# rzis_razem %>% rename(Wyszczególnienie = `RACHUNEK ZYSKÓW I STRAT (WARIANT PORÓWNAWCZY)`)
-
-
-

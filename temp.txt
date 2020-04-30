@@ -1,0 +1,42 @@
+? will show shortcuts in slide presentation
+Press »ESC« or »O« keys to toggle the overview mode
+
+output:
+  revealjs::revealjs_presentation:
+    transition: none
+    self_contained: true
+    css: slides.css
+    theme: night
+  beamer_presentation:
+    toc: false
+    incremental: false
+    
+    
+  output: 
+  revealjs::revealjs_presentation:
+    self_contained: false
+    reveal_plugins: ["notes", "search"]
+    theme: sky
+    
+    
+self_contained	
+Produce a standalone HTML file with no external dependencies, using data: URIs to incorporate the contents of linked scripts, stylesheets, images, and videos. Note that even for self contained documents MathJax is still loaded externally (this is necessary because of it's size).
+
+<section>
+    <img width="300" src="imgs/sklep.jpg">
+    <img width="300" src="imgs/sklep2.jpg">
+</section>
+
+ <div class="fragment">
+  - Dino to wiodący gracz w segmencie średniej wielkości.
+  </div>
+<div class="fragment">
+All Shiny guarantees is that **when you ask a reactive expression for an answer, you get an up-to-date one**.
+</div>
+
+theme: moon, solarized, sky, beige, serif
+
+
+
+
+    
