@@ -64,7 +64,7 @@ library('kableExtra')
 - mamy 2 fazy ekspansji
 - w województwie wielkopolskim powstał pierwszy sklep pod marką Supermarket Dino.
 - centrum dystrybucyjne w Krotoszynie
-- teraz pokazują, że Agro-Rydzyna jest spółką zależną będącą w pełni własnością. Agro-Rydzyna zaopatruje nasze sklepy w świeże mięso i wędliny
+- teraz pokazują, że Agro-Rydzyna jest spółką zależną będącą w pełni własnością (100% jednostka zależna). Agro-Rydzyna zaopatruje nasze sklepy w świeże mięso i wędliny
 - Faza 2: W 2010 r. firma private equity, Enterprise Investors, pośrednio nabył 49% udziałów w Grupie Dino stając się inwestorem mniejszościowym. Kapitał na rozwój, który w ten sposób Dino pozyskal stał się katalizatorem szybkiego rozwoju w kolejnych latach. Rok 2011, przekształcił się w spółkę akcyjną.
 - 2017: Enterprise Investors, sprzedał wszystkie posiadane akcje Dino (49% udziałów) na Giełdzie Papierów Wartościowych w Warszawie. IPO
 </div>
@@ -106,19 +106,10 @@ Należy również zauważyć, że uniknęli bezpośredniej konkurencji ze strony
 
 ## Model biznesowy
 
-<img src="imgs/bizmodel.png">
+<img width="400" src="imgs/bizmodel.png">
 
-<div class="fragment">
-**Cechy:**
-</div>
->- Niskie **marża zysku netto** (< 5%)
->    - dlaczego?
->- Wysoki **wielkości** sprzedaży
->    - Wskaźnik cyklu zapasów, Wskaźnik rentowności sprzedaży
->- Wysoki poziom środków trwałych (**przemysł kapitałochłonny**)
->    - leasing operacyjny? nieruchomości?
->- Szybko rozwijająca się firma (high growth company)
->    - how?
+- 1218 sklepów
+- 4 cztera dystrybucyjne
 
 <div class="notes">
 Supermarket jest przedsiębiorstwem świadczącym usługi.
@@ -132,6 +123,24 @@ sklepy, a na koniec sprzedaż produktów lokalnym klientom.
 Mają 4 centra dystrybucyjne i realizowali udany rozwój sieci wokół własnego centrum dystrybucyjnego.
 Potrzebują więcej centrów dystrybucyjnych, aby rosnąć we wschodniej Polsce.
 
+</div>
+## Cechy
+
+>- Niskie **marża zysku netto** (< 5%)
+>    - dlaczego?
+>- Wysoki **wielkości** sprzedaży
+>    - Wskaźnik cyklu zapasów, Wskaźnik rentowności sprzedaży
+>- Wysoki poziom środków trwałych (**przemysł kapitałochłonny**)
+>    - leasing operacyjny? nieruchomości?
+>- Szybko rozwijająca się firma (high growth company)
+>    - Wydatki z działalności inwestycyjnej
+>    - Zwrot z kapitału własnego (ROE), Zwrot z aktywów (ROA)
+>    - W jaki sposób finansują nowe sklepy?
+>        1. Sprzedaż nowych akcji?
+>        2. Poprzez zyzki zatrzymane (zyzk z działalności operacyjnej)?
+>        3. Emitować obligacje lub zaciągać kredyt? (wskaźnik zdolności kredytowej)
+
+<div class="notes">
 Cechy
 netto ze sprzedaży
 niskie **marża zysku netto** (mniej niż 5%)
@@ -156,32 +165,123 @@ Dlaczego?
 - czy sklepy są leasingowe czy są własnością?
 
 - wreszcie, szybko rozwijająca się firma
+- powinniśmy się spodziewać wyższe wydatki z działalności inwestycyjnej, np. Nabycie wartości niematerialnych i prawnych oraz rzeczowych aktywów trwałych
+- w tej sytuacji, powinniśmy sprawdzić Zwrot z kapitału własnego (ROE), Zwrot z aktywów (ROA); Myślę, że są wysokie, ale jak wysokie? Jeśli wskaźniki te nie są wysokie, może zniszczyć wartość firmy
 
+- w jaki sposób finansują nowe sklepy?
+- sprzedaż nowych akcji?
+- jest mało prawdopodobne, że zbierają pieniądze poprzez sprzedaż nowe akcji. założyciel nadal kontroluje większość udziałów w spółce (właśnie 51%). nie sądzę, żeby chciał tego zmienić
+- poprzez zyzki zatrzymane (powinniśmy sprawdzić zyzk z działalności operacyjnej)? 
+- w tej sytuacji, wysoka dywidenda jest mało prawdopodobna
+- wrzeście, czy emitować obligacje czy zaciągać kredyt?
+- możemy porównać wskaźnik zadłużenia do konkurentów
+- spłata odsetek od kredytu oszczędza podatki, więc posiadanie długu nie jest złe
+
+- mamy pewien pomysł, czego szukać w sprawozdaniach finansowych
+- najpierw spójrzmy szybko na giełdie
+
+</div>
+
+## Konkurenci
+```{r echo = FALSE}
+tribble(
+  ~sieć, ~`liczba sklepów w Polsce`, ~siedziba,
+  "Biedronka", 3000, "Portugal",
+  "Dino",1218, "Poland",
+  "Lidl", 700, "Germany",
+  "Stokrotka", 577, "Poland",
+  "Netto", 368, "Denmark",
+  "Polomarket", 280, "Poland",
+  "Eurospar", 250, "Netherlands",
+  "Intermarché", 230, "France",
+  "Mila",187, "Poland",
+  "ChataPolska", 166, "Poland",
+  "Aldi",132, "Germany",
+  "PiotriPaweł", 70, "Poland",
+  "Arhelan", 55, "Poland",
+  "Frac", 21, "Poland",
+  "Auchan", 33, "France",
+) %>% kable()
+```
+
+<small>żródło: Wikipedia </small>
+
+<div class="notes">
+najbliżsi konkurenci są Biedronka, Lidl, Stokrotka, pod względem liczby sklepów.
 </div>
 
 ## Notowania na giełdzie
 
 <img width="500" src="imgs/notowanie.png">
 
-```{r echo = FALSE}
-tribble(
-  ~rok, ~kurs, 
-  "2017",   78.80,
-  "2018",   95.85,
-  "2019",   143.90
-) %>% mutate(y = ifelse(kurs==78.80, 39.39, lag(kurs))) %>% 
-  mutate(`stopa zwrotu z akcji` = str_c(as.integer((kurs-y)/y*100), ' %')) %>% select(-y) %>% 
-  group_by_all() %>% 
-  kable() %>% 
-  add_header_above(c(" " = 1, "Debiut @ 39.39" = 2))
-```
-
-
-
 <div class="notes">
 - jak widać, cena akcji szybko się pomnożyła po debiucie.
+</div>
+
+---
+
+W porównaniu z WIG     
+
+<img width="500" src="imgs/notowanie2.png">
+
+
+```{r echo = FALSE}
+tribble(
+  ~` `, ~`Cena-zysk (P/E)`,
+  "Dino", 41.8  ,  
+  "Biedronka (Jeronimo M)", 23.35,
+) %>% kable() %>% kable_styling()
+```
+
+<div class="notes">
+- wygląda na to, że koronawirus nie wpłynął na wydajność
+- Tego można było się spodziewać, ludzie nadal muszą jeść
+- To nie jest cykliczny biznes. depresja ekonomiczna nie wpłynie.
+
+- how many stores can they open?
+- ROE?
+- country risk?
 
 </div>
+
+---
+
+```{r echo = FALSE}
+dino_gr <- tribble(
+  ~rok, ~kurs, ~`przychody ze sprzedaży`, ~`zysk netto`, ~`dług netto`, ~`liczba sklepów`,
+  "2017",   78.80, 4462.8, 213.6, 485, 775,
+  "2018",   95.85, 5838.5, 307.5, 566, 977,
+  "2019",   143.90, 7646.5, 410.9, 749, 1218,
+) 
+dino_gr %>% kable() %>% kable_styling()
+```
+
+<div class="notes">
+
+Jak widać, przychody ze sprzedaży prawie się podwoił, chociaż 'przychody ze sprzedaży' rośnie mniej niż zysk netto. Dług netto wrósł o prawie 55%. 
+</div>
+
+---
+
+```{r echo = FALSE}
+library('formattable')
+mtcars[1:5, 1:4] %>%
+  mutate(
+    car = row.names(.),
+    mpg = color_tile("white", "orange")(mpg),
+    cyl = cell_spec(cyl, "html", angle = (1:5)*60, 
+                    background = "red", color = "white", align = "center"),
+    disp = ifelse(disp > 200,
+                  cell_spec(disp, "html", color = "green", bold = T),
+                  cell_spec(disp, "html", color = "red", italic = T)),
+    hp = color_bar("green")(hp)
+  ) %>%
+  select(car, everything()) %>%
+  kable("html", escape = F) %>%
+  kable_styling("hover", full_width = F) %>%
+  column_spec(5, width = "3cm") %>%
+  add_header_above(c(" ", "Hello" = 2, "World" = 2))
+```
 
 
 ## Analiza pionowa i pozioma
@@ -192,9 +292,31 @@ tribble(
 
 ## Slide with Bullets
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
+```{r echo = FALSE}
+iris[1:10, ] %>%
+  mutate_if(is.numeric, function(x) {
+    cell_spec(x, bold = T, 
+              color = spec_color(x, end = 0.9),
+              font_size = spec_font_size(x))
+  }) %>%
+  mutate(Species = cell_spec(
+    Species, color = "white", bold = T,
+    background = spec_color(1:10, end = 0.9, option = "A", direction = -1)
+  )) %>%
+  kable(escape = F, align = "c") %>%
+  kable_styling(c("striped", "condensed"), full_width = F)
+```
+
+---
+
+```{r echo = FALSE}
+dt <- mtcars[1:5, 1:6]
+kable(dt) %>%
+  kable_styling("striped", full_width = F) %>%
+  column_spec(5:7, bold = T) %>%
+  row_spec(3:5, bold = T, color = "white", background = "#D7261E")
+```
+
 
 ## Slide with R Code and Output
 

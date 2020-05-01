@@ -36,7 +36,16 @@ All Shiny guarantees is that **when you ask a reactive expression for an answer,
 
 theme: moon, solarized, sky, beige, serif
 
+Wskaźniki:
+- Wskaźnik cyklu zapasów
+- Wskaźnik rentowności sprzedaży
+- Marża zysku netto
+- Wskaźniki zadłużenia
 
-
-
+dino_gr %>%
+  gather("Type", "Value",-rok) %>%
+  ggplot(aes(rok, Value, fill = Type)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  theme_bw()
+  
     
