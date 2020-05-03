@@ -1,5 +1,19 @@
 ? will show shortcuts in slide presentation
 Press »ESC« or »O« keys to toggle the overview mode
+--
+
+don't use 'if' inside thoese mutate or functions called from muate - use ifelse()
+because things are vectorized. Not intuitive. If you print(), you get whole vercotr
+even when you only passed one element.
+
+--
+
+#pasywa %>% select_at(vars(ends_with('_sw')))
+#pasywa %>% select_at(vars(!matches("_sk|_st")))
+
+#pasywa %>% select(ends_with('_sw'))
+
+--
 
 output:
   revealjs::revealjs_presentation:
