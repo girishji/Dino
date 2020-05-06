@@ -1,24 +1,57 @@
-.reveal .sourceCode.r .kw, .sourceCode.r .er {
-  color:inherit;
+/*
+@import url('https://fonts.googleapis.com/css?family=Catamaran&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Libre+Baskerville&display=swap');
+@import url(https://fonts.googleapis.com/css?family=Anonymous+Pro:400,700,400italic,700italic);
+*/
+/**
+ * 
+ */
+
+
+.reveal {
+  font-size: 30px; }
+  
+
+/*
+html * {
+  color-profile: sRGB;
+  rendering-intent: auto; }
+*/
+
+/*********************************************
+ * GLOBAL STYLES
+ *********************************************/
+
+/*
+.reveal table {
+  font-size: 95%;
+}
+*/
+
+/*
+body {
+  background: #e6e8eb;
+  background-color: #e6e8eb; }
+
+.reveal {
+  font-family: 'Catamaran', sans-serif;
+  font-size: 47px;
   font-weight: normal;
-}
-.reveal .sourceCode.r .co {
-  font-style: normal;
-}
+  color: #0f0f0f; }
 
-.reveal .slides {
-  text-align: inherit;
-}
+::selection {
+  color: #fff;
+  background: #05dff7;
+  text-shadow: none; }
 
-.reveal .slide.level2 h1 {
-  font-size: 48px;
-}
+::-moz-selection {
+  color: #fff;
+  background: #05dff7;
+  text-shadow: none; }
 
-.reveal pre code {
-  font-size: 20px;
+.reveal .slides section,
+.reveal .slides section > section {
   line-height: 1.3;
-}
+  font-weight: inherit; }
 
-.reveal .table { 
-  float: left; 
-}
+*/

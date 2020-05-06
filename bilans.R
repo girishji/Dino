@@ -123,6 +123,9 @@ pasywa <- pasywa[[3]] %>%
 # pasywa[[2]] %>% anti_join(pasywa[[1]], by = col_name)
 # pasywa[[1]] %>% anti_join(pasywa[[2]], by = col_name)
 
+
+aktywa
+pasywa
 ## Skorygowane
 
 ## https://www.nbp.pl/homen.aspx?f=/en/publikacje/raport_inflacja/projekcja_inflacji_2019.html
@@ -160,6 +163,10 @@ pasywa <- pasywa %>%
          `2019_sk` = skoryguj(`2019`, '2019', inflacya = inflacya))              
 
 
+pasywa %>% select(!contains('_'))
+aktywa %>% select(!contains('_'))
+
+
 # Summarize
 
 aktywa <- aktywa %>% 
@@ -168,7 +175,7 @@ aktywa <- aktywa %>%
                               str_c('    ', !!sym(col_name)), !!sym(col_name)),
          !!col_name := ifelse(row_number() %in% c(4, 10, 13), 
                               str_c('  ', !!sym(col_name)), !!sym(col_name)),
-         !!col_name := str_trunc(!!sym(col_name), 50))
+         !!col_name := str_trunc(!!sym(col_name), 500))
 
 pasywa <- pasywa %>% 
   filter(row_number() %in% c(1:3, 6:13, 16, 19, 23, 24, 28, 29, 40:42, 45)) %>% 
@@ -176,7 +183,7 @@ pasywa <- pasywa %>%
                               str_c('    ', !!sym(col_name)), !!sym(col_name)),
          !!col_name := ifelse(row_number() %in% c(2:7, 9, 12, 14, 18), 
                               str_c('  ', !!sym(col_name)), !!sym(col_name)),
-         !!col_name := str_trunc(!!sym(col_name), 50))
+         !!col_name := str_trunc(!!sym(col_name), 500))
 
 ## Struktura
 
@@ -243,8 +250,9 @@ pasywa %>% select(!matches('_sk|_st'))
     }
   }
 }
-aktywa %>% select(contains('/'))
+aktywa %>% select(!contains('/'))
 pasywa %>% select(contains('/'))
+
 
 ## Wsaźniki
 
@@ -281,6 +289,9 @@ for (rok in lata) {
 }
 
 wskażniki
+
+pasywa %>% select(!matches('_|/'))
+aktywa %>% select(!matches('_|/'))
 
 # pasywa %>% select(contains('Wysz'))
 # select(pasywa, `2015`) %>% slice(1)

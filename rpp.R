@@ -6,6 +6,11 @@ options(tibble.print_min = Inf)
 
 library('tidyverse')
 library('readxl')
+library('knitr')
+library('kableExtra')
+
+source(file = 'bilans.R')
+source(file = 'rzis.R')
 
 fdata <- c(
   'data/R-2016-Dino-Polska-Sprawozdanie-Finansowe-skonwertowany.xlsx',
@@ -49,8 +54,12 @@ rpp <- rpp[[3]] %>% left_join(rpp[[2]] %>% select(-`2018`), by = col_name) %>%
 rpp <- rpp %>% mutate_at(vars(`2018`, `2019`), ~ str_replace(., '\\(', '-')) %>% 
   mutate_at(vars(`2018`, `2019`), ~ str_replace(., '\\)', '')) %>% 
   mutate_at(vars(starts_with('201')), ~if_else(row_number() %in% c(1, 15, 29), '', as.character(.x))) 
-  
-rpp
+ 
+rpp <- rpp %>% 
+  mutate_at(vars(1), ~ str_replace(.x, '-Wydatki', 'Wydatki')) %>% 
+  mutate_at(vars(1), ~ str_replace(.x, '-Wpływy', 'Wpływy'))
+
+#rpp
 
 ## Dynamika
 
@@ -61,7 +70,7 @@ lata <- c('2015', '2016', '2017', '2018', '2019')
     if (prev == '') {
       prev <- rok
     } else {
-      cname <- str_c(rok, '/', prev)
+      cname <- str_c(prev, '/', str_trunc(rok, 2, "left", ""))
       f <- function(tbl, num, row_num) {
         prev_val <- (select(tbl, !!prev) %>% slice(row_num))[[1]]
         prev_val <- as.integer(prev_val)
@@ -69,15 +78,14 @@ lata <- c('2015', '2016', '2017', '2018', '2019')
         val <- round((val - prev_val) / prev_val * 100, digits = 1)
         return (ifelse(is.na(val), '-', val))
       }
-      #aktywa <- aktywa %>% mutate(!!cname := f(aktywa, !!sym(rok), row_number()))
       rpp <- rpp %>% mutate(!!cname := f(rpp, !!sym(rok), row_number()))
       prev <- rok
     }
   }
 }
 
-rpp %>% select(!contains('/'))
-rpp
+rpp <- rpp %>% 
+  mutate_all(~ ifelse(row_number() == 1, str_replace(.x, '-', ''), .x))
 
 ## Struktura
 
@@ -86,11 +94,11 @@ rpp_str <- tribble(
   '1. Zysk netto',
   '2. Amortyzacja',
   '3. Korekty wyniku (zysku/straty)',
-  '4. zmiana zapotrzebowania na kapitał obrotowy netto',
+  '4. Zmiana zapotrzebowania na kapitał obrotowy netto',
   'Przepływy pieniężne netto z działalności operacyjnej',
 )
 
-rpp_str
+#rpp_str
 
 for (rok in c('2017', '2018', '2019')) {
   zn <- (select(rpp, !!rok) %>% slice(2))[[1]]
@@ -111,7 +119,7 @@ for (rok in c('2017', '2018', '2019')) {
     add_column(!!rok := c(zn, am, kw, zz, pp))
 }
 
-rpp_str
+#rpp_str
 
 for (rok in c('2017', '2018', '2019')) {
   n_name <- str_c(rok, '_st')
@@ -124,7 +132,7 @@ for (rok in c('2017', '2018', '2019')) {
   rpp_str <- rpp_str %>% mutate(!!n_name := f(rpp_str, !!sym(rok)))
 }
 
-rpp_str
+#rpp_str
 
 
 ## Wsaźniki
@@ -156,12 +164,127 @@ f <- function(rok, tabl) {
 wskaźniki <- wskaźniki %>% 
   add_column(`1.2` = (lata %>% map_dbl(f, rpp)))
 
-wskaźniki
+#wskaźniki
 
 # 2. Wskaźniki wystarczalności środków pieniężnych 
 
+rpp %>% select(!contains('/'))
+
+f <- function(rok, tabl) {
+  nr = (select(tabl, !!rok) %>% slice(14))[[1]]
+  dr = as.numeric((select(tabl, !!rok) %>% slice(23))[[1]]) +
+    as.numeric((select(tabl, !!rok) %>% slice(35))[[1]])
+  return(round(as.numeric(nr) / as.numeric(dr) * -100, digits = 1))
+}
+wskaźniki <- wskaźniki %>% 
+  add_column(`2.1` = (lata %>% map_dbl(f, rpp)))
+
+f <- function(rok, tabl) {
+  nr = (select(tabl, !!rok) %>% slice(14))[[1]]
+  dr = as.numeric((select(tabl, !!rok) %>% slice(39))[[1]]) +
+    as.numeric((select(tabl, !!rok) %>% slice(42))[[1]]) +
+    as.numeric((select(tabl, !!rok) %>% slice(43))[[1]])
+  return(round(as.numeric(nr) / as.numeric(dr) * -100, digits = 1))
+}
+wskaźniki <- wskaźniki %>% 
+  add_column(`2.2` = (lata %>% map_dbl(f, rpp)))
+
+f <- function(rok, tabl) {
+  nr = (select(tabl, !!rok) %>% slice(14))[[1]]
+  dr = as.numeric((select(tabl, !!rok) %>% slice(23))[[1]])
+  return(round(as.numeric(nr) / as.numeric(dr) * -100, digits = 1))
+}
+wskaźniki <- wskaźniki %>% 
+  add_column(`2.3` = (lata %>% map_dbl(f, rpp)))
+
+f <- function(rok, tabl) {
+  nr = (select(tabl, !!rok) %>% slice(14))[[1]]
+  dr = as.numeric((select(tabl, !!rok) %>% slice(6))[[1]])
+  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+}
+wskaźniki <- wskaźniki %>% 
+  add_column(`2.4` = (lata %>% map_dbl(f, rpp)))
+
+f <- function(rok, tabl1, tabl2) {
+  nr = (select(tabl1, !!rok) %>% slice(14))[[1]]
+  dr = as.numeric((select(tabl2, !!rok) %>% slice(14))[[1]])
+  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+}
+wskaźniki <- wskaźniki %>% 
+  add_column(`2.5` = (lata %>% map_dbl(f, rpp, pasywa)))
+
+#wskaźniki
 
 # 3. Wskaźniki wydajności pieniężnej
+rpp %>% select(!contains('/'))
 
+f <- function(rok, tabl1, tabl2) {
+  nr = (select(tabl1, !!rok) %>% slice(14))[[1]]
+  dr = as.numeric((select(tabl2, !!rok) %>% slice(1))[[1]])
+  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+}
+wskaźniki <- wskaźniki %>% 
+  add_column(`3.1` = (lata %>% map_dbl(f, rpp, rzis)))
+
+f <- function(rok, tabl1, tabl2) {
+  nr = (select(tabl1, !!rok) %>% slice(14))[[1]]
+  dr = as.numeric((select(tabl2, !!rok) %>% slice(15))[[1]])
+  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+}
+wskaźniki <- wskaźniki %>% 
+  add_column(`3.2` = (lata %>% map_dbl(f, rpp, rzis)))
+
+f <- function(rok, tabl1, tabl2) {
+  nr = (select(tabl1, !!rok) %>% slice(14))[[1]]
+  dr = as.numeric((select(tabl2, !!rok) %>% slice(n()))[[1]])
+  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+}
+wskaźniki <- wskaźniki %>% 
+  add_column(`3.3` = (lata %>% map_dbl(f, rpp, aktywa)))
+
+f <- function(rok, tabl1, tabl2) {
+  nr = (select(tabl1, !!rok) %>% slice(14))[[1]]
+  dr = as.numeric((select(tabl2, !!rok) %>% slice(1))[[1]])
+  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+}
+wskaźniki <- wskaźniki %>% 
+  add_column(`3.4` = (lata %>% map_dbl(f, rpp, pasywa)))
+
+#wskaźniki
+
+#rpp_str
+
+rpp %>% select(!contains('/')) %>% 
+  mutate_at(vars(1), ~ str_trunc(.x, 100, side="right")) 
+
+#rpp %>% select(!contains('/')) %>% 
+#  slice(1:3, 14:16, 23, 28, 29:30, 35,  45:50)
+
+# color the rows
+rpp %>% select(!contains('/')) %>% 
+  filter_at(vars(1), ~ str_starts(.x, '[IA-Z]')) %>% 
+  mutate_at(vars(1), ~ ifelse(str_starts(.x, 'I'), str_c('  ', .x), .x)) %>% 
+  mutate_at(vars(1), ~ ifelse(str_starts(.x, '[1-9a-z\\-]'), str_c('    ', .x), .x))
 
   
+rpp %>% select(!contains('/')) %>% 
+  mutate_at(vars(1), ~ ifelse(str_starts(.x, 'I'), str_c('  ', .x), .x)) %>% 
+  mutate_at(vars(1), ~ ifelse(str_starts(.x, '[1-9a-z\\-]'), str_c('    ', .x), .x)) %>% 
+  slice(1:14)
+
+
+rpp %>% 
+  mutate_at(vars(1), ~ ifelse(str_starts(.x, 'I'), str_c('  ', .x), .x)) %>% 
+  mutate_at(vars(1), ~ ifelse(str_starts(.x, '[1-9a-z\\-]'), str_c('    ', .x), .x)) %>% 
+  mutate_at(vars(1), ~ str_trunc(.x, 40, 'right')) %>% 
+  slice(1:1400)
+
+rpp %>% 
+  mutate_at(vars(1), ~ ifelse(str_starts(.x, 'I'), str_c('  ', .x), .x)) %>% 
+  mutate_at(vars(1), ~ ifelse(str_starts(.x, '[1-9a-z\\-]'), str_c('    ', .x), .x)) %>% 
+  mutate_at(vars(1), ~ str_trunc(.x, 40, 'right')) %>% 
+  slice(15:28)
+
+#rpp %>% select_at(1)
+
+rpp

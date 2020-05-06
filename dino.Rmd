@@ -1,13 +1,13 @@
 ---
-title: "Analiza RPP spóki Dino"
-author: "[425998]()"
-date: 28/04/2020
+title: 
 output:
   revealjs::revealjs_presentation:
-    theme: night
+    theme: solarized
     transition: none
-    self_contained: false
     css: slides.css
+    self_contained: false
+    reveal_options:
+      width: 1200
     reveal_plugins: ["notes"]
   beamer_presentation:
     toc: false
@@ -19,54 +19,99 @@ library('tidyverse')
 library('readxl')
 library('knitr')
 library('kableExtra')
+library('formattable')
 ```
 
-## Agenda
-## Dino Polska S.A.
-<section>
-  <section>
-    <img width="400" src="imgs/sklep.jpg">
-    <img width="438" src="imgs/sklep2.jpg">
-  </section>
-  <section>
-  
-  Polska sieć sklepów spożywczo-przemysłowych założona w 1999 przez Tomasza Biernackiego.
+---
 
-  > - Dino to wiodący gracz w segmencie średniej wielkości.
-  > - W ciągu ostatnich lat sieć Dino rozwijała się dynamicznie - liczba sklepów wzrosła ze **111** na koniec 2010 r. do **1218** na koniec 2019r.
-  > - Markety są zlokalizowane głównie w mniejszych miejscowościach, małych i średnich miastach oraz na peryferiach dużych miast.
+<section style="float: left;">
 
-  </section>
+<H1>Analiza RPP spóki Dino</h1>    
+
+425998    
+
+28/04/2020    
+
+<img width="438" src="imgs/sklep2.jpeg">
 </section>
 
+## Agenda
+
+- Historia rozwoju
+- Akcjonariat
+- Model biznesowy
+- Notowania na giełdzie
+- Analiza pionowa i pozioma
+- Analiza wskaźnikowa
+
 <div class="notes">
-- Dino Polska S.A. – polska sieć sklepów spożywczo-przemysłowych założona w 1999 przez Tomasza Biernackiego.
-- Ich szybki wzrost pokazuje, że w małych miasteczkach potrzebny był tego rodzaju supermarket.
+
+Dzień dobry
+Tematem prezentacji będzie analiza rachunku przepływów pieniężnych spółki dino. 
+
+prezentację rozpoczniemy od przedstawienia historii rozwoju spółki i jej akcjonariat.
+następnie omówimy model biznesowy spółki i notowania na giełdzie. A na koniec 
+przeprowadzimy analizę pionową, poziomą i wskaźnikową.
+
+</div>
+
+## Dino Polska S.A.
+
+
+<img width="600" src="imgs/sklep.jpg">
+     
+&nbsp;
+
+- Polska sieć handlu spożywczego
+- Lokalizacja na obszarach małych i średnich miejscowości
+- W latach 2010-2019 wzrost liczby sklepów o 1117 obiektów
+
+
+
+<div class="notes">
+
+Spółka Dino to Polska sieć handlu spożywczego założona w 1999 (tysiąc dziewięćset dziewięćdziesiątym dziewiątym) roku przez Tomasza Biernackiego. 
+Jest to wiodący gracz w rosnącym segmencie średniej wielkości supermarketów w Polsce, 
+zlokalizowanych głównie w mniejszych miejscowościach, małych i średnich
+miastach oraz na peryferiach dużych miast.
+W latach 2010-2019 (dwa tysiące dziesięć dwa tysiące dziewiętnaście) liczba sklepów wzrosła ze 111 (stu jedenastu) na koniec 2010 (dwa tysiące dziesiątego roku) do 1218 (tysiąca dwustu osiemnastu) na koniec 2019 (dwa tysiące dziewiętnastego) roku.
+
 </div>
 
 ## Historia rozwoju
 
-> - **Faza 1**
-> - 1999 : Pierwsze sklep pod marką dino
-> - 2002 : Pierwsze centrum dystrybucyjne
-> - 2003 : Dino zacieśnia relacje z zakadami mięsnymi Agro-Rydzyna
-> - 2004-2009 : Rozwój wokół centrum dystrybucyjnego
-> - 2010 : 100 Sklepów i okres dynamicznej ekspansji
-> - **Faza 2**
-> - 2013 : 300 sklepów i drugie centrum Dystrybucyjne
-> - 2014 - 2015 : 500 sklepów 
-> - 2016 : 10,000 pracaowników i trzecie centrum Dystrybucyjne
-> - 2017 : Debiut na GPW
-> - 2018 : 202 otwarcia nowych marketów
-> - 2019 : 243 nowe markety
+<div class="fragment">
+- **Faza 1**
+  - 1999 : Pierwsze sklep pod marką dino
+  - 2002 : Pierwsze centrum dystrybucyjne
+  - 2003 : Dino zacieśnia relacje z zakadami mięsnymi Agro-Rydzyna
+  - 2004-2009 : Rozwój wokół centrum dystrybucyjnego
+  - 2010 : 100 Sklepów i okres dynamicznej ekspansji
+</div>
+
+&nbsp;
+<div class="fragment">
+- **Faza 2**
+  - 2013 : 300 sklepów i drugie centrum Dystrybucyjne
+  - 2014 - 2015 : 500 sklepów 
+  - 2016 : 10,000 pracaowników i trzecie centrum Dystrybucyjne
+  - 2017 : Debiut na GPW
+  - 2018 : 202 otwarcia nowych marketów
+  - 2019 : 243 nowe markety
+</div>
 
 <div class="notes">
-- mamy 2 fazy ekspansji
-- w województwie wielkopolskim powstał pierwszy sklep pod marką Supermarket Dino.
-- centrum dystrybucyjne w Krotoszynie
-- teraz pokazują, że Agro-Rydzyna jest spółką zależną będącą w pełni własnością (100% jednostka zależna). Agro-Rydzyna zaopatruje nasze sklepy w świeże mięso i wędliny
-- Faza 2: W 2010 r. firma private equity, Enterprise Investors, pośrednio nabył 49% udziałów w Grupie Dino stając się inwestorem mniejszościowym. Kapitał na rozwój, który w ten sposób Dino pozyskal stał się katalizatorem szybkiego rozwoju w kolejnych latach. Rok 2011, przekształcił się w spółkę akcyjną.
-- 2017: Enterprise Investors, sprzedał wszystkie posiadane akcje Dino (49% udziałów) na Giełdzie Papierów Wartościowych w Warszawie. IPO
+można zauważić dwie głowny fazy rozwoju spólki.
+
+w pierszej fazie doszło do powstania pierwszego centrum dystrybucyjnego, 
+nawiązania współpracy z zakładami mięsnymi Agro-Rydzyna, i powstania 100 (stu) sklepów
+
+W drugiej fazie, zaczynając od 2010 roku, doszło do nabycia 49% udziałów spółki Dino przez 
+Enterprise Investors(fundusz typu private equity), co pozwoliłó na dynamiczny rozwój 
+spółki w kolejnych latach.
+W 2017 (dwa tysiścy siedemnastym roku) doszło do debiutu Dino Polska na giełdzie, 
+i odsprzedania wszystkich udziałów przez Enterprise Investors. 
+
 </div>
 
 ## Wzrost liczby sklepów
@@ -76,116 +121,103 @@ library('kableExtra')
   <img width="368" src="imgs/mapa.png">
 </section>
 
-- Szybko rozwijająca się firma
-- Przyszły rozwój: polska wschodnia, międzynarodowa, online?
 
 <div class="notes">
-Spójrzmy na ich wzrost.
 
-To jest wykres ich wzrostu w fazie 2
+Sieć rozwija się dynamycznie na terenach południowo zachodniej Polski, 
+i ma duzy potencjał na dalszy rozwój na wschodzie kraju.
 
-Nadal mogą rosnąć w tych zielonych obszarach.
-
-Należy również zauważyć, że uniknęli bezpośredniej konkurencji ze strony większych supermarketów w dużych miastach. Koncentrują się na małych miastach. To pozwoliło im rosnąć i rozwijać się przez wiele lat. Dobra strategia.
 </div>
 
 ## Akcjonariat
 
 <img src="imgs/akcjonariat.png">
 
-<small>
-* Każda akcja Dino Polska S.A. uprawnia do wykonywania jednego głosu na walnym zgromadzeniu
-</small>
 
 <div class="notes">
-- Jak widać, założyciel nadal kontroluje większość udziałów w spółce. 
-- Ma to wpływ na ład korporacyjny. Z powodu strukturę akcjonariatu, zarządu i innych akcjonariuszy ￼ mają bardzo mało władzy. ￼￼Założyciel zasadniczo decyduje o wszystkich najważniejszych decyzjach, takich jak to, jak szybko wzrośnie, ile dywidendy do wypłaty, ile reinwestować, fuzje i przejęcia i tak dalej.
+Ponad 50% udziałow należy do założyciela spółki, co ma wpływ na ład korporacyjny. ￼￼Założyciel zasadniczo decyduje o wszystkich najważniejszych decyzjach, takich jak wzrost spółki, dywidendy do wypłaty, reinwestowanie, fuzje i przejęcia itp (i tym podobny).
 
-- Zanim przejrzymy sprawozdania finansowe, spróbujmy zrozumieć biznes supermarketów i jak zarabiają pieniądze. Pomoże nam dowiedzieć się, które wskażniki są ważne. Dobrze jest również wiedzieć, kto jest ich bezpośrednią konkurencją, abyśmy mogli porównać. ￼
+Zanim prejdziemy do sprawozdania finansowego, spróbujmy zrozumieć podstawy działania biznesu supermarketów, 
+które pomogą nam dowiedzieć się, jakie czynniki są istotne. 
+
 </div>
 
 ## Model biznesowy
 
-<img width="400" src="imgs/bizmodel.png">
+&nbsp;
+&nbsp;
+<div class="fragment">
 
-- 1218 sklepów
-- 4 cztera dystrybucyjne
+<h4>Niektóry cechy:</h4>
+    
 
-<div class="notes">
-Supermarket jest przedsiębiorstwem świadczącym usługi.
-Należy zauważyć, że supermarket jest przedsiębiorstwem usługowym.
-Nie wytwarzają fizycznego
-własny produkt w zwykłym znaczeniu.
-Zamiast tego dodaje wartość, nabywając istniejące produkty od
-dostawców, gromadząc je w regionalnych magazynach, dystrybuując je do lokalnych
-sklepy, a na koniec sprzedaż produktów lokalnym klientom.
-
-Mają 4 centra dystrybucyjne i realizowali udany rozwój sieci wokół własnego centrum dystrybucyjnego.
-Potrzebują więcej centrów dystrybucyjnych, aby rosnąć we wschodniej Polsce.
-
-</div>
-## Cechy
-
->- Niskie **marża zysku netto** (< 5%)
->    - dlaczego?
->- Wysoki **wielkości** sprzedaży
->    - Wskaźnik cyklu zapasów, Wskaźnik rentowności sprzedaży
->- Wysoki poziom środków trwałych (**przemysł kapitałochłonny**)
->    - leasing operacyjny? nieruchomości?
->- Szybko rozwijająca się firma (high growth company)
->    - Wydatki z działalności inwestycyjnej
->    - Zwrot z kapitału własnego (ROE), Zwrot z aktywów (ROA)
->    - W jaki sposób finansują nowe sklepy?
->        1. Sprzedaż nowych akcji?
->        2. Poprzez zyzki zatrzymane (zyzk z działalności operacyjnej)?
->        3. Emitować obligacje lub zaciągać kredyt? (wskaźnik zdolności kredytowej)
-
-<div class="notes">
-Cechy
-netto ze sprzedaży
-niskie **marża zysku netto** (mniej niż 5%)
-(Marża zysku netto = profit margin on sales)
-obliczamy to dzieląc zysk netto z przychodów netto ze sprzedaży
-Ale, nawet jeśli weźmie się pod uwagę marżę zysku brutto, nawet to nie jest bardzo wysokie.
-Dlaczego?
-  - typowe dla supermarketów, taka jest specyfika branży
-  - klienci oczekują niskich cen artykułów codziennego użytku. to nie są produkty luksusowe.
-  - supermarkety nie wytwarzają produktów. po prostu agregują od zdalnych dostawców, a następnie wystawiają je na półkach. Wartość dodana jest niska.
-  - dowiedziałam się że, mięso i warzywa mają wyższą marżę niż produkty suche. Przypomnij sobie, że Dino jest właścicielem Agro-Rydzina, zakład mięsny, które zaopatrują sklepy w mięso i wędliny. zapewnia to nie tylko niezawodną dostawę, ale także uzyskanie wysokiej marży.
-
-- wysoki **wielkości** sprzedaży
-- To, czego brakuje im w marży zisku, kompensują wysoką wielkośią sprzedaży.
-- typowy klient może kupić średio 10 produktów na wizytę
-- dlatego zapewniają duży wózek na zakupy
-
-- przemysł kapitałochłonny
-- będziemy o tym pamiętać, keidy omawiamy wskaźniki, np. Wskaźnik rotacji aktywów
-
-- czasami wysoki poziom zadłużenia (zobowiązania z tytułu leasingu)
-- czy sklepy są leasingowe czy są własnością?
-
-- wreszcie, szybko rozwijająca się firma
-- powinniśmy się spodziewać wyższe wydatki z działalności inwestycyjnej, np. Nabycie wartości niematerialnych i prawnych oraz rzeczowych aktywów trwałych
-- w tej sytuacji, powinniśmy sprawdzić Zwrot z kapitału własnego (ROE), Zwrot z aktywów (ROA); Myślę, że są wysokie, ale jak wysokie? Jeśli wskaźniki te nie są wysokie, może zniszczyć wartość firmy
-
-- w jaki sposób finansują nowe sklepy?
-- sprzedaż nowych akcji?
-- jest mało prawdopodobne, że zbierają pieniądze poprzez sprzedaż nowe akcji. założyciel nadal kontroluje większość udziałów w spółce (właśnie 51%). nie sądzę, żeby chciał tego zmienić
-- poprzez zyzki zatrzymane (powinniśmy sprawdzić zyzk z działalności operacyjnej)? 
-- w tej sytuacji, wysoka dywidenda jest mało prawdopodobna
-- wrzeście, czy emitować obligacje czy zaciągać kredyt?
-- możemy porównać wskaźnik zadłużenia do konkurentów
-- spłata odsetek od kredytu oszczędza podatki, więc posiadanie długu nie jest złe
-
-- mamy pewien pomysł, czego szukać w sprawozdaniach finansowych
-- najpierw spójrzmy szybko na giełdie
+1. Niska **marża** zysku netto (< 5%)
+2. Wysoka **wielkość** sprzedaży
+3. biznes kapitałochłonny
 
 </div>
 
-## Konkurenci
+
+<div class="notes">
+Należy zauważyć, że supermarket jest przedsiębiorstwem usługowym, 
+który nie wytwarza fizycznie żadnego produktu w dosłownym znaczeniu tego słowa.
+Jedynie nabywa istniejące produkty od
+dostawców, przechowuje je w regionalnych magazynach, dystrybuuje do lokalnych
+sklepów, a na koniec sprzedaje je klientom.
+
+Jest kilka czynników wpływających na niską marże zysku netto (mniej niż 5%):
+niska marża na produktach jest charakterystyczna dla branży supermarketów.
+klienci oczekują niskich cen artykułów codziennego użytku, 
+  które nie należą  do klasy produktów luksusowych.
+
+wysoka **wielkoścć** sprzedaży kompensuje niską marżę zysku.
+
+Typowy klient kupuje średio 10 produktów przy jednorazowej wizycie.
+
+Kolejną cechą to biznes kapitałochłonny. W skład spólki 
+wchodzi wiele nieruchomości w postaci budynków.
+
+
+</div>
+
+## Charakerystyka Dino
+
+<h5>Szybko rozwijająca się firma (high growth company)</h5>
+
+&nbsp;
+
+1. Wyższe wydatki z działalności inwestycyjnej
+2. Niska dywidenda 
+3. Wisoki zwrot z kapitału własnego (ROE), zwrot z aktywów (ROA)
+4. Jakie są opcje finansowania nowo powstających sklepów?
+      1. Sprzedaż nowych akcji
+      2. Zysk z działalności operacyjnej
+      3. Emitowanie obligacji lub zaciąganie kredytu
+  
+<div class="notes">
+
+
+Dino Polska to dynamicznie rozwijająca się firma, w związku z czym oczekujemy Wyższych 
+wydatków z działalności inwestycyjnej, proporcjonalnych do liczby nowo otwieranych sklepów.
+Jak również oczekujemy niskiej dywidendy.
+
+Możemy równiez się spodziewać wysokiego zwrotu z kapitału własnego i aktywów, zakładając, że 
+rozwój spółki będzie utrzymywać się na podobnym poziomie.
+
+Można wziąć pod uwagę różne opcje finansowania nowo powstających sklepów.
+Perwszą opcją jest sprzedaż nowych akcji na giełdie. Ale w przypadku Dino Polska jest mało prawdopodobne, 
+ponieważ 51% akcji należy do założyciela. Jeśli zacząłby odsprzedawać akcje to straciłby decyjzyny głos 
+w zarządzaniu spółką.
+Drugą opcją może być zysk z działalności operacyjnej, jednak jest to methoda niewystarczająca dla tego
+pozioma rozwoju jaki ma spółka Dino (otwieranych jest ponad 200 sklepów rocznie)
+Trzecią opcją jest emitowanie obligacji lub zaciąganie kredytu, co jest najbardziej prawdopodobną opcą finansowania.
+
+</div>
+
+## Konkurencja
 ```{r echo = FALSE}
 tribble(
-  ~sieć, ~`liczba sklepów w Polsce`, ~siedziba,
+  ~Sieć, ~`Liczba sklepów w Polsce`, ~Siedziba,
   "Biedronka", 3000, "Portugal",
   "Dino",1218, "Poland",
   "Lidl", 700, "Germany",
@@ -201,13 +233,15 @@ tribble(
   "Arhelan", 55, "Poland",
   "Frac", 21, "Poland",
   "Auchan", 33, "France",
-) %>% kable()
+) %>% kable() %>% kable_styling()
 ```
 
 <small>żródło: Wikipedia </small>
 
 <div class="notes">
-najbliżsi konkurenci są Biedronka, Lidl, Stokrotka, pod względem liczby sklepów.
+
+pod względem liczby sklepów, największą konkurencją dla Dino są sieci Biedronka, Lidl i Stokrotka, 
+
 </div>
 
 ## Notowania na giełdzie
@@ -215,12 +249,15 @@ najbliżsi konkurenci są Biedronka, Lidl, Stokrotka, pod względem liczby sklep
 <img width="500" src="imgs/notowanie.png">
 
 <div class="notes">
-- jak widać, cena akcji szybko się pomnożyła po debiucie.
+
+w ciągu trzech lat cena akcji spólki na giełdzie wzrosła czterokrotnie.
+
 </div>
 
 ---
 
-W porównaniu z WIG     
+<h3>Cena akcji w porównaniu z WIG </h3>  
+<small>(na niebiesko: Dino, na żółto: WIG)</small>
 
 <img width="500" src="imgs/notowanie2.png">
 
@@ -234,99 +271,304 @@ tribble(
 ```
 
 <div class="notes">
-- wygląda na to, że koronawirus nie wpłynął na wydajność
-- Tego można było się spodziewać, ludzie nadal muszą jeść
-- To nie jest cykliczny biznes. depresja ekonomiczna nie wpłynie.
 
-- how many stores can they open?
-- ROE?
-- country risk?
+Na wykresie widzimy wyraźny wzrost cen akcji Dino Polska w porównaniu z WIG.
+Sytuacja związana z koronawirusem jedynie chwilowo wpłynęła na spadek
+wartości akcji, po czym, znów nastąpił wzrost.
+
+Supermarkety nie należą do rodzaju spółek cyklicznych, a wieć
+koniunktura gospodarcza nie ma wiekszego wpływu na 
+działalność.
+
 
 </div>
 
----
+## Wstępna analiza przepływów pieniężnych
+<h5>Syntetyczna analiza sald </h5>
 
-```{r echo = FALSE}
-dino_gr <- tribble(
-  ~rok, ~kurs, ~`przychody ze sprzedaży`, ~`zysk netto`, ~`dług netto`, ~`liczba sklepów`,
-  "2017",   78.80, 4462.8, 213.6, 485, 775,
-  "2018",   95.85, 5838.5, 307.5, 566, 977,
-  "2019",   143.90, 7646.5, 410.9, 749, 1218,
-) 
-dino_gr %>% kable() %>% kable_styling()
+```{r include = FALSE}
+source(file = 'rpp.R')
+library(formattable)
 ```
 
-<div class="notes">
-
-Jak widać, przychody ze sprzedaży prawie się podwoił, chociaż 'przychody ze sprzedaży' rośnie mniej niż zysk netto. Dług netto wrósł o prawie 55%. 
-</div>
-
----
-
-```{r echo = FALSE}
-library('formattable')
-mtcars[1:5, 1:4] %>%
-  mutate(
-    car = row.names(.),
-    mpg = color_tile("white", "orange")(mpg),
-    cyl = cell_spec(cyl, "html", angle = (1:5)*60, 
-                    background = "red", color = "white", align = "center"),
-    disp = ifelse(disp > 200,
-                  cell_spec(disp, "html", color = "green", bold = T),
-                  cell_spec(disp, "html", color = "red", italic = T)),
-    hp = color_bar("green")(hp)
-  ) %>%
-  select(car, everything()) %>%
+```{r echo = FALSE, results='asis'}
+#library('knitr')
+rpp %>% 
+  select(!contains('/')) %>% 
+  filter_at(vars(1), ~ str_starts(.x, '[IA-Z]')) %>% 
+  #mutate_at(vars(1), ~ ifelse(str_starts(.x, 'I'), str_replace(.x, 'I. ', 'I&#46; '), .x)) %>% 
+  mutate_at(vars(1), ~ ifelse(str_starts(.x, 'I'), 
+                              str_replace(.x, 'I', '&nbsp;&nbsp;&nbsp;&nbsp;I'), .x)) %>%
   kable("html", escape = F) %>%
-  kable_styling("hover", full_width = F) %>%
-  column_spec(5, width = "3cm") %>%
-  add_header_above(c(" ", "Hello" = 2, "World" = 2))
+  kable_styling(font_size = 16) %>% 
+  row_spec(c(4, 8, 12, 16), bold = T, color = "red") %>% 
+  row_spec(c(1, 5, 9), bold = T) %>% 
+  add_header_above(c(" " = 1, "w tys. zl." = 5))
+
 ```
 
+## Analiza pionowa
 
-## Analiza pionowa i pozioma
+&nbsp;
+&nbsp;
+&nbsp;
+
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+
+rpp_str %>% 
+  kable("html", escape = F, col.names = gsub("_st", "", names(rpp_str))) %>%
+  kable_styling(font_size = 20, full_width = F) %>% 
+  column_spec(5:7, background = "white") %>% 
+  add_header_above(c(" " = 1, "Wartość (w tys. zł.)" = 3, "Struktura (w %)" = 3))
+
+```
+
+## Analiza pozioma (I)
+
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+
+rpp_d <- rpp %>% 
+  mutate_at(vars(1), ~ ifelse(str_starts(.x, 'I'), 
+                              str_replace(.x, 'I', '&nbsp;I'), .x)) %>%
+  mutate_at(vars(1), ~ ifelse(str_starts(.x, '^[1-9a-b-]'), 
+                              str_c('&nbsp;&nbsp;&nbsp;&nbsp;', .x), 
+                              as.character(.x))) %>% 
+  mutate_all(~ str_remove(.x, '^-$'))
+
+rpp_d %>% 
+  slice(1:14) %>% 
+  kable("html", escape = F) %>%
+  kable_styling(font_size = 16, full_width = F) %>% 
+  row_spec(c(1:3, 14), bold = T) %>% 
+  row_spec(c(1), bold = T, color = "red") %>% 
+  row_spec(c(2, 6, 11, 14), color = "maroon") %>% 
+  column_spec(7:10, background = "white") %>% 
+  add_header_above(c(" " = 1, "Wartość (w tys. zl.)" = 5, "Dynamika (w %)" = 4))
+
+
+```
+
+---
+
+<h5>Analiza pozioma (II)</h5>
+
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+rpp_d %>% 
+  slice(15:28) %>% 
+  kable("html", escape = F) %>%
+  kable_styling(font_size = 16, full_width = F) %>% 
+  row_spec(c(1:2, 9, 14), bold = T) %>% 
+  row_spec(c(1), color = "red") %>% 
+  row_spec(c(9:12, 14), color = "maroon") %>% 
+  column_spec(7:10, background = "white") %>% 
+  add_header_above(c(" " = 1, "Wartość (w tys. zl.)" = 5, "Dynamika (w %)" = 4))
+
+```
+
+---
+
+<h6>Analiza pozioma (III)</h6>
+
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+rpp_d %>% 
+  slice(29:n()) %>% 
+  #mutate_at(vars(1), ~ str_trunc(.x, 70, 'right')) %>% 
+  kable("html", escape = F) %>%
+  kable_styling(font_size = 14, full_width = F) %>% 
+  row_spec(c(1:2, 7, 17, 22), bold = T) %>% 
+  row_spec(c(1), color = "red") %>% 
+  row_spec(c(4:5, 11, 14:15, 17, 22), color = "maroon") %>% 
+  column_spec(7:10, background = "white") %>% 
+  add_header_above(c(" " = 1, "Wartość (w tys. zl.)" = 5, "Dynamika (w %)" = 4))
+
+```
+
 ## Analiza wskaźnikowa
 
+<h5>1. wskaźniki struktury przepływów pieniężnych</h5>
+    
+&nbsp;
+
+$$\small \frac{Zysk\ netto}{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej} * 100$$
+   
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+
+wskaźniki %>% 
+  select(1:2) %>% 
+  pivot_wider(names_from = rok, values_from = `1.1`) %>% 
+  kable(escape = F) %>%
+  kable_styling() %>% 
+  row_spec(c(1), color = "maroon") 
 
 
+```
+    
+<br>
+$$\small \frac{Amortyzacja}{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej} * 100$$
+      
+&nbsp;    
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+wskaźniki %>% 
+  select(c(1, 3)) %>% 
+  pivot_wider(names_from = rok, values_from = `1.2`) %>% 
+  kable(escape = F) %>%
+  kable_styling() %>% 
+  row_spec(c(1), color = "maroon") 
 
-## Slide with Bullets
-
-```{r echo = FALSE}
-iris[1:10, ] %>%
-  mutate_if(is.numeric, function(x) {
-    cell_spec(x, bold = T, 
-              color = spec_color(x, end = 0.9),
-              font_size = spec_font_size(x))
-  }) %>%
-  mutate(Species = cell_spec(
-    Species, color = "white", bold = T,
-    background = spec_color(1:10, end = 0.9, option = "A", direction = -1)
-  )) %>%
-  kable(escape = F, align = "c") %>%
-  kable_styling(c("striped", "condensed"), full_width = F)
 ```
 
 ---
 
-```{r echo = FALSE}
-dt <- mtcars[1:5, 1:6]
-kable(dt) %>%
-  kable_styling("striped", full_width = F) %>%
-  column_spec(5:7, bold = T) %>%
-  row_spec(3:5, bold = T, color = "white", background = "#D7261E")
+<h5>2. wskaźniki wystarczalności środków pieniężnych</h5>
+   
+<br>
+**Wskaźnik ogólnej wystarczalności środków pieniężnych**
+       
+$$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Wydatki\ ogółem} * 100$$
+   
+    
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+wskaźniki %>% 
+  select(c(1, 4)) %>% 
+  pivot_wider(names_from = rok, values_from = `2.1`) %>% 
+  kable(escape = F) %>%
+  kable_styling() %>% 
+  row_spec(c(1), color = "maroon") 
+
+```
+   
+<br>  
+**Wskaźnik pokrycia zadłużenia**
+    
+$$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Spłata\ zadłużenia} * 100$$
+     
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+wskaźniki %>% 
+  select(c(1, 5)) %>% 
+  pivot_wider(names_from = rok, values_from = `2.2`) %>% 
+  kable(escape = F) %>%
+  kable_styling() %>% 
+  row_spec(c(1), color = "maroon") 
+
+```
+
+---
+
+**Wskaźnik pokrycia wydatków inwestycyjnych**
+    
+$$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Wydatki\ inwestycyjne} * 100$$
+       
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+wskaźniki %>% 
+  select(c(1, 6)) %>% 
+  pivot_wider(names_from = rok, values_from = `2.3`) %>% 
+  kable(escape = F) %>%
+  kable_styling() %>% 
+  row_spec(c(1), color = "maroon") 
+
+```
+      
+
+**Wskaźnik pokrycia wypłaty dywidend**
+       
+$$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Wypłaty\ dywidend} * 100$$
+
+        
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+wskaźniki %>% 
+  select(c(1, 7)) %>% 
+  pivot_wider(names_from = rok, values_from = `2.4`) %>% 
+  kable(escape = F) %>%
+  kable_styling() %>% 
+  row_spec(c(1), color = "maroon") 
+
+```
+       
+
+**Wskaźnik pieniężnej płynności finansowej**
+      
+$$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Zobowiązania\ krótkoterminowe} * 100$$
+    
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+wskaźniki %>% 
+  select(c(1, 8)) %>% 
+  pivot_wider(names_from = rok, values_from = `2.5`) %>% 
+  kable(escape = F) %>%
+  kable_styling() %>% 
+  row_spec(c(1), color = "maroon") 
+
 ```
 
 
-## Slide with R Code and Output
+---
 
-```{r}
-summary(cars)
+<h5>3. Wskaźniki wydajności pieniężnej</h5>
+    
+**Wskaźnik pieniężnej wydajności sprzedaży**
+    
+$$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Przychody\ ze\ sprzedaży} * 100$$
+
+        
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+wskaźniki %>% 
+  select(c(1, 9)) %>% 
+  pivot_wider(names_from = rok, values_from = `3.1`) %>% 
+  kable(escape = F) %>%
+  kable_styling() %>% 
+  row_spec(c(1), color = "maroon") 
+
+```
+       
+       
+<br><br>
+**Wskaźnik pieniężnej płynności finansowej**
+      
+$$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Zysk\ ze\ sprzedaży} * 100$$
+    
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+wskaźniki %>% 
+  select(c(1, 10)) %>% 
+  pivot_wider(names_from = rok, values_from = `3.2`) %>% 
+  kable(escape = F) %>%
+  kable_styling() %>% 
+  row_spec(c(1), color = "maroon") 
+
 ```
 
-## Slide with Plot
 
-```{r, echo=FALSE}
-plot(cars)
+---
+
+        
+**Wskaźnik pieniężnej wydajności aktywów**
+    
+$$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Aktywa\ ogółem} * 100$$
+
+        
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+wskaźniki %>% 
+  select(c(1, 11)) %>% 
+  pivot_wider(names_from = rok, values_from = `3.3`) %>% 
+  kable(escape = F) %>%
+  kable_styling() %>% 
+  row_spec(c(1), color = "maroon") 
+
 ```
+    
+<br>
+<br>
+**Wskaźnik pieniężnej wydajności kapitału własnego**
+    
+$$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Kapitał\ własny} * 100$$
+
+        
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+wskaźniki %>% 
+  select(c(1, 12)) %>% 
+  pivot_wider(names_from = rok, values_from = `3.4`) %>% 
+  kable(escape = F) %>%
+  kable_styling() %>% 
+  row_spec(c(1), color = "maroon") 
+
+```
+
 

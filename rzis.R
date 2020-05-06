@@ -1,26 +1,6 @@
 ## 
 
 #options(tibble.print_min = Inf) 
-# default is 10
-# getOption('tibble.print_min')
-
-#view(last(rzis))
-#last(rzis)[, 1] %>% print(n = Inf)
-#names(rzis[[1]])
-#colnames(rzis[[1]])
-#rownames(rzis[[1]])
-# [[]] and xx$y to get value of cell or column
-#class(rzis[[1]])
-#slice(first(rzis)[, 1], -1)
-#first(rzis)[, 1]
-#%>% 
-#  replace_na(list(`2015` = '-', `2016` = '-'))
-
-# rzis[[4]]
-# 
-# rzis[[4]] %>% anti_join(rzis[[1]], by = rzis_col_name)
-# rzis[[1]] %>% anti_join(rzis[[4]], by = rzis_col_name)
-# 
 
 library('tidyverse')
 library('readxl')
@@ -43,34 +23,19 @@ rzis[[1]] <- rzis[[1]] %>% rename(!!col_name := 1, `2015` = '...4', `2016` = '..
   select(-'...2') %>% 
   slice(-1L) 
 
-#%>%
-#  mutate(`2015` = abs(as.integer(`2015`)), `2016` = abs(as.integer(`2016`)))
-
 rzis[[2]] <- rzis[[2]] %>% rename(!!col_name := 1, `2016` = '...4', `2017` = '...3') %>%
   select(-'...2') %>% filter(between(row_number(), 3, n()))
-
-#%>%
-#  mutate(`2016` = abs(as.integer(`2016`)), `2017` = abs(as.integer(`2017`)))
 
 rzis[[3]] <- rzis[[3]] %>% rename(!!col_name := 1, `2017` = '...4', `2018` = '...3') %>%
   select(-'...2') %>% filter(between(row_number(), 2, n() - 1)) 
 
-#%>%
-#  mutate(`2017` = as.integer(`2017`), `2018` = as.integer(`2018`))
 rzis[[4]] <- rzis[[4]] %>% rename(!!col_name := 1, '2018' = '...4', '2019' = '...3') %>% 
   select(-c('...2', '...5', '...6')) %>% slice(-1L) %>% 
   mutate_all(funs(str_replace_all(., '\r|\n', ''))) %>% 
   mutate(`2019` = str_replace_all(`2019`, ' ', ''),
          `2018` = str_replace_all(`2018`, ' ', ''))
 
-#         `2018` = as.integer(`2018`), `2019` = as.integer(`2019`))
-
-# Combine
-# 2017 numbers underwent massive correction in report of 2018
-
-#rzis_razem <- rzis[[4]] %>% left_join(rzis[[3]] %>% select(-`2018`), by = rzis_col_name) %>% 
-#  left_join(rzis[[1]], by = rzis_col_name)
-
+# combine
 rzis <- rzis[[4]] %>% 
   left_join(rzis[[3]] %>% select(-`2018`), by = col_name) %>% 
   left_join(rzis[[1]], by = col_name) %>% 
@@ -83,7 +48,9 @@ rzis <- rzis %>%
             ~ if_else(str_starts(.x, '-') & !str_ends(.x, '-'), 
                       str_replace(.x, '-', ''), as.character(.x)))
             
-rzis
+rzis %>% 
+  mutate_at(vars(1), ~ ifelse(str_starts(.x, 'I|V'), str_c('  ', .x), .x)) %>% 
+  mutate_at(vars(1), ~ ifelse(str_starts(.x, '\\-'), str_c('    ', .x), .x))
 
 # rzis_razem
 # 

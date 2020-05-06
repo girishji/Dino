@@ -8,6 +8,12 @@ even when you only passed one element.
 
 --
 
+For many of the examples below, I will be using the ~fun(.x) shorthand for writing temporary functions.
+ 
+ mutate_at(vars(-columnA), function(x) { if(is.logical(x)) x else NA})
+ shorted as .. ~ if(is.logical(.x)) x else NA...
+--
+
 #pasywa %>% select_at(vars(ends_with('_sw')))
 #pasywa %>% select_at(vars(!matches("_sk|_st")))
 
@@ -62,4 +68,31 @@ dino_gr %>%
   geom_bar(position = "dodge", stat = "identity") +
   theme_bw()
   
+  ==
+  
+  
+      theme: serif
+      
+  title: "Analiza RPP spóki Dino"
+author: "[425998]()"
+date: 28/04/2020
+  
     
+    
+    
+    
+```{r echo = FALSE}
+dino_gr <- tribble(
+  ~rok, ~kurs, ~`przychody ze sprzedaży`, ~`zysk netto`, ~`dług netto`, ~`liczba sklepów`,
+  "2017",   78.80, 4462.8, 213.6, 485, 775,
+  "2018",   95.85, 5838.5, 307.5, 566, 977,
+  "2019",   143.90, 7646.5, 410.9, 749, 1218,
+) 
+dino_gr %>% kable() %>% kable_styling()
+```
+
+<div class="notes">
+
+Jak widać, przychody ze sprzedaży prawie się podwoił, chociaż 'przychody ze sprzedaży' rośnie mniej niż zysk netto. Dług netto wrósł o prawie 55%. 
+</div>
+
