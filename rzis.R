@@ -52,38 +52,133 @@ rzis %>%
   mutate_at(vars(1), ~ ifelse(str_starts(.x, 'I|V'), str_c('  ', .x), .x)) %>% 
   mutate_at(vars(1), ~ ifelse(str_starts(.x, '\\-'), str_c('    ', .x), .x))
 
-# rzis_razem
-# 
-# rzis_s <- rzis_razem %>% filter(row_number() %in% c(1, 5, 15, 16, 21, 25, 26, 33, 39:42)) %>% 
-#   replace(is.na(.), 0)
-# 
-# # Struktura
-# rzis_s <- rzis_s %>% add_row(`RACHUNEK ZYSKÓW I STRAT (WARIANT PORÓWNAWCZY)` = '   Przychody ogółem', .before = 1) %>% 
-#   add_row(`RACHUNEK ZYSKÓW I STRAT (WARIANT PORÓWNAWCZY)` = '   Koszty ogółem', .before = 2)
-# 
-# for (yr in c('2015', '2016', '2017', '2018', '2019')) {
-#   rzis_s[[yr]][[1]] <- rzis_s[[yr]][[3]] + rzis_s[[yr]][[6]] + rzis_s[[yr]][[9]]
-#   rzis_s[[yr]][[2]] <- rzis_s[[yr]][[4]] + rzis_s[[yr]][[7]] + rzis_s[[yr]][[10]]
-# }
-# 
-# rzis_s
-# 
-# rzis_s <- rzis_s %>% mutate(`2019_s` = `2019` / rzis_s[['2019']][[1]] * 100,
-#                             `2018_s` = `2018` / rzis_s[['2018']][[1]] * 100,
-#                             `2017_s` = `2017` / rzis_s[['2017']][[1]] * 100,
-#                             `2016_s` = `2016` / rzis_s[['2016']][[1]] * 100, 
-#                             `2015_s` = `2015` / rzis_s[['2015']][[1]] * 100)
-# 
-# rzis_s
-# 
-# # ggplot(data = rzis_s) +
-# #   geom_col(mapping = aes(x = get(rzis_col_name), y = `2019_s`, fill = get(rzis_col_name))) +
-# #   geom_col(mapping = aes(x = get(rzis_col_name), y = `2018_s`, fill = get(rzis_col_name))) 
-# 
-# # Dynamika
-# rzis_d <- rzis_s
-# 
-# rzis
-# 
-# 
-# options(tibble.print_min = 10) 
+rzis
+
+## Skorygowane
+
+inflacya <- tribble(
+  ~rok, ~val,
+  '2016', -0.005,
+  '2017', 0.019,
+  '2018', 0.018,
+  '2019', 0.02,
+)
+
+for (i in 1:length(inflacya)) {
+  r <-  slice(inflacya, i)$rok
+  v <-  slice(inflacya, i)$val
+  n <- str_c(r, '_sk')
+  rzis <- rzis %>% 
+    mutate(!!n := ifelse(is.na(as.numeric(!!sym(r))), !!sym(r), 
+                         round(as.numeric(!!sym(r)) / (1 + as.numeric(v)))))
+}
+
+
+## Struktura
+
+lata <- c('2015', '2016', '2017', '2018', '2019')
+
+rzis_st <- rzis %>% 
+  select(!contains('_sk')) %>% 
+  add_row(!!col_name := 'Przychody ogółem', .before = 1) %>% 
+  add_row(!!col_name := 'Koszty ogółem', .before = 2)
+
+for (rok in lata) {
+  po <- rzis_st %>% slice(3, 18, 28) %>% select(rok) %>% mutate_all(~ as.numeric(.x)) %>% sum() 
+  ko <- rzis_st %>% slice(7, 23, 35) %>% select(rok) %>% mutate_all(~ as.numeric(.x)) %>% sum() 
+  rzis_st <- rzis_st %>% 
+    mutate_at(vars(contains(rok)), ~ ifelse(row_number() == 1, po, as.character(.x)))
+  rzis_st <- rzis_st %>% 
+    mutate_at(vars(contains(rok)), ~ ifelse(row_number() == 2, ko, as.character(.x)))
+}
+
+rzis_st <- rzis_st %>% select(-c('2015', '2016'))
+rzis_st
+
+for (rok in (rzis_st %>% names())[-1]) {
+  t <- (rzis_st %>% slice(1) %>% select(rok))[[1]]
+  t <- as.numeric(t)
+  n <- str_c(rok, '_st')
+  rzis_st <- rzis_st %>% mutate(!!n := ifelse(is.na(as.numeric(!!sym(rok))), 
+                                              as.character(!!sym(rok)),
+                                              round(as.numeric(!!sym(rok)) / t * 100, digits = 1)))
+}
+
+rzis_st
+
+## Dynamika
+
+{
+  prev <- ''
+  for (rok in lata) {
+    if (prev == '') {
+      prev <- rok
+    } else {
+      cname <- str_c(prev, '/', str_trunc(rok, 2, "left", ""))
+      f <- function(tbl, num, row_num) {
+        prev_val <- (select(tbl, !!prev) %>% slice(row_num))[[1]]
+        prev_val <- as.integer(prev_val)
+        val <- as.numeric(num)
+        val <- round((val - prev_val) / prev_val * 100, digits = 1)
+        return (ifelse(is.na(val), '-', val))
+      }
+      rzis <- rzis %>% mutate(!!cname := f(rzis, !!sym(rok), row_number()))
+      prev <- rok
+    }
+  }
+}
+
+rzis %>% select(!contains('_'))
+
+## Wsaźniki
+wskaźniki = tribble(
+  ~rok,
+  '2015',
+  '2016',
+  '2017',
+  '2018',
+  '2019',
+)
+
+f <- function(rok, tabl) {
+  nr = (select(tabl, !!rok) %>% slice(25))[[1]]
+  dr = (select(tabl, !!rok) %>% slice(15))[[1]]
+  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+}
+wskaźniki <- wskaźniki %>% 
+  add_column(`1` = (lata %>% map_dbl(f, rzis)))
+
+f <- function(rok, tabl) {
+  nr = (select(tabl, !!rok) %>% slice(39))[[1]]
+  dr = (select(tabl, !!rok) %>% slice(25))[[1]]
+  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+}
+wskaźniki <- wskaźniki %>% 
+  add_column(`2` = (lata %>% map_dbl(f, rzis)))
+
+f <- function(rok, tabl) {
+  nr = (select(tabl, !!rok) %>% slice(39))[[1]]
+  dr = (select(tabl, !!rok) %>% slice(15))[[1]]
+  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+}
+wskaźniki <- wskaźniki %>% 
+  add_column(`3` = (lata %>% map_dbl(f, rzis)))
+
+f <- function(rok, tabl) {
+  nr = (select(tabl, !!rok) %>% slice(42))[[1]]
+  dr = (select(tabl, !!rok) %>% slice(15))[[1]]
+  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+}
+wskaźniki <- wskaźniki %>% 
+  add_column(`4` = (lata %>% map_dbl(f, rzis)))
+
+f <- function(rok, tabl) {
+  nr = (select(tabl, !!rok) %>% slice(40))[[1]]
+  dr = (select(tabl, !!rok) %>% slice(39))[[1]]
+  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+}
+wskaźniki <- wskaźniki %>% 
+  add_column(`5` = (lata %>% map_dbl(f, rzis)))
+
+wskaźniki
+

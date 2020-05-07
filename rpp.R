@@ -9,9 +9,6 @@ library('readxl')
 library('knitr')
 library('kableExtra')
 
-source(file = 'bilans.R')
-source(file = 'rzis.R')
-
 fdata <- c(
   'data/R-2016-Dino-Polska-Sprawozdanie-Finansowe-skonwertowany.xlsx',
   'data/R_2018_Dino_Polska_Sprawozdanie_Finansowe-skonwertowany.xlsx',

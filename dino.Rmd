@@ -131,7 +131,7 @@ i ma duzy potencjał na dalszy rozwój na wschodzie kraju.
 
 ## Akcjonariat
 
-<img src="imgs/akcjonariat.png">
+<img width="1000" src="imgs/akcjonariat.png">
 
 
 <div class="notes">
@@ -246,7 +246,7 @@ pod względem liczby sklepów, największą konkurencją dla Dino są sieci Bied
 
 ## Notowania na giełdzie
 
-<img width="500" src="imgs/notowanie.png">
+<img width="700" src="imgs/notowanie.png">
 
 <div class="notes">
 
@@ -259,7 +259,7 @@ w ciągu trzech lat cena akcji spólki na giełdzie wzrosła czterokrotnie.
 <h3>Cena akcji w porównaniu z WIG </h3>  
 <small>(na niebiesko: Dino, na żółto: WIG)</small>
 
-<img width="500" src="imgs/notowanie2.png">
+<img width="600" src="imgs/notowanie2.png">
 
 
 ```{r echo = FALSE}
@@ -287,6 +287,8 @@ działalność.
 <h5>Syntetyczna analiza sald </h5>
 
 ```{r include = FALSE}
+source(file = 'bilans.R')
+source(file = 'rzis.R')
 source(file = 'rpp.R')
 library(formattable)
 ```

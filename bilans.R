@@ -126,6 +126,7 @@ pasywa <- pasywa[[3]] %>%
 
 aktywa
 pasywa
+
 ## Skorygowane
 
 ## https://www.nbp.pl/homen.aspx?f=/en/publikacje/raport_inflacja/projekcja_inflacji_2019.html
