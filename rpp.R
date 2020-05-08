@@ -6,8 +6,9 @@ options(tibble.print_min = Inf)
 
 library('tidyverse')
 library('readxl')
-library('knitr')
-library('kableExtra')
+
+source(file = 'bilans.R')
+source(file = 'rzis.R')
 
 fdata <- c(
   'data/R-2016-Dino-Polska-Sprawozdanie-Finansowe-skonwertowany.xlsx',
@@ -194,13 +195,9 @@ f <- function(rok, tabl) {
 wskaźniki <- wskaźniki %>% 
   add_column(`2.3` = (lata %>% map_dbl(f, rpp)))
 
-f <- function(rok, tabl) {
-  nr = (select(tabl, !!rok) %>% slice(14))[[1]]
-  dr = as.numeric((select(tabl, !!rok) %>% slice(6))[[1]])
-  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
-}
+# dywidend = 0
 wskaźniki <- wskaźniki %>% 
-  add_column(`2.4` = (lata %>% map_dbl(f, rpp)))
+  add_column(`2.4` = '-')
 
 f <- function(rok, tabl1, tabl2) {
   nr = (select(tabl1, !!rok) %>% slice(14))[[1]]
@@ -208,7 +205,7 @@ f <- function(rok, tabl1, tabl2) {
   return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
 }
 wskaźniki <- wskaźniki %>% 
-  add_column(`2.5` = (lata %>% map_dbl(f, rpp, pasywa)))
+  add_column(`2.5` = (lata %>% map_dbl(f, rpp, pasywa_st)))
 
 #wskaźniki
 
@@ -237,7 +234,7 @@ f <- function(rok, tabl1, tabl2) {
   return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
 }
 wskaźniki <- wskaźniki %>% 
-  add_column(`3.3` = (lata %>% map_dbl(f, rpp, aktywa)))
+  add_column(`3.3` = (lata %>% map_dbl(f, rpp, aktywa_st)))
 
 f <- function(rok, tabl1, tabl2) {
   nr = (select(tabl1, !!rok) %>% slice(14))[[1]]
@@ -245,9 +242,9 @@ f <- function(rok, tabl1, tabl2) {
   return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
 }
 wskaźniki <- wskaźniki %>% 
-  add_column(`3.4` = (lata %>% map_dbl(f, rpp, pasywa)))
+  add_column(`3.4` = (lata %>% map_dbl(f, rpp, pasywa_st)))
 
-#wskaźniki
+wskaźniki
 
 #rpp_str
 

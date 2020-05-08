@@ -1,0 +1,180 @@
+---
+title: "Raport końcowy - Analiza spółki Dino"
+output: html_notebook
+---
+
+
+```{r include = FALSE}
+library('tidyverse')
+library('knitr')
+library('kableExtra')
+library('formattable')
+source(file = 'wskazniki.R')
+```
+
+source(file = 'rpp.R')
+
+### Spis treści
+
+1. [Dane spółki, charakterystyka, notowania](#dscn)
+2. [Wstępna analiza bilansu](#wab)
+3. [Wstępna analiza rachunku zysków i strat](#warzs)
+4. [Analiza przepływów środków pieniężnych Dino oraz porównanie ze spółką konkurencyjną Biedronka](#apsp)
+5. [Analiza wskaźnikowa](#awsk)
+6. [Podsumowanie Analizy spółki Dino](#pasd)
+
+---
+
+## 1 Dane spółki, charakterystyka, notowania {#dscn}
+
+Spółka [Dino](https://grupadino.pl) to Polska sieć handlu spożywczego założona w 1999 roku przez Tomasza Biernackiego. Jest to wiodący gracz w rosnącym segmencie średniej wielkości supermarketów w Polsce, zlokalizowanych głównie w mniejszych miejscowościach, małych i średnich
+miastach oraz na peryferiach dużych miast. W latach 2010-2019 liczba sklepów wzrosła ze 111 na koniec 2010 do 1218 na koniec 2019 roku.
+
+* **Zarząd Spółki**: Szymon Piduch – Prezes Zarządu, Michał Krauze – Członek Zarządu, Dyrektor Finansowy, Michał Muskała – Członek Zarządu, Dyrektor Inwestycji
+* **Rada Nadzorcza**: Tomasz Biernacki - przewodniczący rady nadzorczej, Eryk Bajer - członek rady nadzorczej, Sławomir Jakszuk - niezależny członek rady nadzorczej, Piotr Nowjalis - niezależny członek rady nadzorczej, Maciej Polanowski - członek rady nadzorczej
+* **Siedziba Spółki**: ul. Ostrowska 122, 63-700 Krotoszyn, Polska
+* **Komitet audytu**: Piotr Nowjalis – przewodniczący komitetu audytu, Sławomir Jakszuk – członek komitetu audytu, Maciej Polanowski – członek komitetu audytu
+
+### 1.1 Historia rozwoju
+
+Grupa Dino jest jedną z najszybciej rozwijających się sieci supermarketów *proximity* w Polsce – zarówno pod względem liczby sklepów, jak i przychodów ze sprzedaży.
+
+Poniżej przedstawiamy wydarzenia, które odegrały ważną rolę w jej historii.
+
+- 1999 : Pierwsze sklep pod marką Dino
+- 2002 : Pierwsze centrum dystrybucyjne
+- 2003 : Dino zacieśnia relacje z zakadami mięsnymi Agro-Rydzyna
+- 2004-2009 : Rozwój wokół centrum dystrybucyjnego
+- 2010 : 100 Sklepów i okres dynamicznej ekspansji
+- 2013 : 300 sklepów i drugie centrum Dystrybucyjne
+- 2014 - 2015 : 500 sklepów 
+- 2016 : 10,000 pracaowników i trzecie centrum Dystrybucyjne
+- 2017 : Debiut na GPW
+- 2018 : 202 otwarcia nowych marketów
+- 2019 : 243 nowe markety
+
+
+### 1.2 Akcjonariat
+
+![](imgs/akcjonariat.png) 
+
+Każda akcja Dino Polska S.A. uprawnia do wykonywania jednego głosu na walnym zgromadzeniu.
+
+Ponad 50% udziałow należy do założyciela spółki.
+
+### 1.3 Wybrane dane finansowe
+
+![](imgs/select_data1.png) 
+
+![](imgs/select_data2.png) 
+
+
+### 1.4 Notowania giełdowe spółki
+
+Kurs odniesienia spółki Grupa Dino 8 maja wynosiła 169,90 zł. 
+
+Od debiutu w GPW zauważalny jest widoczny trend wznoszący wskazujący apetyt inwestorów na spółki najszybciej rozwijające się.
+
+![](imgs/notowania2.png) 
+
+### 1.5 Konkurencja
+    
+
+```{r warning=FALSE, echo=FALSE}
+tribble(
+  ~Sieć, ~`Liczba sklepów w Polsce`, ~Siedziba,
+  "Biedronka", 3000, "Portugalia",
+  "Dino",1218, "Polska",
+  "Lidl", 700, "Niemcy",
+  "Stokrotka", 577, "Polska",
+  "Netto", 368, "Dania",
+  "Polomarket", 280, "Polska",
+  "Eurospar", 250, "Holandia",
+  "Intermarché", 230, "Francja",
+  "Mila",187, "Polska",
+  "ChataPolska", 166, "Polska",
+  "Aldi",132, "Niemcy",
+  "PiotriPaweł", 70, "Polska",
+  "Arhelan", 55, "Polska",
+  "Frac", 21, "Polska",
+  "Auchan", 33, "Francja",
+) %>% kable() %>% 
+  kable_styling(bootstrap_options = c("striped", "hover")) %>% 
+  scroll_box(width = "70%", height = "298px")
+
+```
+
+<small>żródło: Wikipedia </small>
+
+---
+
+## 2 Wstępna analiza bilansu {#wab}
+
+### 2.1 Analiza pionowa bilansu
+
+
+```{r results='asis', warning=FALSE, message=FALSE}
+
+aktywa_st %>% 
+  select(!matches('15|16|17|_sk')) %>% 
+  filter_at(vars(1), ~ str_detect(.x, '^[VIAB]')) %>% 
+  kable(col.names = c("Aktywa", '2018', '2019', '2018', '2019', '2018', '2019')) %>% 
+  kable_styling(c("striped", "bordered")) %>% 
+  add_header_above(c(" " = 1, "na koniec roku (w. tys. zł.)" = 2, 
+                     "Struktura (w%)" = 2, "Str. wewn. (w%)" = 2)) %>% 
+  row_spec(c(1, 7, 12), bold = T)
+```
+
+
+```{r results='asis', warning=FALSE, message=FALSE}
+
+pasywa_st %>% 
+  select(!matches('15|16|17|_sk')) %>% 
+  filter_at(vars(1), ~ str_detect(.x, '^[VIABP]')) %>% 
+  kable(col.names = c("Pasywa", '2018', '2019', '2018', '2019', '2018', '2019')) %>% 
+  kable_styling(c("striped", "bordered")) %>% 
+  add_header_above(c(" " = 1, "na koniec roku (w. tys. zł.)" = 2, 
+                     "Struktura (w%)" = 2, "Str. wewn. (w%)" = 2)) %>% 
+  row_spec(c(1, 8, 13), bold = T)
+```
+
+### 2.2 Analiza pozioma bilansu
+
+
+
+
+```{r results='asis', warning=FALSE, message=FALSE}
+aktywa %>% 
+  select_at(vars(1:6)) %>% 
+  mutate(`Wyszczegónienie` = 
+           cell_spec(`Wyszczegónienie`, 
+                     italic = ifelse(row_number() %in% c(2,3,5,6), T, F))) %>%
+  kable(booktabs = T, escape = F) %>%
+  add_indent(c(c(2,3,5,6))) %>% 
+  add_indent(c(9,10))
+
+```
+
+
+### 2.2 Analiza wskażnikowa
+
+
+
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+plot(cars)
+
+x <- 23
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+

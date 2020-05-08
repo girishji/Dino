@@ -287,8 +287,8 @@ działalność.
 <h5>Syntetyczna analiza sald </h5>
 
 ```{r include = FALSE}
-source(file = 'bilans.R')
-source(file = 'rzis.R')
+library('knitr')
+library('kableExtra')
 source(file = 'rpp.R')
 library(formattable)
 ```
@@ -480,6 +480,7 @@ $$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{W
 wskaźniki %>% 
   select(c(1, 7)) %>% 
   pivot_wider(names_from = rok, values_from = `2.4`) %>% 
+  mutate_all(~ str_replace(.x, '-', '&#8208;')) %>% 
   kable(escape = F) %>%
   kable_styling() %>% 
   row_spec(c(1), color = "maroon") 

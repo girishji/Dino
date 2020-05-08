@@ -64,7 +64,7 @@ inflacya <- tribble(
   '2019', 0.02,
 )
 
-for (i in 1:length(inflacya)) {
+for (i in 1:length(inflacya$rok)) {
   r <-  slice(inflacya, i)$rok
   v <-  slice(inflacya, i)$val
   n <- str_c(r, '_sk')
@@ -72,7 +72,6 @@ for (i in 1:length(inflacya)) {
     mutate(!!n := ifelse(is.na(as.numeric(!!sym(r))), !!sym(r), 
                          round(as.numeric(!!sym(r)) / (1 + as.numeric(v)))))
 }
-
 
 ## Struktura
 

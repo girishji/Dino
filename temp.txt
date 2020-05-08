@@ -2,6 +2,13 @@
 Press »ESC« or »O« keys to toggle the overview mode
 --
 
+output: 
+  html_document:
+    code_folding: hide
+    
+    --
+    
+    
 don't use 'if' inside thoese mutate or functions called from muate - use ifelse()
 because things are vectorized. Not intuitive. If you print(), you get whole vercotr
 even when you only passed one element.

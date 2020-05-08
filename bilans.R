@@ -168,25 +168,29 @@ pasywa %>% select(!contains('_'))
 aktywa %>% select(!contains('_'))
 
 
+## Struktura
+
 # Summarize
 
-aktywa <- aktywa %>% 
-  filter(row_number() %in% c(1, 2, 4:14, 18, 21, 22, 24, 35, 44, 47)) %>% 
-  mutate(!!col_name := ifelse(row_number() %in% c(5:9), 
-                              str_c('    ', !!sym(col_name)), !!sym(col_name)),
-         !!col_name := ifelse(row_number() %in% c(4, 10, 13), 
-                              str_c('  ', !!sym(col_name)), !!sym(col_name)),
-         !!col_name := str_trunc(!!sym(col_name), 500))
+aktywa_st <- aktywa %>% 
+  filter(row_number() %in% c(1, 2, 4:14, 18, 21, 22, 24, 35, 44, 47))
+# %>% 
+#   mutate(!!col_name := ifelse(row_number() %in% c(5:9), 
+#                               str_c('    ', !!sym(col_name)), !!sym(col_name)),
+#          !!col_name := ifelse(row_number() %in% c(4, 10, 13), 
+#                               str_c('  ', !!sym(col_name)), !!sym(col_name)),
+#          !!col_name := str_trunc(!!sym(col_name), 500))
 
-pasywa <- pasywa %>% 
-  filter(row_number() %in% c(1:3, 6:13, 16, 19, 23, 24, 28, 29, 40:42, 45)) %>% 
-  mutate(!!col_name := ifelse(row_number() %in% c(10, 11, 13, 15:17, 19:20), 
-                              str_c('    ', !!sym(col_name)), !!sym(col_name)),
-         !!col_name := ifelse(row_number() %in% c(2:7, 9, 12, 14, 18), 
-                              str_c('  ', !!sym(col_name)), !!sym(col_name)),
-         !!col_name := str_trunc(!!sym(col_name), 500))
+pasywa_st <- pasywa %>% 
+  filter(row_number() %in% c(1:3, 6:13, 16, 19, 23, 24, 28, 29, 40:42, 45))
+# %>% 
+#   mutate(!!col_name := ifelse(row_number() %in% c(10, 11, 13, 15:17, 19:20), 
+#                               str_c('    ', !!sym(col_name)), !!sym(col_name)),
+#          !!col_name := ifelse(row_number() %in% c(2:7, 9, 12, 14, 18), 
+#                               str_c('  ', !!sym(col_name)), !!sym(col_name)),
+#          !!col_name := str_trunc(!!sym(col_name), 500))
 
-## Struktura
+
 
 lata <- c('2015', '2016', '2017', '2018', '2019')
 
@@ -198,12 +202,12 @@ for (rok in lata) {
     return(ifelse(is.na(as.numeric(num)), '-', 
            round((as.numeric(num) / as.numeric(dr) * 100), digits = 1)))
   }
-  aktywa <- aktywa %>% mutate(!!n_name := f(aktywa, !!sym(rok)))
-  pasywa <- pasywa %>% mutate(!!n_name := f(pasywa, !!sym(rok)))
+  aktywa_st <- aktywa_st %>% mutate(!!n_name := f(aktywa_st, !!sym(rok)))
+  pasywa_st <- pasywa_st %>% mutate(!!n_name := f(pasywa_st, !!sym(rok)))
 }
 
-aktywa %>% select(!ends_with('_sk'))
-pasywa %>% select(!ends_with('_sk'))
+aktywa_st %>% select(!ends_with('_sk'))
+pasywa_st %>% select(!ends_with('_sk'))
 
 ## Struktura wewnętrzna
 
@@ -214,30 +218,31 @@ for (rok in lata) {
     return (ifelse((num == '-'), '-',
                    round((as.numeric(num) / as.numeric(dr) * 100), digits = 1)))
   }
-  dr1 <- (select(aktywa, !!rok) %>% slice(1))[[1]]
-  dr2 <- (select(aktywa, !!rok) %>% slice(15))[[1]]
-  aktywa <- aktywa %>% 
+  dr1 <- (select(aktywa_st, !!rok) %>% slice(1))[[1]]
+  dr2 <- (select(aktywa_st, !!rok) %>% slice(15))[[1]]
+  aktywa_st <- aktywa_st %>% 
     mutate(!!rok_n := ifelse(row_number() < 15, f(!!sym(rok), dr1), f(!!sym(rok), dr2)),
            !!rok_n := ifelse(row_number() == 20, '-', !!sym(rok_n)))
   
-  dr1 <- (select(pasywa, !!rok) %>% slice(1))[[1]]
-  dr2 <- (select(pasywa, !!rok) %>% slice(8))[[1]]
-  pasywa <- pasywa %>% 
+  dr1 <- (select(pasywa_st, !!rok) %>% slice(1))[[1]]
+  dr2 <- (select(pasywa_st, !!rok) %>% slice(8))[[1]]
+  pasywa_st <- pasywa_st %>% 
     mutate(!!rok_n := ifelse(row_number() < 8, f(!!sym(rok), dr1), f(!!sym(rok), dr2)),
            !!rok_n := ifelse(row_number() == 21, '-', !!sym(rok_n)))
 }
-aktywa %>% select(!matches('_sk|_st'))
-pasywa %>% select(!matches('_sk|_st'))
+aktywa_st %>% select(!matches('_sk|_st'))
+pasywa_st %>% select(!matches('_sk|_st'))
 
 ## Dynamika
 
+lata <- c('2015', '2016', '2017', '2018', '2019')
 {
   prev <- ''
   for (rok in lata) {
     if (prev == '') {
       prev <- rok
     } else {
-      cname <- str_c(rok, '/', prev)
+      cname <- str_c(prev, '/', str_trunc(rok, 2, "left", ""))
       f <- function(tbl, num, row_num) {
         prev_val <- (select(tbl, !!prev) %>% slice(row_num))[[1]]
         prev_val <- as.integer(prev_val)
@@ -245,13 +250,14 @@ pasywa %>% select(!matches('_sk|_st'))
         val <- round((val - prev_val) / prev_val * 100, digits = 1)
         return (ifelse(is.na(val), '-', val))
       }
-      #aktywa <- aktywa %>% mutate(!!cname := f(aktywa, !!sym(rok), row_number()))
+      aktywa <- aktywa %>% mutate(!!cname := f(aktywa, !!sym(rok), row_number()))
       pasywa <- pasywa %>% mutate(!!cname := f(pasywa, !!sym(rok), row_number()))
       prev <- rok
     }
   }
 }
-aktywa %>% select(!contains('/'))
+
+aktywa %>% select(contains('/'))
 pasywa %>% select(contains('/'))
 
 
@@ -271,18 +277,18 @@ for (rok in lata) {
   f <- function(nr, dr) {
     return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
   }
-  kap_wł <- (select(pasywa, !!rok) %>% slice(1))[[1]]
-  akt_tr <- (select(aktywa, !!rok) %>% slice(1))[[1]]
+  kap_wł <- (select(pasywa_st, !!rok) %>% slice(1))[[1]]
+  akt_tr <- (select(aktywa_st, !!rok) %>% slice(1))[[1]]
   new_col <- c(new_col, f(kap_wł, akt_tr))
-  zob_dł <- (select(pasywa, !!rok) %>% slice(12))[[1]]
+  zob_dł <- (select(pasywa_st, !!rok) %>% slice(12))[[1]]
   kap_st <- as.integer(kap_wł) + as.integer(zob_dł)
   new_col <- c(new_col, f(kap_st, akt_tr))
   
-  zob_kr <- (select(pasywa, !!rok) %>% slice(14))[[1]]
-  akt_ob <- (select(aktywa, !!rok) %>% slice(15))[[1]]
+  zob_kr <- (select(pasywa_st, !!rok) %>% slice(14))[[1]]
+  akt_ob <- (select(aktywa_st, !!rok) %>% slice(15))[[1]]
   new_col <- c(new_col, f(zob_kr, akt_tr))
-  akt_og <- (select(aktywa, !!rok) %>% slice(20))[[1]]
-  maj_tr <- (select(aktywa, !!rok) %>% slice(3))[[1]]
+  akt_og <- (select(aktywa_st, !!rok) %>% slice(20))[[1]]
+  maj_tr <- (select(aktywa_st, !!rok) %>% slice(3))[[1]]
   kap_ob_netto <- kap_st - as.integer(maj_tr)
   new_col <- c(new_col, f(kap_ob_netto, akt_og))
   new_col <- c(new_col, f(kap_ob_netto, akt_ob))
@@ -299,4 +305,12 @@ aktywa %>% select(!matches('_|/'))
 # select(pasywa, `2015`) %>% slice(12)
 # pasywa 
 # aktywa %>% select(contains('Wysz'))
+
+aktywa %>% select(contains('_st'))
+
+aktywa_st %>% 
+  select(!matches('15|16|17|_sk')) %>% 
+  filter_at(vars(1), ~ str_starts(.x, 'V|I|A|B'))
+
+
   
