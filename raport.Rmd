@@ -1,32 +1,38 @@
 ---
 title: "Raport końcowy - Analiza spółki Dino"
-output: html_notebook
-
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+  pdf_document: 
+    toc: true
+    toc_depth: 3
+classoption: landscape
 ---
 
-
-```{r include = FALSE}
+```{r global_options, include=FALSE}
 library('tidyverse')
 library('knitr')
 library('kableExtra')
-library('formattable')
-source(file = 'bilans.R')
+#source(file = 'bilans.R')
+#source(file = 'rzis.R')
+source(file = 'rpp.R')
+
+#knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
+knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE, results='asis')
+
+pagebreak <- function() {
+  if(knitr::is_latex_output())
+    return("\\newpage")
+  else {
+    return('<hr style="height:1px;border:none;color:#333;background-color:#333;" /> <div style="page-break-before: always;" />')
+  }
+}
 ```
 
-### Spis treści
+`r pagebreak()`
 
-1. [Dane spółki, charakterystyka, notowania](#dscn)
-2. [Wstępna analiza bilansu](#wab)
-3. [Wstępna analiza rachunku zysków i strat](#warzs)
-4. [Analiza przepływów środków pieniężnych Dino oraz porównanie ze spółką konkurencyjną Biedronka](#apsp)
-5. [Analiza wskaźnikowa](#awsk)
-6. [Podsumowanie Analizy spółki Dino](#pasd)
-
-   [Załącznik](#zał)
-
----
-
-## 1 Dane spółki, charakterystyka, notowania {#dscn}
+## 1 Dane spółki, charakterystyka, notowania
 
 Spółka [Dino](https://grupadino.pl) to Polska sieć handlu spożywczego założona w 1999 roku przez Tomasza Biernackiego. Jest to wiodący gracz w rosnącym segmencie średniej wielkości supermarketów w Polsce, zlokalizowanych głównie w mniejszych miejscowościach, małych i średnich
 miastach oraz na peryferiach dużych miast. W latach 2010-2019 liczba sklepów wzrosła ze 111 na koniec 2010 do 1218 na koniec 2019 roku.
@@ -57,7 +63,7 @@ Poniżej przedstawiamy wydarzenia, które odegrały ważną rolę w jej historii
 
 ### 1.2 Akcjonariat
 
-![](imgs/akcjonariat.png) 
+![](imgs/akcjonariat.png){ width=70% }
 
 Każda akcja Dino Polska S.A. uprawnia do wykonywania jednego głosu na walnym zgromadzeniu.
 
@@ -65,9 +71,9 @@ Ponad 50% udziałow należy do założyciela spółki.
 
 ### 1.3 Wybrane dane finansowe
 
-![](imgs/select_data1.png) 
+![](imgs/select_data1.png){ width=70% }
 
-![](imgs/select_data2.png) 
+![](imgs/select_data2.png){ width=70% }
 
 
 ### 1.4 Notowania giełdowe spółki
@@ -76,13 +82,13 @@ Kurs odniesienia spółki Grupa Dino 8 maja wynosiła 169,90 zł.
 
 Od debiutu w GPW zauważalny jest widoczny trend wznoszący wskazujący apetyt inwestorów na spółki najszybciej rozwijające się.
 
-![](imgs/notowania2.png) 
+![](imgs/notowania2.png){ width=70% }
 
         
 #### 1.4.1 Cena akcji w porównaniu z WIG
 <small>(na niebiesko: Dino, na żółto: WIG)</small>
 
-![](imgs/notowanie2.png)
+![](imgs/notowanie2.png){ width=70% }
 
 Na wykresie widzimy wyraźny wzrost cen akcji Dino Polska w porównaniu z WIG.
 Sytuacja związana z koronawirusem jedynie chwilowo wpłynęła na spadek
@@ -95,7 +101,7 @@ działalność.
 ### 1.5 Konkurencja
     
 
-```{r warning=FALSE, echo=FALSE, include=FALSE}
+```{r results='asis', warning=FALSE, echo=FALSE}
 tribble(
   ~Sieć, ~`Liczba sklepów w Polsce`, ~Siedziba,
   "Biedronka", 3000, "Portugalia",
@@ -113,21 +119,17 @@ tribble(
   "Arhelan", 55, "Polska",
   "Frac", 21, "Polska",
   "Auchan", 33, "Francja",
-) %>% kable() %>% 
-  kable_styling(bootstrap_options = c("striped", "hover")) %>% 
-  scroll_box(width = "70%", height = "298px")
+) %>% kable(booktabs = T) 
 
 ```
 
 <small>żródło: Wikipedia </small>
 
----
 
-## 2 Wstępna analiza bilansu {#wab}
-
+## 2 Wstępna analiza bilansu
 ### 2.1 Analiza pionowa bilansu
 
-```{r results='asis', warning=FALSE, message=FALSE, echo=F}
+```{r}
 
 aktywa_st %>% 
   select(!matches('15|16|_sk')) %>% 
@@ -135,19 +137,22 @@ aktywa_st %>%
   mutate(`Wyszczegónienie` = 
            cell_spec(`Wyszczegónienie`, 
                      italic = ifelse(row_number() %in% c(2:6, 8:11), T, F))) %>%
-  kable(escape = F, col.names = c("Aktywa", '2017', '2018', '2019', '2017', 
-                                  '2018', '2019', '2017', '2018', '2019')) %>% 
-  kable_styling(c("striped", "bordered")) %>% 
+  kable(escape = F,
+        col.names = c("Aktywa", '2017', '2018', '2019', '2017', 
+                                  '2018', '2019', '2017', '2018', '2019'),
+        align=c("l",rep("r",9)),
+        booktabs=TRUE) %>% 
+  kable_styling(latex_options = c("striped", "scale_down"),
+                bootstrap_options = c("striped", "hover", "condensed")) %>% 
   add_header_above(c(" " = 1, "Stan na koniec roku (w.tys.zł.)" = 3, 
                      "Struktura (w%)" = 3, "Str. wewn. (w%)" = 3)) %>% 
   row_spec(c(1, 7, 12), bold = T) %>% 
-  column_spec(5:7, background = "#F0FBEF") %>% 
-  column_spec(8:10, background = "#F0FCD9")
+  column_spec(5:7, background = "#F0FBEF")
 
 ```
 
 
-```{r results='asis', warning=FALSE, message=FALSE, echo=F}
+```{r}
 
 pasywa_st %>% 
   select(!matches('15|16|_sk')) %>% 
@@ -155,19 +160,20 @@ pasywa_st %>%
   mutate(`Wyszczegónienie` = 
            cell_spec(`Wyszczegónienie`, 
                      italic = ifelse(row_number() %in% c(2:9, 11:14), T, F))) %>%
-  kable(escape = F, col.names = c("Pasywa", '2017', '2018', '2019', 
-                                  '2017', '2018', '2019', '2017', '2018', '2019')) %>% 
-  kable_styling(c("striped", "bordered")) %>% 
+  kable(escape = F, booktabs = T, align=c("l",rep("r",9)), 
+    col.names = c("Pasywa", '2017', '2018', '2019', 
+    '2017', '2018', '2019', '2017', '2018', '2019')) %>% 
+  kable_styling(latex_options = c("striped", "scale_down"),
+                bootstrap_options = c("striped", "hover", "condensed")) %>% 
   add_header_above(c(" " = 1, "na koniec roku (w. tys. zł.)" = 3, 
                      "Struktura (w%)" = 3, "Str. wewn. (w%)" = 3)) %>% 
   row_spec(c(1, 10, 15), bold = T) %>% 
-  column_spec(5:7, background = "#F0FBEF") %>% 
-  column_spec(8:10, background = "#F0FCD9")
+  column_spec(5:7, background = "#F0FBEF")
 ```
 
 ### 2.2 Analiza pozioma bilansu
 
-```{r results='asis', warning=FALSE, message=FALSE}
+```{r}
 col_names <- c("Aktywa", '2017', '2018', '2019', '2018', '2019',
                '2017/18', '2018/19', '2017/18', '2018/19')
 aktywa %>% 
@@ -176,19 +182,19 @@ aktywa %>%
   mutate(`Wyszczegónienie` = 
            cell_spec(`Wyszczegónienie`, 
                      italic = ifelse(row_number() %in% c(2:6, 8:11), T, F))) %>%
-  kable(escape = F, col.names = col_names) %>% 
-  kable_styling(c("striped", "bordered")) %>% 
+  kable(escape = F, col.names = col_names, booktabs = T) %>% 
+  kable_styling(latex_options = c("striped", "scale_down"),
+                bootstrap_options = c("striped", "hover", "condensed")) %>% 
   add_header_above(c(" " = 1, "Ceny bieżące" = 3, "Ceny skorygowane" = 2, 
-                     "Ceny bieżące" = 2, "Ceny skorygowane" = 2)) %>% 
+                     "W cenach bieżących" = 2, "W cenach skorygowanych" = 2)) %>% 
   add_header_above(c(" " = 1, "Stan na koniec roku (w. tys. zł.)" = 5, 
                      "Dynamika (w%)" = 4)) %>% 
   row_spec(c(1, 7, 12), bold = T) %>% 
   column_spec(5:6, background = "#F0FBEF") %>% 
-  column_spec(7:8, background = "#F0FCD9") %>% 
-  column_spec(9:10, background = "#E7FDCF")
+  column_spec(9:10, background = "#F0FBEF")
 ```
 
-```{r results='asis', warning=FALSE, message=FALSE}
+```{r}
 col_names <- c("Pasywa", '2017', '2018', '2019', '2018', '2019',
                '2017/18', '2018/19', '2017/18', '2018/19')
 pasywa %>% 
@@ -197,65 +203,551 @@ pasywa %>%
   mutate(`Wyszczegónienie` = 
            cell_spec(`Wyszczegónienie`, 
                      italic = ifelse(row_number() %in% c(2:9, 11:14), T, F))) %>%
-  kable(escape = F, col.names = col_names) %>% 
-  kable_styling(c("striped", "bordered")) %>% 
+  kable(escape = F, col.names = col_names, booktabs = T) %>% 
+  kable_styling(latex_options = c("striped", "scale_down"),
+                bootstrap_options = c("striped", "hover", "condensed")) %>% 
   add_header_above(c(" " = 1, "Ceny bieżące" = 3, "Ceny skorygowane" = 2, 
-                     "Ceny bieżące" = 2, "Ceny skorygowane" = 2)) %>% 
+                     "W cenach bieżących" = 2, "W cenach skorygowanych" = 2)) %>% 
   add_header_above(c(" " = 1, "Stan na koniec roku (w. tys. zł.)" = 5, 
                      "Dynamika (w%)" = 4)) %>% 
   row_spec(c(1, 10, 15), bold = T) %>% 
   column_spec(5:6, background = "#F0FBEF") %>% 
-  column_spec(7:8, background = "#F0FCD9") %>% 
-  column_spec(9:10, background = "#E7FDCF")
+  column_spec(9:10, background = "#F0FBEF")
 
 ```
 
-### 2.2 Analiza wskażnikowa
+### 2.2 Kapitał obrotowy netto
+
+```{r}
+kon <- tribble(
+  ~" ", ~"2018", ~"2019", ~"2018_s", ~"2019_s",
+  'Kapitał stały', '', '', '', '',
+  '1. Kapitał własny', '', '', '', '', 
+  '2. Rezerwy długoterminowe', '', '', '', '', 
+  '3. Zobowiązania długoterminowe ', '', '', '', '', 
+  'Kapitał stały ogółem', '', '', '', '', 
+  'Aktywa stałe', '', '', '', '',
+  'Aktywa stałe ogółem', '', '', '', '',
+  'Aktywa bieżące', '', '', '', '',
+  'Aktywa bieżące ogółem', '', '', '', '',
+  'Zobowiązania bieżące', '', '', '', '',
+  'Rezerwy na zobowiązania krótkoterminowe', '', '', '', '',
+  'Rozliczenia międzyokresowe krótkoterminow', '', '', '', '',
+  'Zobowiązania bieżące ogółem', '', '', '', '',
+  'Kapitał stały', '', '', '', '',
+  'Aktywa stałe', '', '', '', '',
+  'Kapitał obrotowy netto', '', '', '', '',
+)
+
+g <- function(tabl, rw, yr) {
+  n <- (tabl %>% slice(rw) %>% select(yr))[[1]]
+  return(if_else(is.na(as.numeric(n)), 0, as.numeric(n)))  
+}
+
+kap_ob_n <- function(kon, col_n, yr) {
+  
+  kon <- kon %>% 
+    mutate_at(vars(col_n), ~ ifelse(row_number() == 2, g(pasywa, 1, yr), as.character(.x))) %>% 
+    mutate_at(vars(col_n), ~ ifelse(row_number() == 3, g(pasywa, 12, yr), as.character(.x))) %>% 
+    mutate_at(vars(col_n), ~ ifelse(row_number() == 4, g(pasywa, 16, yr), as.character(.x))) %>% 
+    mutate_at(vars(col_n), ~ ifelse(row_number() == 5, 
+                                g(pasywa, 1, yr) +
+                                  g(pasywa, 12, yr) +
+                                  g(pasywa, 16, yr), as.character(.x))) %>% 
+    mutate_at(vars(col_n), ~ ifelse(row_number() == 6, g(aktywa, 1, yr), as.character(.x))) %>% 
+    mutate_at(vars(col_n), ~ ifelse(row_number() == 7, g(aktywa, 1, yr), as.character(.x))) %>% 
+    mutate_at(vars(col_n), ~ ifelse(row_number() == 8, g(aktywa, 21, yr), as.character(.x))) %>% 
+    mutate_at(vars(col_n), ~ ifelse(row_number() == 9, g(aktywa, 21, yr), as.character(.x))) %>% 
+    mutate_at(vars(col_n), ~ ifelse(row_number() == 10, g(pasywa, 23, yr), as.character(.x))) %>% 
+    mutate_at(vars(col_n), ~ ifelse(row_number() == 11, '0', as.character(.x))) %>% 
+    mutate_at(vars(col_n), ~ ifelse(row_number() == 12, g(pasywa, 44, yr), as.character(.x))) %>% 
+    mutate_at(vars(col_n), ~ ifelse(row_number() == 13, 
+                                g(pasywa, 23, yr) + 
+                                  g(pasywa, 44, yr), as.character(.x))) 
+  
+  kon <- kon %>% 
+    mutate_at(vars(col_n), ~ ifelse(row_number() == 14, g(kon, 5, yr), as.character(.x))) %>%
+    mutate_at(vars(col_n), ~ ifelse(row_number() == 15, g(kon, 7, yr), as.character(.x))) %>% 
+    mutate_at(vars(col_n), ~ ifelse(row_number() == 16, g(kon, 5, yr) - 
+                                  g(kon, 7, yr), as.character(.x)))
+  
+  return(kon)
+}
+ 
+kon <- kap_ob_n(kon, 2, '2018')
+kon <- kap_ob_n(kon, 3, '2019')
+
+kon <- kon %>% 
+  mutate_at(vars(4), ~ ifelse(row_number() %in% c(2:5), 
+                                    round(g(kon, row_number(), '2018') / 
+                                            g(kon, 5, '2018') * 100, 
+                                          digits=1), as.character(.x))) %>% 
+  mutate_at(vars(5), ~ ifelse(row_number() %in% c(2:5), 
+                                    round(g(kon, row_number(), '2019') / 
+                                            g(kon, 5, '2019') * 100, 
+                                          digits=1), as.character(.x)))
+
+col_names <- c("", '2018', '2019', '2018', '2019')
+
+kon %>% 
+  kable(escape = F, col.names = col_names, booktabs = T) %>% 
+  kable_styling(latex_options = c("striped", "scale_down"),
+                bootstrap_options = c("striped", "hover", "condensed"),
+                full_width = F) %>% 
+  add_header_above(c("Wyszczególnienie" = 1, "Wartość(w tys.zł.)" = 2, 
+                     "Struktura kapitałów stałych (w %)" = 2)) %>%
+  row_spec(c(5, 7, 9, 13, 16), bold = T)
+
+```
+
+`r pagebreak()`
+
+### 2.3 Analiza wskażnikowa
+
+```{r}
+wskaźniki <- wskaźniki_bilans()
+```
+
+#### 2.2.1 Wskaźnik pokrycia aktywów trwałych kapitałem własnym
+     
+$$\small \frac{Kapitał\ własny}{Aktywa\ trwałe} * 100$$
 
 
+```{r}
+wskaźniki %>% 
+  slice(1) %>% 
+  select(-1) %>% 
+  kable(escape = F, booktabs = T) %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>% 
+  row_spec(c(1), color = "#8B0000") 
 
-## Załącznik {#zał}
+```
 
-### Bilans
+#### 2.2.2 Wskaźnik pokrycia aktywów trwałych kapitałem stałym
+     
+$$\small \frac{Kapitał\ stały}{Aktywa\ trwałe} * 100$$
 
-```{r results='asis', warning=FALSE, message=FALSE}
-#bold <- 
-bold_r <- function(tabl) {
-  return(na.omit(tabl %>% 
+
+```{r}
+wskaźniki %>% 
+  slice(2) %>% 
+  select(-1) %>% 
+  kable(escape = F, booktabs = T) %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>% 
+  row_spec(c(1), color = "#8B0000") 
+
+```
+
+#### 2.2.3 Wskaźnik pokrycia aktywów obrotowych zobowiązianimi trótkoterminowymi
+     
+$$\small \frac{Zobowiązania\ krótkoterminowe}{Aktywa\ obrotowe} * 100$$
+
+
+```{r}
+wskaźniki %>% 
+  slice(3) %>% 
+  select(-1) %>% 
+  kable(escape = F, booktabs = T) %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>% 
+  row_spec(c(1), color = "#8B0000") 
+
+```
+
+#### 2.2.4 Udział kapitału obrotowego netto w finansowaniu aktywów ogółem
+     
+$$\small \frac{Kapitał\ obrotowy\ netto}{Aktywa\ ogółem} * 100$$
+
+
+```{r}
+wskaźniki %>% 
+  slice(4) %>% 
+  select(-1) %>% 
+  kable(escape = F, booktabs = T) %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>% 
+  row_spec(c(1), color = "#8B0000") 
+
+```
+
+#### 2.2.5 Udział kapitału obrotowego netto w finansowaniu aktywów obrotowych przedsiębiorstwa
+     
+$$\small \frac{Kapitał\ obrotowy\ netto}{Aktywa\ obrotowe} * 100$$
+
+
+```{r}
+wskaźniki %>% 
+  slice(5) %>% 
+  select(-1) %>% 
+  kable(escape = F, booktabs = T) %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>% 
+  row_spec(c(1), color = "#8B0000") 
+
+```
+
+`r pagebreak()`
+
+## 3. Wstępna analiza rachunku zysków i strat
+
+### 3.1 Analiza pionowa rachunku zysków i strat
+
+
+```{r}
+
+mrzis %>% 
+  select_at(vars(1:4, 7:9)) %>% 
+  kable(escape = F,
+        col.names = c("Elementy rachunku zysków i strat", 
+                      '2017', '2018', '2019', 
+                      '2017', '2018', '2019'),
+        align=c("l",rep("r",6)),
+        booktabs=TRUE) %>% 
+  kable_styling(latex_options = c("striped", "scale_down"),
+                bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  add_header_above(c(" " = 1, "Wyniki finansowe (w.tys.zł.)" = 3, 
+                     "Struktura (w%)" = 3)) %>% 
+  column_spec(5:7, background = "#F0FBEF")
+
+```
+
+### 3.2 Analiza pozioma rachunku zysków i strat
+
+```{r}
+col_names <- c("Elementy rachunku zysków i strat", 
+               '2017', '2018', '2019', '2018', '2019',
+               '2017/18', '2018/19', '2017/18', '2018/19')
+mrzis %>% 
+  select_at(vars(1:6, 10:13)) %>% 
+  kable(escape = F, col.names = col_names, booktabs = T) %>% 
+  kable_styling(latex_options = c("striped", "scale_down"),
+                bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  add_header_above(c(" " = 1, "Ceny bieżące" = 3, "Ceny skorygowane" = 2, 
+                     "W cenach bieżących" = 2, "W cenach skorygowanych" = 2)) %>% 
+  add_header_above(c(" " = 1, "Wyniki finansowe (w.tys.zł.)" = 5, 
+                     "Dynamika (w%)" = 4)) %>% 
+  row_spec(c(1, 7, 12), bold = T) %>% 
+  column_spec(5:6, background = "#F0FBEF") %>% 
+  column_spec(9:10, background = "#F0FBEF")
+```
+
+
+`r pagebreak()`
+
+### 3.3 Analiza wskażnikowa
+
+```{r}
+wskaźniki <- wskaźniki_rzis()
+```
+     
+$$\small \frac{Zysk\ z\ działalności\ operacyjnej}{Zysk\ ze\ sprzedaży} * 100$$
+
+
+```{r}
+wskaźniki %>% 
+  select(c(1, 2)) %>% 
+  pivot_wider(names_from = rok, values_from = `1`) %>% 
+  kable(escape = F, booktabs = T) %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>% 
+  row_spec(c(1), color = "#8B0000") 
+```
+
+$$\small \frac{Zysk\ brutto}{Zysk\ z\ działalności\ operacyjnej} * 100$$
+
+
+```{r}
+wskaźniki %>% 
+  select(c(1, 3)) %>% 
+  pivot_wider(names_from = rok, values_from = `2`) %>% 
+  kable(escape = F, booktabs = T) %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>% 
+  row_spec(c(1), color = "#8B0000") 
+```
+
+$$\small \frac{Zysk\ brutto}{Zysk\ ze\ sprzedaży} * 100$$
+
+
+```{r}
+wskaźniki %>% 
+  select(c(1, 4)) %>% 
+  pivot_wider(names_from = rok, values_from = `3`) %>% 
+  kable(escape = F, booktabs = T) %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>% 
+  row_spec(c(1), color = "#8B0000") 
+```
+
+$$\small \frac{Zysk\ netto}{Zysk\ ze\ sprzedaży} * 100$$
+
+
+```{r}
+wskaźniki %>% 
+  select(c(1, 5)) %>% 
+  pivot_wider(names_from = rok, values_from = `4`) %>% 
+  kable(escape = F, booktabs = T) %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>% 
+  row_spec(c(1), color = "#8B0000") 
+```
+
+$$\small \frac{Podatek\ dochodowy}{Zysk\ brutto} * 100$$
+
+
+```{r}
+wskaźniki %>% 
+  select(c(1, 6)) %>% 
+  pivot_wider(names_from = rok, values_from = `5`) %>% 
+  kable(escape = F, booktabs = T) %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>% 
+  row_spec(c(1), color = "#8B0000") 
+```
+
+## 4. Analiza przepływów środków pieniężnych
+
+
+### 4.3 Analiza wskażnikowa
+
+```{r}
+wskaźniki <- wskaźniki_rpp()
+```
+#### 4.3.1 Wskaźniki struktury przepływów pieniężnych
+
+$$\small \frac{Zysk\ netto}{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej} * 100$$
+   
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+
+wskaźniki %>% 
+  select(1:2) %>% 
+  pivot_wider(names_from = rok, values_from = `1.1`) %>% 
+  kable(escape = F, booktabs = T) %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>% 
+  row_spec(c(1), color = "#8B0000") 
+```
+    
+$$\small \frac{Amortyzacja}{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej} * 100$$
+      
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+wskaźniki %>% 
+  select(c(1, 3)) %>% 
+  pivot_wider(names_from = rok, values_from = `1.2`) %>% 
+  kable(escape = F, booktabs = T) %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>% 
+  row_spec(c(1), color = "#8B0000") 
+
+```
+
+#### 4.3.2 Wskaźniki wystarczalności środków pieniężnych
+
+**Wskaźnik ogólnej wystarczalności środków pieniężnych**
+       
+$$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Wydatki\ ogółem} * 100$$
+   
+    
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+wskaźniki %>% 
+  select(c(1, 4)) %>% 
+  pivot_wider(names_from = rok, values_from = `2.1`) %>% 
+  kable(escape = F, booktabs = T) %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>% 
+  row_spec(c(1), color = "#8B0000") 
+
+```
+  
+**Wskaźnik pokrycia zadłużenia**
+    
+$$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Spłata\ zadłużenia} * 100$$
+     
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+wskaźniki %>% 
+  select(c(1, 5)) %>% 
+  pivot_wider(names_from = rok, values_from = `2.2`) %>% 
+  kable(escape = F, booktabs = T) %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>% 
+  row_spec(c(1), color = "#8B0000") 
+
+```
+
+---
+
+**Wskaźnik pokrycia wydatków inwestycyjnych**
+    
+$$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Wydatki\ inwestycyjne} * 100$$
+       
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+wskaźniki %>% 
+  select(c(1, 6)) %>% 
+  pivot_wider(names_from = rok, values_from = `2.3`) %>% 
+  kable(escape = F, booktabs = T) %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>% 
+  row_spec(c(1), color = "#8B0000") 
+
+```
+      
+
+**Wskaźnik pokrycia wypłaty dywidend**
+       
+$$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Wypłaty\ dywidend} * 100$$
+
+        
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+wskaźniki %>% 
+  select(c(1, 7)) %>% 
+  pivot_wider(names_from = rok, values_from = `2.4`) %>% 
+  mutate_all(~ str_replace(.x, '-', '&#8208;')) %>% 
+  kable(escape = F, booktabs = T) %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>% 
+  row_spec(c(1), color = "#8B0000") 
+
+```
+       
+**Wskaźnik pieniężnej płynności finansowej**
+      
+$$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Zobowiązania\ krótkoterminowe} * 100$$
+    
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+wskaźniki %>% 
+  select(c(1, 8)) %>% 
+  pivot_wider(names_from = rok, values_from = `2.5`) %>% 
+  kable(escape = F, booktabs = T) %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>% 
+  row_spec(c(1), color = "#8B0000") 
+
+```
+
+
+#### 4.3.3 Wskaźniki wydajności pieniężnej
+    
+**Wskaźnik pieniężnej wydajności sprzedaży**
+    
+$$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Przychody\ ze\ sprzedaży} * 100$$
+
+        
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+wskaźniki %>% 
+  select(c(1, 9)) %>% 
+  pivot_wider(names_from = rok, values_from = `3.1`) %>% 
+  kable(escape = F, booktabs = T) %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>% 
+  row_spec(c(1), color = "#8B0000") 
+
+```
+ 
+**Wskaźnik pieniężnej płynności finansowej**
+      
+$$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Zysk\ ze\ sprzedaży} * 100$$
+    
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+wskaźniki %>% 
+  select(c(1, 10)) %>% 
+  pivot_wider(names_from = rok, values_from = `3.2`) %>% 
+  kable(escape = F, booktabs = T) %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>% 
+  row_spec(c(1), color = "#8B0000") 
+
+```
+
+        
+**Wskaźnik pieniężnej wydajności aktywów**
+    
+$$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Aktywa\ ogółem} * 100$$
+        
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+wskaźniki %>% 
+  select(c(1, 11)) %>% 
+  pivot_wider(names_from = rok, values_from = `3.3`) %>% 
+  kable(escape = F, booktabs = T) %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>% 
+  row_spec(c(1), color = "#8B0000") 
+
+```
+    
+**Wskaźnik pieniężnej wydajności kapitału własnego**
+    
+$$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Kapitał\ własny} * 100$$
+
+        
+```{r echo = FALSE, results = 'asis', warning = FALSE}
+wskaźniki %>% 
+  select(c(1, 12)) %>% 
+  pivot_wider(names_from = rok, values_from = `3.4`) %>% 
+  kable(escape = F, booktabs = T) %>%
+  kable_styling(c("striped", "condensed"), full_width = F) %>% 
+  row_spec(c(1), color = "#8B0000") 
+
+```
+
+
+`r pagebreak()`
+
+## 5. Analiza wskaźnikowa
+
+`r pagebreak()`
+
+## 6. Podsumowanie Analizy spółki Grupa Dino
+
+`r pagebreak()`
+
+## Załącznik
+
+### 1 Bilans
+
+```{r}
+select_rows <- function(tabl, pattern_r) {
+    return(na.omit(tabl %>% 
                    select(1) %>% 
-                   mutate_at(vars(1), ~ ifelse(str_detect(.x, '^[ABP]'), row_number(), NA)) %>% 
+                   mutate_at(vars(1), ~ ifelse(str_detect(.x, pattern_r), row_number(), NA)) %>% 
                    unlist(., use.names=FALSE)))
+}
+bold_r <- function(tabl) {
+  return(select_rows(tabl, '^[ABP]'))
 }
 
 italic_r <- function(tabl) {
-  return(na.omit(aktywa %>% 
-                   select(1) %>% 
-                   mutate_at(vars(1), ~ ifelse(str_detect(.x, '^[VI]'), row_number(), NA)) %>% 
-                   unlist(., use.names=FALSE)))
+  return(select_rows(tabl, '^[VI]'))
 }
 
-aktywa %>% 
-  select_at(vars(1:6)) %>% 
-  kable(booktabs = T, escape = F) %>%
-  kable_styling(c("striped", "bordered")) %>% 
-  row_spec(bold_r(aktywa), bold = T) %>% 
-  row_spec(italic_r(aktywa), italic = T) %>% 
-  add_indent(setdiff(1:count(aktywa)[[1]], c(bold_r(aktywa), italic_r(aktywa))))
+indent_r <- function(tabl) {
+  return(setdiff(1:count(tabl)[[1]], c(bold_r(tabl), italic_r(tabl))))
+}
+
+```
+#### 1.1 Aktywa
+
+```{r}
+# aktywa %>% 
+#   select_at(vars(1:6)) %>% 
+#   mutate_at(vars(1:6), ~ifelse(.x == '-', '', as.character(.x))) %>% 
+#   kable(booktabs = T, escape = F, align=c("l",rep("r",5))) %>%
+#   kable_styling(latex_options = c("striped", "scale_down"),
+#                 bootstrap_options = c("striped", "condensed")) %>% 
+#   #column_spec(1, width = "5in") %>%
+#   row_spec(bold_r(aktywa), bold = T) %>% 
+#   row_spec(italic_r(aktywa), italic = T) %>% 
+#   add_indent(indent_r(aktywa))
+```
+#### 1.2 Pasywa
+
+```{r}
+# pasywa %>% 
+#   select_at(vars(1:6)) %>% 
+#   mutate_at(vars(1:6), ~ifelse(.x == '-', '', as.character(.x))) %>% 
+#   kable(booktabs = T, escape = F, align=c("l",rep("r",5))) %>%
+#   #column_spec(1, width = "5in") %>%
+#   kable_styling(latex_options = c("striped", "scale_down"),
+#                 bootstrap_options = c("striped", "hover", "condensed")) %>% 
+#   row_spec(bold_r(pasywa), bold = T) %>% 
+#   row_spec(italic_r(pasywa), italic = T) %>% 
+#   add_indent(indent_r(pasywa))
   
 ```
 
 
+### 2 Rachunek zysków is strat
 
-
----
-
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
-
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
-
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
-
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
-
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+```{r}
+# rzis %>% 
+#   select_at(vars(1:6)) %>% 
+#   mutate_at(vars(1:6), ~ifelse(.x == '-', '', as.character(.x))) %>% 
+#   kable(booktabs = T, escape = F, longtable = T, 
+#         align=c("l",rep("r",5))) %>% 
+#   kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+#   row_spec(select_rows(rzis, '^[ABCDEFGHJKLM]'), bold = T) %>% 
+#   #row_spec(select_rows(rzis, '^[IV]'), italic = T)
+#   add_indent(select_rows(rzis, '^[-]'))
+```
 

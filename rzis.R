@@ -54,6 +54,9 @@ rzis %>%
 
 rzis
 
+
+
+
 ## Skorygowane
 
 inflacya <- tribble(
@@ -103,17 +106,92 @@ for (rok in (rzis_st %>% names())[-1]) {
                                               round(as.numeric(!!sym(rok)) / t * 100, digits = 1)))
 }
 
-rzis_st
+
+##
+## my rzis
+
+mrzis <- tribble(
+  ~Wyszczegółnienie,
+  'Przychodyogółem',
+  'Kosztyogółem',
+  'Przychody netto ze sprzedaży produktów, towarów i materiałów',
+  'Koszty sprzedanych produktów, towarów i materiałów',
+  'Zysk brutto ze sprzedaży',
+  'Koszty sprzedaży',
+  'Koszty ogólnego zarządu',
+  'Zysk (strata) na sprzedaży',
+  'Pozostałe przychody operacyjne',
+  'Pozostałe koszty operacyjne',
+  'Zysk z działalności operacyjnej',
+  'Przychody finansowe',
+  'Koszty finansowe',
+  'Zysk (strata) brutto',
+  'Podatek dochodowy',
+  'Zysk netto'
+)
+
+mslice <- function(rok, mcols) {
+  mcol <- rzis_st %>% 
+    slice(mcols) %>% 
+    select(rok) %>% 
+    unlist(use.names = F)
+  return(mcol)
+}
+msum <- function(rok, mcols) {
+  return((rzis_st %>% 
+            slice(mcols) %>% 
+            select(rok) %>% 
+            mutate_all(~as.numeric(.x)) %>% 
+            summarise(sum = sum(!!sym(rok))))[[1]])
+}
+
+for (rok in c('2017', '2018', '2019')) {
+  mcol <- mslice(rok, c(1:2))
+  mcol <- c(mcol, mslice(rok, 3))
+  mcol <- c(mcol, mslice(rok, 16))
+  zs <- as.integer(mslice(rok, 3)) -
+    as.integer(mslice(rok, 16))
+  mcol <- c(mcol, zs)
+  k1 <- msum(rok, c(8, 9, 11, 15))
+  mcol <- c(mcol, k1)
+  k2 <- msum(rok, c(10, 12, 13))
+  mcol <- c(mcol, k2)
+  ##mcol <- c(mcol, (zs - k1 - k2))
+  temp <- rzis_st %>%
+    filter_at(vars(1), ~ str_detect(.x, '^[CDEFGHJLMN]|I. Zysk/')) %>%
+    select(rok) %>%
+    unlist(use.names = F)
+  mcol <- c(mcol, temp)
+  mrzis <- mrzis %>% add_column(!!rok := mcol)  
+}
+
+for (i in 3:length(inflacya$rok)) {
+  r <-  slice(inflacya, i)$rok
+  v <-  slice(inflacya, i)$val
+  n <- str_c(r, '_sk')
+  mrzis <- mrzis %>% 
+    mutate(!!n := ifelse(is.na(as.numeric(!!sym(r))), !!sym(r), 
+                         round(as.numeric(!!sym(r)) / (1 + as.numeric(v)))))
+}
+
+## Str
+for (rok in c('2017', '2018', '2019')) {
+  t <- as.numeric((mrzis %>% slice(1) %>% select(rok))[[1]])
+  n <- str_c(rok, '_st')
+  mrzis <- mrzis %>% 
+    mutate(!!n := ifelse(is.na(as.numeric(!!sym(rok))), 
+                           as.character(!!sym(rok)),
+                           round(as.numeric(!!sym(rok)) / t * 100, digits = 1)))
+}
 
 ## Dynamika
-
-{
+dynamika <- function(tabl, columns) {
   prev <- ''
-  for (rok in lata) {
+  for (rok in columns) {
     if (prev == '') {
       prev <- rok
     } else {
-      cname <- str_c(prev, '/', str_trunc(rok, 2, "left", ""))
+      cname <- str_c(prev, '/', rok)
       f <- function(tbl, num, row_num) {
         prev_val <- (select(tbl, !!prev) %>% slice(row_num))[[1]]
         prev_val <- as.integer(prev_val)
@@ -121,13 +199,41 @@ rzis_st
         val <- round((val - prev_val) / prev_val * 100, digits = 1)
         return (ifelse(is.na(val), '-', val))
       }
-      rzis <- rzis %>% mutate(!!cname := f(rzis, !!sym(rok), row_number()))
+      tabl <- tabl %>% mutate(!!cname := f(tabl, !!sym(rok), row_number()))
       prev <- rok
     }
   }
+  return(tabl)
 }
 
-rzis %>% select(!contains('_'))
+mrzis <- dynamika(mrzis, names(mrzis)[2:4])
+
+mrzis <- dynamika(mrzis, c(names(mrzis)[2], names(mrzis)[5]))
+mrzis <- dynamika(mrzis, c(names(mrzis)[3], names(mrzis)[6]))
+
+
+
+# {
+#   prev <- ''
+#   for (rok in lata) {
+#     if (prev == '') {
+#       prev <- rok
+#     } else {
+#       cname <- str_c(prev, '/', str_trunc(rok, 2, "left", ""))
+#       f <- function(tbl, num, row_num) {
+#         prev_val <- (select(tbl, !!prev) %>% slice(row_num))[[1]]
+#         prev_val <- as.integer(prev_val)
+#         val <- as.numeric(num)
+#         val <- round((val - prev_val) / prev_val * 100, digits = 1)
+#         return (ifelse(is.na(val), '-', val))
+#       }
+#       rzis <- rzis %>% mutate(!!cname := f(rzis, !!sym(rok), row_number()))
+#       prev <- rok
+#     }
+#   }
+# }
+# 
+# rzis %>% select(!contains('_'))
 
 ## Wsaźniki
 

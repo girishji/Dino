@@ -122,3 +122,11 @@ dino_gr %>% kable() %>% kable_styling()
 Jak widać, przychody ze sprzedaży prawie się podwoił, chociaż 'przychody ze sprzedaży' rośnie mniej niż zysk netto. Dług netto wrósł o prawie 55%. 
 </div>
 
+1. [Dane spółki, charakterystyka, notowania](#dscn)
+2. [Wstępna analiza bilansu](#wab)
+3. [Wstępna analiza rachunku zysków i strat](#warzs)
+4. [Analiza przepływów środków pieniężnych Dino oraz porównanie ze spółką konkurencyjną Biedronka](#apsp)
+5. [Analiza wskaźnikowa](#awsk)
+6. [Podsumowanie Analizy spółki Dino](#pasd)
+
+   [Załącznik](#zał)

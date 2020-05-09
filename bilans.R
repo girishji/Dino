@@ -118,6 +118,9 @@ pasywa <- pasywa[[3]] %>%
   replace_na(list(`2015` = '-', `2016` = '-')) %>% 
   select(`col_name`, `2015`, `2016`, `2017`, `2018`, `2019`)
 
+pasywa <- pasywa %>% 
+  mutate_at(vars(1), ~ str_remove(.x, ' \\(wielkość ujemna\\)'))
+  
 # pasywa[[2]] %>% anti_join(pasywa[[3]], by = col_name)
 # pasywa[[3]] %>% anti_join(pasywa[[2]], by = col_name)
 # pasywa[[2]] %>% anti_join(pasywa[[1]], by = col_name)
@@ -224,8 +227,6 @@ aktywa_st %>% select(!matches('_sk|_st'))
 pasywa_st %>% select(!matches('_sk|_st'))
 
 ## Dynamika
-
-
 
 dynamika <- function(tabl, columns) {
   prev <- ''
