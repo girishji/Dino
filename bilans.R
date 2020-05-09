@@ -173,23 +173,13 @@ aktywa %>% select(!contains('_'))
 # Summarize
 
 aktywa_st <- aktywa %>% 
-  filter(row_number() %in% c(1, 2, 4:14, 18, 21, 22, 24, 35, 44, 47))
-# %>% 
-#   mutate(!!col_name := ifelse(row_number() %in% c(5:9), 
-#                               str_c('    ', !!sym(col_name)), !!sym(col_name)),
-#          !!col_name := ifelse(row_number() %in% c(4, 10, 13), 
-#                               str_c('  ', !!sym(col_name)), !!sym(col_name)),
-#          !!col_name := str_trunc(!!sym(col_name), 500))
+  filter_at(vars(1), ~ str_detect(.x, '^[VIAB]')) 
+  #filter(row_number() %in% c(1, 2, 4:14, 18, 21, 22, 24, 35, 44, 47))
+
 
 pasywa_st <- pasywa %>% 
-  filter(row_number() %in% c(1:3, 6:13, 16, 19, 23, 24, 28, 29, 40:42, 45))
-# %>% 
-#   mutate(!!col_name := ifelse(row_number() %in% c(10, 11, 13, 15:17, 19:20), 
-#                               str_c('    ', !!sym(col_name)), !!sym(col_name)),
-#          !!col_name := ifelse(row_number() %in% c(2:7, 9, 12, 14, 18), 
-#                               str_c('  ', !!sym(col_name)), !!sym(col_name)),
-#          !!col_name := str_trunc(!!sym(col_name), 500))
-
+  filter_at(vars(1), ~ str_detect(.x, '^[VIABP]'))
+  #filter(row_number() %in% c(1:3, 6:13, 16, 19, 23, 24, 28, 29, 40:42, 45))
 
 
 lata <- c('2015', '2016', '2017', '2018', '2019')
@@ -219,30 +209,31 @@ for (rok in lata) {
                    round((as.numeric(num) / as.numeric(dr) * 100), digits = 1)))
   }
   dr1 <- (select(aktywa_st, !!rok) %>% slice(1))[[1]]
-  dr2 <- (select(aktywa_st, !!rok) %>% slice(15))[[1]]
+  dr2 <- (select(aktywa_st, !!rok) %>% slice(7))[[1]]
   aktywa_st <- aktywa_st %>% 
-    mutate(!!rok_n := ifelse(row_number() < 15, f(!!sym(rok), dr1), f(!!sym(rok), dr2)),
-           !!rok_n := ifelse(row_number() == 20, '-', !!sym(rok_n)))
+    mutate(!!rok_n := ifelse(row_number() < 7, f(!!sym(rok), dr1), f(!!sym(rok), dr2)),
+           !!rok_n := ifelse(row_number() == 12, '-', !!sym(rok_n)))
   
   dr1 <- (select(pasywa_st, !!rok) %>% slice(1))[[1]]
-  dr2 <- (select(pasywa_st, !!rok) %>% slice(8))[[1]]
+  dr2 <- (select(pasywa_st, !!rok) %>% slice(10))[[1]]
   pasywa_st <- pasywa_st %>% 
-    mutate(!!rok_n := ifelse(row_number() < 8, f(!!sym(rok), dr1), f(!!sym(rok), dr2)),
-           !!rok_n := ifelse(row_number() == 21, '-', !!sym(rok_n)))
+    mutate(!!rok_n := ifelse(row_number() < 10, f(!!sym(rok), dr1), f(!!sym(rok), dr2)),
+           !!rok_n := ifelse(row_number() == 15, '-', !!sym(rok_n)))
 }
 aktywa_st %>% select(!matches('_sk|_st'))
 pasywa_st %>% select(!matches('_sk|_st'))
 
 ## Dynamika
 
-lata <- c('2015', '2016', '2017', '2018', '2019')
-{
+
+
+dynamika <- function(tabl, columns) {
   prev <- ''
-  for (rok in lata) {
+  for (rok in columns) {
     if (prev == '') {
       prev <- rok
     } else {
-      cname <- str_c(prev, '/', str_trunc(rok, 2, "left", ""))
+      cname <- str_c(prev, '/', rok)
       f <- function(tbl, num, row_num) {
         prev_val <- (select(tbl, !!prev) %>% slice(row_num))[[1]]
         prev_val <- as.integer(prev_val)
@@ -250,12 +241,35 @@ lata <- c('2015', '2016', '2017', '2018', '2019')
         val <- round((val - prev_val) / prev_val * 100, digits = 1)
         return (ifelse(is.na(val), '-', val))
       }
-      aktywa <- aktywa %>% mutate(!!cname := f(aktywa, !!sym(rok), row_number()))
-      pasywa <- pasywa %>% mutate(!!cname := f(pasywa, !!sym(rok), row_number()))
+      tabl <- tabl %>% mutate(!!cname := f(tabl, !!sym(rok), row_number()))
       prev <- rok
     }
   }
+  return(tabl)
 }
+
+aktywa <- dynamika(aktywa, names(aktywa)[2:6])
+pasywa <- dynamika(pasywa, names(aktywa)[2:6])
+
+aktywa <- dynamika(aktywa, c(names(aktywa)[2], names(aktywa)[7]))
+aktywa <- dynamika(aktywa, c(names(aktywa)[3], names(aktywa)[8]))
+aktywa <- dynamika(aktywa, c(names(aktywa)[4], names(aktywa)[9]))
+aktywa <- dynamika(aktywa, c(names(aktywa)[5], names(aktywa)[10]))
+
+pasywa <- dynamika(pasywa, c(names(pasywa)[2], names(pasywa)[7]))
+pasywa <- dynamika(pasywa, c(names(pasywa)[3], names(pasywa)[8]))
+pasywa <- dynamika(pasywa, c(names(pasywa)[4], names(pasywa)[9]))
+pasywa <- dynamika(pasywa, c(names(pasywa)[5], names(pasywa)[10]))
+
+
+names(aktywa)
+names(pasywa)
+
+aktywa
+pasywa
+aktywa %>% select_at(vars(13:18))
+
+
 
 aktywa %>% select(contains('/'))
 pasywa %>% select(contains('/'))
@@ -263,39 +277,48 @@ pasywa %>% select(contains('/'))
 
 ## Wsaźniki
 
-wskażniki <- tribble(
-  ~wskaźnik,
-  'Wskaźnik pokrycia aktywów trwałych kapitałem własnym (kap. wł. ÷ ak.tr.)',
-  'Wskaźnik pokrycia aktywów trwałych kapitałem stałym (kap. st. ÷ ak. tr.)',
-  'Wskaźnik pokrycia aktywów obrotowych zobowiązianimi trótkoterminowymi (zob. kr ÷ ak. ob.)',
-  'Udział kapitału obrotowego netto w finansowaniu aktywów ogółem (kap. ob. n. ÷ ak. og.)',
-  'Udział kapitału obrotowego netto w finansowaniu aktywów obrotowych przedsiębiorstwa (kap. ob. n. ÷ ak. ob.)',
-)
+wskaźniki_bilans <- function() {
   
-for (rok in lata) {
-  new_col <- c()
-  f <- function(nr, dr) {
-    return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+  lata <- c('2015', '2016', '2017', '2018', '2019')
+  
+  wskaźniki <- tribble(
+    ~wskaźnik,
+    'Wskaźnik pokrycia aktywów trwałych kapitałem własnym (kap. wł. ÷ ak.tr.)',
+    'Wskaźnik pokrycia aktywów trwałych kapitałem stałym (kap. st. ÷ ak. tr.)',
+    'Wskaźnik pokrycia aktywów obrotowych zobowiązianimi trótkoterminowymi (zob. kr ÷ ak. ob.)',
+    'Udział kapitału obrotowego netto w finansowaniu aktywów ogółem (kap. ob. n. ÷ ak. og.)',
+    'Udział kapitału obrotowego netto w finansowaniu aktywów obrotowych przedsiębiorstwa (kap. ob. n. ÷ ak. ob.)',
+  )
+  
+  for (rok in lata) {
+    new_col <- c()
+    f <- function(nr, dr) {
+      return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+    }
+    kap_wł <- (select(pasywa_st, !!rok) %>% slice(1))[[1]]
+    akt_tr <- (select(aktywa_st, !!rok) %>% slice(1))[[1]]
+    new_col <- c(new_col, f(kap_wł, akt_tr))
+    
+    zob_dł <- (select(pasywa_st, !!rok) %>% slice(12))[[1]]
+    kap_st <- as.integer(kap_wł) + as.integer(zob_dł)
+    new_col <- c(new_col, f(kap_st, akt_tr))
+    
+    zob_kr <- (select(pasywa_st, !!rok) %>% slice(14))[[1]]
+    akt_ob <- (select(aktywa_st, !!rok) %>% slice(7))[[1]]
+    new_col <- c(new_col, f(zob_kr, akt_tr))
+    akt_og <- (select(aktywa_st, !!rok) %>% slice(12))[[1]]
+    maj_tr <- (select(aktywa_st, !!rok) %>% slice(3))[[1]]
+    kap_ob_netto <- kap_st - as.integer(maj_tr)
+    new_col <- c(new_col, f(kap_ob_netto, akt_og))
+    new_col <- c(new_col, f(kap_ob_netto, akt_ob))
+    wskaźniki <- wskaźniki %>% add_column(!!rok := new_col)
   }
-  kap_wł <- (select(pasywa_st, !!rok) %>% slice(1))[[1]]
-  akt_tr <- (select(aktywa_st, !!rok) %>% slice(1))[[1]]
-  new_col <- c(new_col, f(kap_wł, akt_tr))
-  zob_dł <- (select(pasywa_st, !!rok) %>% slice(12))[[1]]
-  kap_st <- as.integer(kap_wł) + as.integer(zob_dł)
-  new_col <- c(new_col, f(kap_st, akt_tr))
-  
-  zob_kr <- (select(pasywa_st, !!rok) %>% slice(14))[[1]]
-  akt_ob <- (select(aktywa_st, !!rok) %>% slice(15))[[1]]
-  new_col <- c(new_col, f(zob_kr, akt_tr))
-  akt_og <- (select(aktywa_st, !!rok) %>% slice(20))[[1]]
-  maj_tr <- (select(aktywa_st, !!rok) %>% slice(3))[[1]]
-  kap_ob_netto <- kap_st - as.integer(maj_tr)
-  new_col <- c(new_col, f(kap_ob_netto, akt_og))
-  new_col <- c(new_col, f(kap_ob_netto, akt_ob))
-  wskażniki <- wskażniki %>% add_column(!!rok := new_col)
+  return(wskaźniki)
 }
 
-wskażniki
+wskaźniki_bilans()
+wskaźniki <- wskaźniki_bilans()
+wskaźniki
 
 pasywa %>% select(!matches('_|/'))
 aktywa %>% select(!matches('_|/'))
@@ -306,11 +329,14 @@ aktywa %>% select(!matches('_|/'))
 # pasywa 
 # aktywa %>% select(contains('Wysz'))
 
-aktywa %>% select(contains('_st'))
+aktywa %>% select_at(vars(1:6, 11:14))
 
-aktywa_st %>% 
-  select(!matches('15|16|17|_sk')) %>% 
-  filter_at(vars(1), ~ str_starts(.x, 'V|I|A|B'))
+aktywa %>% 
+  #select(!matches('15|16')) %>%
+  select(!matches('_sk')) %>%
+  filter_at(vars(1), ~ str_detect(.x, '^[VIAB]'))
+
+
 
 
   

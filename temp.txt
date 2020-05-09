@@ -8,7 +8,26 @@ output:
     
     --
     
-    
+output: html_notebook
+
+--
+output:
+  html_document:
+    df_print: paged
+---
+
+colors coolors.co
+
+F0FBEF
+F0FCD9
+E7FDCF
+FDFEB1
+DCFDF6
+
+FOFCD9
+E&fdcf
+
+---
 don't use 'if' inside thoese mutate or functions called from muate - use ifelse()
 because things are vectorized. Not intuitive. If you print(), you get whole vercotr
 even when you only passed one element.

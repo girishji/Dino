@@ -1,6 +1,7 @@
 ---
 title: "Raport końcowy - Analiza spółki Dino"
 output: html_notebook
+
 ---
 
 
@@ -9,10 +10,8 @@ library('tidyverse')
 library('knitr')
 library('kableExtra')
 library('formattable')
-source(file = 'wskazniki.R')
+source(file = 'bilans.R')
 ```
-
-source(file = 'rpp.R')
 
 ### Spis treści
 
@@ -22,6 +21,8 @@ source(file = 'rpp.R')
 4. [Analiza przepływów środków pieniężnych Dino oraz porównanie ze spółką konkurencyjną Biedronka](#apsp)
 5. [Analiza wskaźnikowa](#awsk)
 6. [Podsumowanie Analizy spółki Dino](#pasd)
+
+   [Załącznik](#zał)
 
 ---
 
@@ -77,10 +78,24 @@ Od debiutu w GPW zauważalny jest widoczny trend wznoszący wskazujący apetyt i
 
 ![](imgs/notowania2.png) 
 
+        
+#### 1.4.1 Cena akcji w porównaniu z WIG
+<small>(na niebiesko: Dino, na żółto: WIG)</small>
+
+![](imgs/notowanie2.png)
+
+Na wykresie widzimy wyraźny wzrost cen akcji Dino Polska w porównaniu z WIG.
+Sytuacja związana z koronawirusem jedynie chwilowo wpłynęła na spadek
+wartości akcji, po czym, znów nastąpił wzrost.
+
+Supermarkety nie należą do rodzaju spółek cyklicznych, a wieć
+koniunktura gospodarcza nie ma wiekszego wpływu na 
+działalność.
+
 ### 1.5 Konkurencja
     
 
-```{r warning=FALSE, echo=FALSE}
+```{r warning=FALSE, echo=FALSE, include=FALSE}
 tribble(
   ~Sieć, ~`Liczba sklepów w Polsce`, ~Siedziba,
   "Biedronka", 3000, "Portugalia",
@@ -112,51 +127,123 @@ tribble(
 
 ### 2.1 Analiza pionowa bilansu
 
-
-```{r results='asis', warning=FALSE, message=FALSE}
+```{r results='asis', warning=FALSE, message=FALSE, echo=F}
 
 aktywa_st %>% 
-  select(!matches('15|16|17|_sk')) %>% 
+  select(!matches('15|16|_sk')) %>% 
   filter_at(vars(1), ~ str_detect(.x, '^[VIAB]')) %>% 
-  kable(col.names = c("Aktywa", '2018', '2019', '2018', '2019', '2018', '2019')) %>% 
+  mutate(`Wyszczegónienie` = 
+           cell_spec(`Wyszczegónienie`, 
+                     italic = ifelse(row_number() %in% c(2:6, 8:11), T, F))) %>%
+  kable(escape = F, col.names = c("Aktywa", '2017', '2018', '2019', '2017', 
+                                  '2018', '2019', '2017', '2018', '2019')) %>% 
   kable_styling(c("striped", "bordered")) %>% 
-  add_header_above(c(" " = 1, "na koniec roku (w. tys. zł.)" = 2, 
-                     "Struktura (w%)" = 2, "Str. wewn. (w%)" = 2)) %>% 
-  row_spec(c(1, 7, 12), bold = T)
+  add_header_above(c(" " = 1, "Stan na koniec roku (w.tys.zł.)" = 3, 
+                     "Struktura (w%)" = 3, "Str. wewn. (w%)" = 3)) %>% 
+  row_spec(c(1, 7, 12), bold = T) %>% 
+  column_spec(5:7, background = "#F0FBEF") %>% 
+  column_spec(8:10, background = "#F0FCD9")
+
 ```
 
 
-```{r results='asis', warning=FALSE, message=FALSE}
+```{r results='asis', warning=FALSE, message=FALSE, echo=F}
 
 pasywa_st %>% 
-  select(!matches('15|16|17|_sk')) %>% 
+  select(!matches('15|16|_sk')) %>% 
   filter_at(vars(1), ~ str_detect(.x, '^[VIABP]')) %>% 
-  kable(col.names = c("Pasywa", '2018', '2019', '2018', '2019', '2018', '2019')) %>% 
+  mutate(`Wyszczegónienie` = 
+           cell_spec(`Wyszczegónienie`, 
+                     italic = ifelse(row_number() %in% c(2:9, 11:14), T, F))) %>%
+  kable(escape = F, col.names = c("Pasywa", '2017', '2018', '2019', 
+                                  '2017', '2018', '2019', '2017', '2018', '2019')) %>% 
   kable_styling(c("striped", "bordered")) %>% 
-  add_header_above(c(" " = 1, "na koniec roku (w. tys. zł.)" = 2, 
-                     "Struktura (w%)" = 2, "Str. wewn. (w%)" = 2)) %>% 
-  row_spec(c(1, 8, 13), bold = T)
+  add_header_above(c(" " = 1, "na koniec roku (w. tys. zł.)" = 3, 
+                     "Struktura (w%)" = 3, "Str. wewn. (w%)" = 3)) %>% 
+  row_spec(c(1, 10, 15), bold = T) %>% 
+  column_spec(5:7, background = "#F0FBEF") %>% 
+  column_spec(8:10, background = "#F0FCD9")
 ```
 
 ### 2.2 Analiza pozioma bilansu
 
-
-
-
 ```{r results='asis', warning=FALSE, message=FALSE}
+col_names <- c("Aktywa", '2017', '2018', '2019', '2018', '2019',
+               '2017/18', '2018/19', '2017/18', '2018/19')
 aktywa %>% 
-  select_at(vars(1:6)) %>% 
+  select_at(vars(1, 4:6, 9:10, 13:14, 17:18)) %>%
+  filter_at(vars(1), ~ str_detect(.x, '^[VIAB]')) %>% 
   mutate(`Wyszczegónienie` = 
            cell_spec(`Wyszczegónienie`, 
-                     italic = ifelse(row_number() %in% c(2,3,5,6), T, F))) %>%
-  kable(booktabs = T, escape = F) %>%
-  add_indent(c(c(2,3,5,6))) %>% 
-  add_indent(c(9,10))
+                     italic = ifelse(row_number() %in% c(2:6, 8:11), T, F))) %>%
+  kable(escape = F, col.names = col_names) %>% 
+  kable_styling(c("striped", "bordered")) %>% 
+  add_header_above(c(" " = 1, "Ceny bieżące" = 3, "Ceny skorygowane" = 2, 
+                     "Ceny bieżące" = 2, "Ceny skorygowane" = 2)) %>% 
+  add_header_above(c(" " = 1, "Stan na koniec roku (w. tys. zł.)" = 5, 
+                     "Dynamika (w%)" = 4)) %>% 
+  row_spec(c(1, 7, 12), bold = T) %>% 
+  column_spec(5:6, background = "#F0FBEF") %>% 
+  column_spec(7:8, background = "#F0FCD9") %>% 
+  column_spec(9:10, background = "#E7FDCF")
+```
+
+```{r results='asis', warning=FALSE, message=FALSE}
+col_names <- c("Pasywa", '2017', '2018', '2019', '2018', '2019',
+               '2017/18', '2018/19', '2017/18', '2018/19')
+pasywa %>% 
+  select_at(vars(1, 4:6, 9:10, 13:14, 17:18)) %>%
+  filter_at(vars(1), ~ str_detect(.x, '^[VIABP]')) %>% 
+  mutate(`Wyszczegónienie` = 
+           cell_spec(`Wyszczegónienie`, 
+                     italic = ifelse(row_number() %in% c(2:9, 11:14), T, F))) %>%
+  kable(escape = F, col.names = col_names) %>% 
+  kable_styling(c("striped", "bordered")) %>% 
+  add_header_above(c(" " = 1, "Ceny bieżące" = 3, "Ceny skorygowane" = 2, 
+                     "Ceny bieżące" = 2, "Ceny skorygowane" = 2)) %>% 
+  add_header_above(c(" " = 1, "Stan na koniec roku (w. tys. zł.)" = 5, 
+                     "Dynamika (w%)" = 4)) %>% 
+  row_spec(c(1, 10, 15), bold = T) %>% 
+  column_spec(5:6, background = "#F0FBEF") %>% 
+  column_spec(7:8, background = "#F0FCD9") %>% 
+  column_spec(9:10, background = "#E7FDCF")
 
 ```
 
-
 ### 2.2 Analiza wskażnikowa
+
+
+
+## Załącznik {#zał}
+
+### Bilans
+
+```{r results='asis', warning=FALSE, message=FALSE}
+#bold <- 
+bold_r <- function(tabl) {
+  return(na.omit(tabl %>% 
+                   select(1) %>% 
+                   mutate_at(vars(1), ~ ifelse(str_detect(.x, '^[ABP]'), row_number(), NA)) %>% 
+                   unlist(., use.names=FALSE)))
+}
+
+italic_r <- function(tabl) {
+  return(na.omit(aktywa %>% 
+                   select(1) %>% 
+                   mutate_at(vars(1), ~ ifelse(str_detect(.x, '^[VI]'), row_number(), NA)) %>% 
+                   unlist(., use.names=FALSE)))
+}
+
+aktywa %>% 
+  select_at(vars(1:6)) %>% 
+  kable(booktabs = T, escape = F) %>%
+  kable_styling(c("striped", "bordered")) %>% 
+  row_spec(bold_r(aktywa), bold = T) %>% 
+  row_spec(italic_r(aktywa), italic = T) %>% 
+  add_indent(setdiff(1:count(aktywa)[[1]], c(bold_r(aktywa), italic_r(aktywa))))
+  
+```
+
 
 
 
@@ -165,12 +252,6 @@ aktywa %>%
 This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
 
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
-
-```{r}
-plot(cars)
-
-x <- 23
-```
 
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
 

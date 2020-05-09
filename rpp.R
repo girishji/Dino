@@ -135,115 +135,116 @@ for (rok in c('2017', '2018', '2019')) {
 
 ## Wsaźniki
 
-wskaźniki = tribble(
-  ~rok,
-  '2015',
-  '2016',
-  '2017',
-  '2018',
-  '2019',
-)
-
-# 1. Wskaźniki struktury przepływów pieniężnych
-
-f <- function(rok, tabl) {
-  nr = (select(tabl, !!rok) %>% slice(2))[[1]]
-  dr = (select(tabl, !!rok) %>% slice(14))[[1]]
-  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+wskaźniki_rpp <- function() {
+  
+  wskaźniki = tribble(
+    ~rok,
+    '2015',
+    '2016',
+    '2017',
+    '2018',
+    '2019',
+  )
+  
+  # 1. Wskaźniki struktury przepływów pieniężnych
+  
+  f <- function(rok, tabl) {
+    nr = (select(tabl, !!rok) %>% slice(2))[[1]]
+    dr = (select(tabl, !!rok) %>% slice(14))[[1]]
+    return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+  }
+  wskaźniki <- wskaźniki %>% 
+    add_column(`1.1` = (lata %>% map_dbl(f, rpp)))
+  
+  f <- function(rok, tabl) {
+    nr = (select(tabl, !!rok) %>% slice(4))[[1]]
+    dr = (select(tabl, !!rok) %>% slice(14))[[1]]
+    return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+  }
+  wskaźniki <- wskaźniki %>% 
+    add_column(`1.2` = (lata %>% map_dbl(f, rpp)))
+  
+  
+  # 2. Wskaźniki wystarczalności środków pieniężnych 
+  
+  f <- function(rok, tabl) {
+    nr = (select(tabl, !!rok) %>% slice(14))[[1]]
+    dr = as.numeric((select(tabl, !!rok) %>% slice(23))[[1]]) +
+      as.numeric((select(tabl, !!rok) %>% slice(35))[[1]])
+    return(round(as.numeric(nr) / as.numeric(dr) * -100, digits = 1))
+  }
+  wskaźniki <- wskaźniki %>% 
+    add_column(`2.1` = (lata %>% map_dbl(f, rpp)))
+  
+  f <- function(rok, tabl) {
+    nr = (select(tabl, !!rok) %>% slice(14))[[1]]
+    dr = as.numeric((select(tabl, !!rok) %>% slice(39))[[1]]) +
+      as.numeric((select(tabl, !!rok) %>% slice(42))[[1]]) +
+      as.numeric((select(tabl, !!rok) %>% slice(43))[[1]])
+    return(round(as.numeric(nr) / as.numeric(dr) * -100, digits = 1))
+  }
+  wskaźniki <- wskaźniki %>% 
+    add_column(`2.2` = (lata %>% map_dbl(f, rpp)))
+  
+  f <- function(rok, tabl) {
+    nr = (select(tabl, !!rok) %>% slice(14))[[1]]
+    dr = as.numeric((select(tabl, !!rok) %>% slice(23))[[1]])
+    return(round(as.numeric(nr) / as.numeric(dr) * -100, digits = 1))
+  }
+  wskaźniki <- wskaźniki %>% 
+    add_column(`2.3` = (lata %>% map_dbl(f, rpp)))
+  
+  # dywidend = 0
+  wskaźniki <- wskaźniki %>% 
+    add_column(`2.4` = '-')
+  
+  f <- function(rok, tabl1, tabl2) {
+    nr = (select(tabl1, !!rok) %>% slice(14))[[1]]
+    dr = as.numeric((select(tabl2, !!rok) %>% slice(23))[[1]])
+    return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+  }
+  wskaźniki <- wskaźniki %>% 
+    add_column(`2.5` = (lata %>% map_dbl(f, rpp, pasywa)))
+  
+  # 3. Wskaźniki wydajności pieniężnej
+  rpp %>% select(!contains('/'))
+  
+  f <- function(rok, tabl1, tabl2) {
+    nr = (select(tabl1, !!rok) %>% slice(14))[[1]]
+    dr = as.numeric((select(tabl2, !!rok) %>% slice(1))[[1]])
+    return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+  }
+  wskaźniki <- wskaźniki %>% 
+    add_column(`3.1` = (lata %>% map_dbl(f, rpp, rzis)))
+  
+  f <- function(rok, tabl1, tabl2) {
+    nr = (select(tabl1, !!rok) %>% slice(14))[[1]]
+    dr = as.numeric((select(tabl2, !!rok) %>% slice(15))[[1]])
+    return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+  }
+  wskaźniki <- wskaźniki %>% 
+    add_column(`3.2` = (lata %>% map_dbl(f, rpp, rzis)))
+  
+  f <- function(rok, tabl1, tabl2) {
+    nr = (select(tabl1, !!rok) %>% slice(14))[[1]]
+    dr = as.numeric((select(tabl2, !!rok) %>% slice(n()))[[1]])
+    return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+  }
+  wskaźniki <- wskaźniki %>% 
+    add_column(`3.3` = (lata %>% map_dbl(f, rpp, aktywa)))
+  
+  f <- function(rok, tabl1, tabl2) {
+    nr = (select(tabl1, !!rok) %>% slice(14))[[1]]
+    dr = as.numeric((select(tabl2, !!rok) %>% slice(1))[[1]])
+    return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+  }
+  wskaźniki <- wskaźniki %>% 
+    add_column(`3.4` = (lata %>% map_dbl(f, rpp, pasywa)))
+  
+  return(wskaźniki)
 }
-wskaźniki <- wskaźniki %>% 
-  add_column(`1.1` = (lata %>% map_dbl(f, rpp)))
 
-f <- function(rok, tabl) {
-  nr = (select(tabl, !!rok) %>% slice(4))[[1]]
-  dr = (select(tabl, !!rok) %>% slice(14))[[1]]
-  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
-}
-wskaźniki <- wskaźniki %>% 
-  add_column(`1.2` = (lata %>% map_dbl(f, rpp)))
-
-#wskaźniki
-
-# 2. Wskaźniki wystarczalności środków pieniężnych 
-
-rpp %>% select(!contains('/'))
-
-f <- function(rok, tabl) {
-  nr = (select(tabl, !!rok) %>% slice(14))[[1]]
-  dr = as.numeric((select(tabl, !!rok) %>% slice(23))[[1]]) +
-    as.numeric((select(tabl, !!rok) %>% slice(35))[[1]])
-  return(round(as.numeric(nr) / as.numeric(dr) * -100, digits = 1))
-}
-wskaźniki <- wskaźniki %>% 
-  add_column(`2.1` = (lata %>% map_dbl(f, rpp)))
-
-f <- function(rok, tabl) {
-  nr = (select(tabl, !!rok) %>% slice(14))[[1]]
-  dr = as.numeric((select(tabl, !!rok) %>% slice(39))[[1]]) +
-    as.numeric((select(tabl, !!rok) %>% slice(42))[[1]]) +
-    as.numeric((select(tabl, !!rok) %>% slice(43))[[1]])
-  return(round(as.numeric(nr) / as.numeric(dr) * -100, digits = 1))
-}
-wskaźniki <- wskaźniki %>% 
-  add_column(`2.2` = (lata %>% map_dbl(f, rpp)))
-
-f <- function(rok, tabl) {
-  nr = (select(tabl, !!rok) %>% slice(14))[[1]]
-  dr = as.numeric((select(tabl, !!rok) %>% slice(23))[[1]])
-  return(round(as.numeric(nr) / as.numeric(dr) * -100, digits = 1))
-}
-wskaźniki <- wskaźniki %>% 
-  add_column(`2.3` = (lata %>% map_dbl(f, rpp)))
-
-# dywidend = 0
-wskaźniki <- wskaźniki %>% 
-  add_column(`2.4` = '-')
-
-f <- function(rok, tabl1, tabl2) {
-  nr = (select(tabl1, !!rok) %>% slice(14))[[1]]
-  dr = as.numeric((select(tabl2, !!rok) %>% slice(14))[[1]])
-  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
-}
-wskaźniki <- wskaźniki %>% 
-  add_column(`2.5` = (lata %>% map_dbl(f, rpp, pasywa_st)))
-
-#wskaźniki
-
-# 3. Wskaźniki wydajności pieniężnej
-rpp %>% select(!contains('/'))
-
-f <- function(rok, tabl1, tabl2) {
-  nr = (select(tabl1, !!rok) %>% slice(14))[[1]]
-  dr = as.numeric((select(tabl2, !!rok) %>% slice(1))[[1]])
-  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
-}
-wskaźniki <- wskaźniki %>% 
-  add_column(`3.1` = (lata %>% map_dbl(f, rpp, rzis)))
-
-f <- function(rok, tabl1, tabl2) {
-  nr = (select(tabl1, !!rok) %>% slice(14))[[1]]
-  dr = as.numeric((select(tabl2, !!rok) %>% slice(15))[[1]])
-  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
-}
-wskaźniki <- wskaźniki %>% 
-  add_column(`3.2` = (lata %>% map_dbl(f, rpp, rzis)))
-
-f <- function(rok, tabl1, tabl2) {
-  nr = (select(tabl1, !!rok) %>% slice(14))[[1]]
-  dr = as.numeric((select(tabl2, !!rok) %>% slice(n()))[[1]])
-  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
-}
-wskaźniki <- wskaźniki %>% 
-  add_column(`3.3` = (lata %>% map_dbl(f, rpp, aktywa_st)))
-
-f <- function(rok, tabl1, tabl2) {
-  nr = (select(tabl1, !!rok) %>% slice(14))[[1]]
-  dr = as.numeric((select(tabl2, !!rok) %>% slice(1))[[1]])
-  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
-}
-wskaźniki <- wskaźniki %>% 
-  add_column(`3.4` = (lata %>% map_dbl(f, rpp, pasywa_st)))
-
+wskaźniki <- wskaźniki_rpp()
 wskaźniki
 
 #rpp_str

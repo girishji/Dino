@@ -130,54 +130,61 @@ rzis_st
 rzis %>% select(!contains('_'))
 
 ## Wsaźniki
-wskaźniki = tribble(
-  ~rok,
-  '2015',
-  '2016',
-  '2017',
-  '2018',
-  '2019',
-)
 
-f <- function(rok, tabl) {
-  nr = (select(tabl, !!rok) %>% slice(25))[[1]]
-  dr = (select(tabl, !!rok) %>% slice(15))[[1]]
-  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+wskaźniki_rzis <- function() {
+  
+  wskaźniki = tribble(
+    ~rok,
+    '2015',
+    '2016',
+    '2017',
+    '2018',
+    '2019',
+  )
+  
+  f <- function(rok, tabl) {
+    nr = (select(tabl, !!rok) %>% slice(25))[[1]]
+    dr = (select(tabl, !!rok) %>% slice(15))[[1]]
+    return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+  }
+  wskaźniki <- wskaźniki %>% 
+    add_column(`1` = (lata %>% map_dbl(f, rzis)))
+  
+  f <- function(rok, tabl) {
+    nr = (select(tabl, !!rok) %>% slice(39))[[1]]
+    dr = (select(tabl, !!rok) %>% slice(25))[[1]]
+    return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+  }
+  wskaźniki <- wskaźniki %>% 
+    add_column(`2` = (lata %>% map_dbl(f, rzis)))
+  
+  f <- function(rok, tabl) {
+    nr = (select(tabl, !!rok) %>% slice(39))[[1]]
+    dr = (select(tabl, !!rok) %>% slice(15))[[1]]
+    return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+  }
+  wskaźniki <- wskaźniki %>% 
+    add_column(`3` = (lata %>% map_dbl(f, rzis)))
+  
+  f <- function(rok, tabl) {
+    nr = (select(tabl, !!rok) %>% slice(42))[[1]]
+    dr = (select(tabl, !!rok) %>% slice(15))[[1]]
+    return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+  }
+  wskaźniki <- wskaźniki %>% 
+    add_column(`4` = (lata %>% map_dbl(f, rzis)))
+  
+  f <- function(rok, tabl) {
+    nr = (select(tabl, !!rok) %>% slice(40))[[1]]
+    dr = (select(tabl, !!rok) %>% slice(39))[[1]]
+    return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
+  }
+  wskaźniki <- wskaźniki %>% 
+    add_column(`5` = (lata %>% map_dbl(f, rzis)))
+  
+  return(wskaźniki)
 }
-wskaźniki <- wskaźniki %>% 
-  add_column(`1` = (lata %>% map_dbl(f, rzis)))
 
-f <- function(rok, tabl) {
-  nr = (select(tabl, !!rok) %>% slice(39))[[1]]
-  dr = (select(tabl, !!rok) %>% slice(25))[[1]]
-  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
-}
-wskaźniki <- wskaźniki %>% 
-  add_column(`2` = (lata %>% map_dbl(f, rzis)))
-
-f <- function(rok, tabl) {
-  nr = (select(tabl, !!rok) %>% slice(39))[[1]]
-  dr = (select(tabl, !!rok) %>% slice(15))[[1]]
-  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
-}
-wskaźniki <- wskaźniki %>% 
-  add_column(`3` = (lata %>% map_dbl(f, rzis)))
-
-f <- function(rok, tabl) {
-  nr = (select(tabl, !!rok) %>% slice(42))[[1]]
-  dr = (select(tabl, !!rok) %>% slice(15))[[1]]
-  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
-}
-wskaźniki <- wskaźniki %>% 
-  add_column(`4` = (lata %>% map_dbl(f, rzis)))
-
-f <- function(rok, tabl) {
-  nr = (select(tabl, !!rok) %>% slice(40))[[1]]
-  dr = (select(tabl, !!rok) %>% slice(39))[[1]]
-  return(round(as.numeric(nr) / as.numeric(dr) * 100, digits = 1))
-}
-wskaźniki <- wskaźniki %>% 
-  add_column(`5` = (lata %>% map_dbl(f, rzis)))
-
+wskaźniki <- wskaźniki_rzis()
 wskaźniki
 
