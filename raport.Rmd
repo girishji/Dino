@@ -767,13 +767,13 @@ wskaźniki %>%
 wsk2 %>% 
   kable(booktabs = T, 
         col.names = c('Wyszczególnienie', '2015', '2016',
-                      '2017', '2018', '2019', '2018', '2019'),
-        align=c("l",rep("r",7))) 
-#%>%
-  #kable_styling(full_width = F,
-  #              bootstrap_options = c("striped", "hover", "condensed")) %>%
-  #column_spec(7:8, background = "#F0FBEF") %>% 
-  #add_header_above(c(" " = 1, "Grupa Dino" = 5, "Jeronimo Martins" = 4))
+                      '2017', '2018', '2019', '2018', '2019')) %>% 
+        #align=c("l",rep("r",7))) %>%
+  kable_styling(latex_options = c("striped"),
+                 full_width = F,
+                 bootstrap_options = c("striped", "hover", "condensed")) %>%
+  column_spec(7:8, background = "#F0FBEF") %>% 
+  add_header_above(c(" " = 1, "Grupa Dino" = 5, "Jeronimo Martins" = 2))
 
 ```
 
