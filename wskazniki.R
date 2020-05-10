@@ -12,6 +12,11 @@ aktywa %>% select(c(1:3)) %>% mutate_at(1, ~str_replace(.x, '^[Ia-z1-9V-]', str_
 
 rzis %>% select(c(1:3)) %>% mutate_at(1, ~str_replace(.x, '^[Ia-z1-9V-]', str_c('  ', .x)))
 
+gv <- function(rok, tabl, row_n) {
+  n <- (select(tabl, !!rok) %>% slice(row_n))[[1]]
+  return(ifelse(is.na(as.numeric(n)), 0, as.numeric(n)))
+}
+
 wskaźniki_fin <- function() {
   
   wskaźniki = tribble(
@@ -22,11 +27,6 @@ wskaźniki_fin <- function() {
     '2018',
     '2019',
   )
-  
-  gv <- function(rok, tabl, row_n) {
-    n <- (select(tabl, !!rok) %>% slice(row_n))[[1]]
-    return(ifelse(is.na(as.numeric(n)), 0, as.numeric(n)))
-  }
   
   ratio <- function(nr, dr) {
     return(round(nr / dr, digits = 2))
@@ -181,6 +181,107 @@ bv
 # 0 (row 37 of RPP)
 
 
+## Jeronimo Martins
+
+
+jmf <- 'data/First9MonthsJeronimoMartinsReport2019-converted.xlsx'
+jrzis <- read_excel(jmf, sheet = 12)
+jbilans <- read_excel(jmf, sheet = 13)
+jrpp <- read_excel(jmf, sheet = 15)
+
+jbilans.g <- function(clm) { 
+  res <- c((jbilans %>% slice(clm) %>% select(3))[[1]],
+           (jbilans %>% slice(clm) %>% select(4))[[1]])
+  res <- res %>% 
+    map(~ ifelse(is.na(as.numeric(.x)), 0, as.numeric(.x))) %>% 
+    unlist(use.names = F)
+  return(res)
+}
+
+jrzis.g <- function(clm) { 
+  res <- c((jrzis %>% slice(clm) %>% select(3))[[1]],
+           (jrzis %>% slice(clm) %>% select(4))[[1]])
+  res <- res %>% 
+    map(~ ifelse(is.na(as.numeric(.x)), 0, as.numeric(.x))) %>% 
+    unlist(use.names = F)
+  return(res)
+}
+
+
+
+jm <- tibble('rok' = c('2019', '2018'))
+
+#1.1
+ak.ob <- jbilans.g(13) 
+zo.bz <- jbilans.g(44) 
+jm <- jm %>% add_column('1.1' = ak.ob / zo.bz)
+
+pmo <- jbilans.g(16) + jbilans.g(17) + jbilans.g(18) + jbilans.g(19) 
+jm <- jm %>% add_column('1.2' = pmo / zo.bz)
+
+## 2
+zo.og <- jbilans.g(44) + jbilans.g(38)
+ak.og <- jbilans.g(21)
+jm <- jm %>% add_column('2.1' = zo.og / ak.og)
+
+zo.dł <- jbilans.g(38) 
+jm <- jm %>% add_column('2.2' = zo.dł / ak.og)
+
+amort <- c(528383, 269431)
+zy.nt <- jrzis.g(8)
+ka.wł <- jbilans.g(30)
+ka.ob <- ak.og - ka.wł
+za.ef <- ka.ob - pmo
+jm <- jm %>% add_column('2.3' = (amort + zy.nt) / za.ef)
+
+#3
+
+ko.wł.sp <- jrzis.g(7) + jrzis.g(9) + jrzis.g(10) + jrzis.g(11)
+pr.n.sp <- jrzis.g(6)
+jm <- jm %>% add_column('3.1' =  -1 * ko.wł.sp / pr.n.sp)
+
+jm <- jm %>% add_column('3.2' =  pr.n.sp / c(mean(ak.og), -1))
+  
+nal <- jbilans.g(17) + jbilans.g(16)
+jm <- jm %>% add_column('3.3' =  c(mean(nal), -1) * 365 / pr.n.sp)
+
+jm <- jm %>% add_column('3.4' =  c(mean(zo.og), -1) * 365 / pr.n.sp)
+
+zap <- jbilans.g(14)
+jm <- jm %>% add_column('3.5' =  c(mean(zap), -1) * 365 / pr.n.sp)
+
+# rentowności
+
+zy.nt <- jrzis.g(21) 
+jm <- jm %>% add_column('4.1' =  -1 * zy.nt / ko.wł.sp)
+
+jm <- jm %>% add_column('4.2' =  zy.nt / pr.n.sp)
+
+#ROA
+jm <- jm %>% add_column('5.1' =  100 * zy.nt / c(mean(ak.og), -1))
+
+#ROE
+jm <- jm %>% add_column('5.2' =  100 * zy.nt / c(mean(ka.wł), -1))
+
+#ROI
+jm <- jm %>% add_column('5.3' =   100 * (jrzis.g(12) + jrzis.g(13))/ c(mean(ak.og), -1))
+
+jm <- jm %>% 
+  mutate_at(vars(-1), ~ifelse(.x < 0, Inf, .x)) %>% 
+  mutate_at(vars(-1), ~ifelse(is.infinite(.x), '-', round(.x, digits = 2)))
+
+
+#jm %>% select(8:16)
+jm <- jm %>% arrange(rok)
+wskaźniki <- bind_rows(wskaźniki, jm)
+
+wskaźniki %>% select(8:16)
+  
+
+
+
+
+##############################################################
 ## Du Pont
 
 dp <- tribble(
@@ -222,7 +323,7 @@ dp <- dp %>%
          `Rentowność kapitału własnego` =
            `Rentowność aktywów` / (1 - `Struktura kapitału`))
 
-dp2 <- tibble(`W tys.` = names(dp)[-1])
+dp2 <- tibble(`W tys. zł.` = names(dp)[-1])
 for (r in dp$rok) {
   dp2 <- dp2 %>% 
     add_column(!!r := dp %>% 
@@ -235,12 +336,42 @@ dp2 <- dp2 %>%
 
 names(aktywa_st)
 
-dp
-dp2
+dp2 <- dp2 %>% 
+  mutate_at(vars(2:6), ~ ifelse(row_number() %in% c(6, 8, 10), 
+                                      str_c(.x, "%"), as.character(.x))) 
   
 
+wsk2 <- tibble(
+  'Wyszczególnienie' = c(
+    'Wskaźnik bieżącej płynności',
+    'Wskaźnik szybkiej płynności',
+    'Wskaźnik podwyższonej płynności',
+    'Wskaźnik poziomu zadłużenia',
+    'Wskaźnik zadłużenia kapitału własnego',
+    'Wskaźnik zadłużenia długoterminowego',
+    'Wskaźnik operacyjności (poziomu kosztów)',
+    'Wskaźnik rotacji aktywów (produktywność aktywów)',
+    'Wskaźnik cyklu należności',
+    'Wskaźnik cyklu zobowiązań',
+    'Wskaźnik cyklu zapasów',
+    'Wskaźnik rentowności sprzedaży netto',
+    'Zwrot z aktywów (ROA)',
+    'Zwrot z kapitału własnego (ROE)',
+    'Zwrot z inwestycji (ROI)')
+)
               
+wsk2 <- wsk2 %>% add_column('2015' = (wskaźniki %>% slice(1) %>% unlist(use.names = F))[-1])
+wsk2 <- wsk2 %>% add_column('2016' = (wskaźniki %>% slice(2) %>% unlist(use.names = F))[-1])
+wsk2 <- wsk2 %>% add_column('2017' = (wskaźniki %>% slice(3) %>% unlist(use.names = F))[-1])
+wsk2 <- wsk2 %>% add_column('2018' = (wskaźniki %>% slice(4) %>% unlist(use.names = F))[-1])
+wsk2 <- wsk2 %>% add_column('2019' = (wskaźniki %>% slice(5) %>% unlist(use.names = F))[-1])
+wsk2 <- wsk2 %>% add_column('2018_j' = (wskaźniki %>% slice(6) %>% unlist(use.names = F))[-1])
+wsk2 <- wsk2 %>% add_column('2019_j' = (wskaźniki %>% slice(7) %>% unlist(use.names = F))[-1])
 
+# add %
+wsk2 <- wsk2 %>% 
+  mutate_at(vars(3:6, 8), ~ ifelse(row_number() > 12, str_c(.x, '%'), as.character(.x)))
+wsk2
 
 
 

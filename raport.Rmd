@@ -1,10 +1,10 @@
 ---
 title: "Raport końcowy - Analiza spółki Dino"
 output:
-  html_document:
+  pdf_document: 
     toc: true
     toc_depth: 3
-  pdf_document: 
+  html_document:
     toc: true
     toc_depth: 3
 classoption: landscape
@@ -16,17 +16,26 @@ library('knitr')
 library('kableExtra')
 #source(file = 'bilans.R')
 #source(file = 'rzis.R')
-source(file = 'rpp.R')
+source(file = 'wskazniki.R')
 
 #knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
 knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE, results='asis')
+```
 
+```{r setup, include=FALSE}
 pagebreak <- function() {
   if(knitr::is_latex_output())
     return("\\newpage")
   else {
     return('<hr style="height:1px;border:none;color:#333;background-color:#333;" /> <div style="page-break-before: always;" />')
   }
+}
+
+select_rows <- function(tabl, pattern_r) {
+    return(na.omit(tabl %>% 
+                   select(1) %>% 
+                   mutate_at(vars(1), ~ ifelse(str_detect(.x, pattern_r), row_number(), NA)) %>% 
+                   unlist(., use.names=FALSE)))
 }
 ```
 
@@ -99,7 +108,27 @@ koniunktura gospodarcza nie ma wiekszego wpływu na
 działalność.
 
 ### 1.5 Konkurencja
-    
+   
+   stokrotka franczyza
+   privatny
+   
+   polomarket privatny
+   Sporządzony zgodnie z MSR:	Nie
+   https://ekrs.ms.gov.pl/
+   
+Jerónimo Martins in Portugal
+Jerónimo Martins in Poland
+Jerónimo Martins in Colombia
+
+Food Distribution
+Food distribution is our core business and represents over 95% of our consolidated sales. In Portugal, we are leaders in the Supermarket segment through the Pingo Doce chain and in the Cash & Carry segment with Recheio. In Poland, Biedronka is the biggest Food Distribution chain in the country, over 3,000 stores. 
+
+Our presence in Colombia is more recent, as we entered this market in 2013
+
+Food Distribution
+Specialised Retail
+Agribusiness
+
 
 ```{r results='asis', warning=FALSE, echo=FALSE}
 tribble(
@@ -182,7 +211,8 @@ aktywa %>%
   mutate(`Wyszczegónienie` = 
            cell_spec(`Wyszczegónienie`, 
                      italic = ifelse(row_number() %in% c(2:6, 8:11), T, F))) %>%
-  kable(escape = F, col.names = col_names, booktabs = T) %>% 
+  kable(escape = F, col.names = col_names, booktabs = T,
+        align=c("l",rep("r",9))) %>% 
   kable_styling(latex_options = c("striped", "scale_down"),
                 bootstrap_options = c("striped", "hover", "condensed")) %>% 
   add_header_above(c(" " = 1, "Ceny bieżące" = 3, "Ceny skorygowane" = 2, 
@@ -203,7 +233,8 @@ pasywa %>%
   mutate(`Wyszczegónienie` = 
            cell_spec(`Wyszczegónienie`, 
                      italic = ifelse(row_number() %in% c(2:9, 11:14), T, F))) %>%
-  kable(escape = F, col.names = col_names, booktabs = T) %>% 
+  kable(escape = F, col.names = col_names, booktabs = T,
+        align=c("l",rep("r",9))) %>% 
   kable_styling(latex_options = c("striped", "scale_down"),
                 bootstrap_options = c("striped", "hover", "condensed")) %>% 
   add_header_above(c(" " = 1, "Ceny bieżące" = 3, "Ceny skorygowane" = 2, 
@@ -287,10 +318,14 @@ kon <- kon %>%
                                             g(kon, 5, '2019') * 100, 
                                           digits=1), as.character(.x)))
 
+```
+
+```{r}
 col_names <- c("", '2018', '2019', '2018', '2019')
 
 kon %>% 
-  kable(escape = F, col.names = col_names, booktabs = T) %>% 
+  kable(escape = F, col.names = col_names, booktabs = T,
+        align=c("l",rep("r",4))) %>% 
   kable_styling(latex_options = c("striped", "scale_down"),
                 bootstrap_options = c("striped", "hover", "condensed"),
                 full_width = F) %>% 
@@ -385,7 +420,7 @@ wskaźniki %>%
 
 `r pagebreak()`
 
-## 3. Wstępna analiza rachunku zysków i strat
+## 3 Wstępna analiza rachunku zysków i strat
 
 ### 3.1 Analiza pionowa rachunku zysków i strat
 
@@ -416,7 +451,8 @@ col_names <- c("Elementy rachunku zysków i strat",
                '2017/18', '2018/19', '2017/18', '2018/19')
 mrzis %>% 
   select_at(vars(1:6, 10:13)) %>% 
-  kable(escape = F, col.names = col_names, booktabs = T) %>% 
+  kable(escape = F, col.names = col_names, booktabs = T,
+        align=c("l",rep("r",9))) %>% 
   kable_styling(latex_options = c("striped", "scale_down"),
                 bootstrap_options = c("striped", "hover", "condensed")) %>% 
   add_header_above(c(" " = 1, "Ceny bieżące" = 3, "Ceny skorygowane" = 2, 
@@ -497,10 +533,61 @@ wskaźniki %>%
   row_spec(c(1), color = "#8B0000") 
 ```
 
-## 4. Analiza przepływów środków pieniężnych
+## 4 Analiza rachunku przepływów pieniężnych
+
+### 4.1 Syntetyczna analiza sald
+
+```{r}
+rpp %>% 
+  select(!contains('/')) %>% 
+  filter_at(vars(1), ~ str_starts(.x, '[IA-Z]')) %>% 
+  kable(booktabs = T, escape = F,
+        align=c("l",rep("r",5))) %>%
+  kable_styling(latex_options = c("striped"),
+                full_width = F,
+                bootstrap_options = c("striped", "hover", "condensed")) %>%
+  row_spec(c(4, 8, 12, 16), color = "#8B0000") %>% 
+  row_spec(c(1, 5, 9, 13:16), bold = T) %>% 
+  add_header_above(c(" " = 1, "w tys. zl." = 5))
+```
+
+### 4.2 Analiza pionowa rachunku przepływów pieniężnych
+
+```{r}
+rpp_str %>% 
+  kable(booktabs = T, escape = F, col.names = gsub("_st", "", names(rpp_str)),
+        align=c("l",rep("r",5))) %>%
+  kable_styling(latex_options = c("striped"),
+                full_width = F,
+                bootstrap_options = c("striped", "hover", "condensed")) %>%
+  column_spec(5:7, background = "#F0FBEF") %>% 
+  add_header_above(c(" " = 1, "Wartość (w tys. zł.)" = 3, "Struktura (w %)" = 3))
+
+```
+
+### 4.3 Analiza pozioma rachunku przepływów pieniężnych
+
+```{r}
+rpp %>% 
+  #slice(1:14) %>% 
+  filter_at(vars(1), ~ !str_starts(.x, '[-abc]')) %>%
+  mutate_all(~ str_remove(.x, '^-$')) %>% 
+  mutate_at(vars(1), ~ str_trunc(.x, 74, "right")) %>% 
+  kable(booktabs = T, escape = F,
+        align=c("l",rep("r",9))) %>%
+  kable_styling(latex_options = c("striped", "scale_down"),
+                full_width = F,
+                bootstrap_options = c("striped", "hover", "condensed")) %>%
+  row_spec(c(1:3, 14:15, 20, 24:26, 31, 41:45), bold = T) %>% 
+  row_spec(c(1, 25, 15, 45), color = "#8B0000") %>% 
+  column_spec(7:10, background = "#F0FBEF") %>% 
+  add_header_above(c(" " = 1, "Wartość (w tys. zl.)" = 5, "Dynamika (w %)" = 4))
+
+```
 
 
-### 4.3 Analiza wskażnikowa
+### 4.4 Analiza wskażnikowa
+
 
 ```{r}
 wskaźniki <- wskaźniki_rpp()
@@ -509,7 +596,7 @@ wskaźniki <- wskaźniki_rpp()
 
 $$\small \frac{Zysk\ netto}{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej} * 100$$
    
-```{r echo = FALSE, results = 'asis', warning = FALSE}
+```{r }
 
 wskaźniki %>% 
   select(1:2) %>% 
@@ -519,9 +606,10 @@ wskaźniki %>%
   row_spec(c(1), color = "#8B0000") 
 ```
     
+       
 $$\small \frac{Amortyzacja}{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej} * 100$$
       
-```{r echo = FALSE, results = 'asis', warning = FALSE}
+```{r }
 wskaźniki %>% 
   select(c(1, 3)) %>% 
   pivot_wider(names_from = rok, values_from = `1.2`) %>% 
@@ -533,12 +621,12 @@ wskaźniki %>%
 
 #### 4.3.2 Wskaźniki wystarczalności środków pieniężnych
 
-**Wskaźnik ogólnej wystarczalności środków pieniężnych**
+##### 4.3.2.1 Wskaźnik ogólnej wystarczalności środków pieniężnych
        
 $$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Wydatki\ ogółem} * 100$$
    
     
-```{r echo = FALSE, results = 'asis', warning = FALSE}
+```{r }
 wskaźniki %>% 
   select(c(1, 4)) %>% 
   pivot_wider(names_from = rok, values_from = `2.1`) %>% 
@@ -548,11 +636,11 @@ wskaźniki %>%
 
 ```
   
-**Wskaźnik pokrycia zadłużenia**
+##### 4.3.2.2 Wskaźnik pokrycia zadłużenia
     
 $$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Spłata\ zadłużenia} * 100$$
      
-```{r echo = FALSE, results = 'asis', warning = FALSE}
+```{r }
 wskaźniki %>% 
   select(c(1, 5)) %>% 
   pivot_wider(names_from = rok, values_from = `2.2`) %>% 
@@ -562,13 +650,11 @@ wskaźniki %>%
 
 ```
 
----
-
-**Wskaźnik pokrycia wydatków inwestycyjnych**
+##### 4.3.2.3 Wskaźnik pokrycia wydatków inwestycyjnych
     
 $$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Wydatki\ inwestycyjne} * 100$$
        
-```{r echo = FALSE, results = 'asis', warning = FALSE}
+```{r}
 wskaźniki %>% 
   select(c(1, 6)) %>% 
   pivot_wider(names_from = rok, values_from = `2.3`) %>% 
@@ -578,28 +664,28 @@ wskaźniki %>%
 
 ```
       
-
-**Wskaźnik pokrycia wypłaty dywidend**
+      ##### 4.3.2.4 Wskaźnik pokrycia wypłaty dywidend
        
 $$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Wypłaty\ dywidend} * 100$$
 
         
-```{r echo = FALSE, results = 'asis', warning = FALSE}
+```{r}
 wskaźniki %>% 
   select(c(1, 7)) %>% 
   pivot_wider(names_from = rok, values_from = `2.4`) %>% 
-  mutate_all(~ str_replace(.x, '-', '&#8208;')) %>% 
+  #mutate_all(~ str_replace(.x, '-', '&#8208;')) %>% 
   kable(escape = F, booktabs = T) %>%
   kable_styling(c("striped", "condensed"), full_width = F) %>% 
   row_spec(c(1), color = "#8B0000") 
 
 ```
+
        
-**Wskaźnik pieniężnej płynności finansowej**
+##### 4.3.2.5 Wskaźnik pieniężnej płynności finansowej
       
 $$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Zobowiązania\ krótkoterminowe} * 100$$
     
-```{r echo = FALSE, results = 'asis', warning = FALSE}
+```{r}
 wskaźniki %>% 
   select(c(1, 8)) %>% 
   pivot_wider(names_from = rok, values_from = `2.5`) %>% 
@@ -612,12 +698,12 @@ wskaźniki %>%
 
 #### 4.3.3 Wskaźniki wydajności pieniężnej
     
-**Wskaźnik pieniężnej wydajności sprzedaży**
+##### 4.3.3.1 Wskaźnik pieniężnej wydajności sprzedaży
     
 $$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Przychody\ ze\ sprzedaży} * 100$$
 
         
-```{r echo = FALSE, results = 'asis', warning = FALSE}
+```{r}
 wskaźniki %>% 
   select(c(1, 9)) %>% 
   pivot_wider(names_from = rok, values_from = `3.1`) %>% 
@@ -627,11 +713,11 @@ wskaźniki %>%
 
 ```
  
-**Wskaźnik pieniężnej płynności finansowej**
+##### 4.3.3.2 Wskaźnik pieniężnej płynności finansowej
       
 $$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Zysk\ ze\ sprzedaży} * 100$$
     
-```{r echo = FALSE, results = 'asis', warning = FALSE}
+```{r}
 wskaźniki %>% 
   select(c(1, 10)) %>% 
   pivot_wider(names_from = rok, values_from = `3.2`) %>% 
@@ -642,11 +728,11 @@ wskaźniki %>%
 ```
 
         
-**Wskaźnik pieniężnej wydajności aktywów**
+##### 4.3.3.3 Wskaźnik pieniężnej wydajności aktywów
     
 $$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Aktywa\ ogółem} * 100$$
         
-```{r echo = FALSE, results = 'asis', warning = FALSE}
+```{r}
 wskaźniki %>% 
   select(c(1, 11)) %>% 
   pivot_wider(names_from = rok, values_from = `3.3`) %>% 
@@ -656,12 +742,12 @@ wskaźniki %>%
 
 ```
     
-**Wskaźnik pieniężnej wydajności kapitału własnego**
+##### 4.3.3.4 Wskaźnik pieniężnej wydajności kapitału własnego
     
 $$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Kapitał\ własny} * 100$$
 
         
-```{r echo = FALSE, results = 'asis', warning = FALSE}
+```{r}
 wskaźniki %>% 
   select(c(1, 12)) %>% 
   pivot_wider(names_from = rok, values_from = `3.4`) %>% 
@@ -674,11 +760,73 @@ wskaźniki %>%
 
 `r pagebreak()`
 
-## 5. Analiza wskaźnikowa
+## 5 Analiza wskaźnikowa
+
+```{r}
+
+wsk2 %>% 
+  kable(booktabs = T, 
+        col.names = c('Wyszczególnienie', '2015', '2016',
+                      '2017', '2018', '2019', '2018', '2019'),
+        align=c("l",rep("r",7))) 
+#%>%
+  #kable_styling(full_width = F,
+  #              bootstrap_options = c("striped", "hover", "condensed")) %>%
+  #column_spec(7:8, background = "#F0FBEF") %>% 
+  #add_header_above(c(" " = 1, "Grupa Dino" = 5, "Jeronimo Martins" = 4))
+
+```
+
+### 5.1 Wskaźniki płynności
+
+
+### 5.2 Wskaźniki zadłużenia
+
+### 5.3 Wskaźniki operacyjności
+
+
+### 5.4 Wskaźniki rentowności
+
+### 5.5 Wskaźniki rynkowe
+
+ Wskaźnikcena-zysk(P/E)
+cena rynkowa 1 akcji 
+Zysk netto na 1 akcję
+
+Wskaźnik cena do wartości księgowej (P/BV):
+cena 1 akcji
+wartość księgowa na 1 akcję 
+
+wskaźnik stopy dywidendy (DPS) =
+dywidenda
+cena rynkowa 1 akcji
+
+### 5.6 Model DuPonta dla spółki Dino
+
+```{r}
+dp2 %>% 
+  slice(1:5) %>% 
+  kable(booktabs = T, escape = F,
+        align=c("l",rep("r",5))) %>%
+  kable_styling(latex_options = c("striped"),
+                full_width = F,
+                bootstrap_options = c("striped", "condensed"))
+dp2 %>% 
+  slice(6:10) %>% 
+  #mutate_at(vars(2:6), ~ ifelse(row_number() %in% c(1, 3, 5), 
+  #                              str_c(.x, " %"), as.character(.x))) %>% 
+  kable(booktabs = T, 
+        col.names = c("         ", names(dp2)[-1]),
+        align=c("l",rep("r",5))) %>%
+  kable_styling(latex_options = c("striped"),
+                full_width = F,
+                bootstrap_options = c("striped", "condensed"))
+  
+```
 
 `r pagebreak()`
 
-## 6. Podsumowanie Analizy spółki Grupa Dino
+## 6 Podsumowanie Analizy spółki Grupa Dino
 
 `r pagebreak()`
 
@@ -687,12 +835,6 @@ wskaźniki %>%
 ### 1 Bilans
 
 ```{r}
-select_rows <- function(tabl, pattern_r) {
-    return(na.omit(tabl %>% 
-                   select(1) %>% 
-                   mutate_at(vars(1), ~ ifelse(str_detect(.x, pattern_r), row_number(), NA)) %>% 
-                   unlist(., use.names=FALSE)))
-}
 bold_r <- function(tabl) {
   return(select_rows(tabl, '^[ABP]'))
 }
@@ -709,45 +851,72 @@ indent_r <- function(tabl) {
 #### 1.1 Aktywa
 
 ```{r}
-# aktywa %>% 
-#   select_at(vars(1:6)) %>% 
-#   mutate_at(vars(1:6), ~ifelse(.x == '-', '', as.character(.x))) %>% 
-#   kable(booktabs = T, escape = F, align=c("l",rep("r",5))) %>%
-#   kable_styling(latex_options = c("striped", "scale_down"),
-#                 bootstrap_options = c("striped", "condensed")) %>% 
-#   #column_spec(1, width = "5in") %>%
-#   row_spec(bold_r(aktywa), bold = T) %>% 
-#   row_spec(italic_r(aktywa), italic = T) %>% 
-#   add_indent(indent_r(aktywa))
+aktywa %>%
+  select_at(vars(1:6)) %>%
+  mutate_at(vars(1:6), ~ifelse(.x == '-', '', as.character(.x))) %>%
+  mutate_at(vars(1), ~ str_trunc(.x, 74, "right")) %>% 
+  kable(booktabs = T, escape = F, longtable = T,
+        align=c("l",rep("r",5))) %>%
+  kable_styling(latex_options = c("striped"),
+                bootstrap_options = c("striped", "condensed")) %>%
+  #column_spec(1, width = "5in") %>%
+  row_spec(bold_r(aktywa), bold = T) %>%
+  row_spec(italic_r(aktywa), italic = T) %>%
+  add_indent(indent_r(aktywa))
 ```
+`r pagebreak()`
+
 #### 1.2 Pasywa
 
 ```{r}
-# pasywa %>% 
-#   select_at(vars(1:6)) %>% 
-#   mutate_at(vars(1:6), ~ifelse(.x == '-', '', as.character(.x))) %>% 
-#   kable(booktabs = T, escape = F, align=c("l",rep("r",5))) %>%
-#   #column_spec(1, width = "5in") %>%
-#   kable_styling(latex_options = c("striped", "scale_down"),
-#                 bootstrap_options = c("striped", "hover", "condensed")) %>% 
-#   row_spec(bold_r(pasywa), bold = T) %>% 
-#   row_spec(italic_r(pasywa), italic = T) %>% 
-#   add_indent(indent_r(pasywa))
+pasywa %>%
+  select_at(vars(1:6)) %>%
+  mutate_at(vars(1:6), ~ifelse(.x == '-', '', as.character(.x))) %>%
+  mutate_at(vars(1), ~ str_trunc(.x, 74, "right")) %>% 
+  kable(booktabs = T, escape = F, longtable = T,
+        align=c("l",rep("r",5))) %>%
+  #column_spec(1, width = "5in") %>%
+  kable_styling(latex_options = c("striped"),
+                bootstrap_options = c("striped", "hover", "condensed")) %>%
+  row_spec(bold_r(pasywa), bold = T) %>%
+  row_spec(italic_r(pasywa), italic = T) %>%
+  add_indent(indent_r(pasywa))
   
 ```
 
-
+`r pagebreak()`
 ### 2 Rachunek zysków is strat
 
 ```{r}
-# rzis %>% 
-#   select_at(vars(1:6)) %>% 
-#   mutate_at(vars(1:6), ~ifelse(.x == '-', '', as.character(.x))) %>% 
-#   kable(booktabs = T, escape = F, longtable = T, 
-#         align=c("l",rep("r",5))) %>% 
-#   kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
-#   row_spec(select_rows(rzis, '^[ABCDEFGHJKLM]'), bold = T) %>% 
-#   #row_spec(select_rows(rzis, '^[IV]'), italic = T)
-#   add_indent(select_rows(rzis, '^[-]'))
+rzis %>%
+  select_at(vars(1:6)) %>%
+  mutate_at(vars(1:6), ~ifelse(.x == '-', '', as.character(.x))) %>%
+  kable(booktabs = T, escape = F, longtable = T,
+        align=c("l",rep("r",5))) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
+  row_spec(select_rows(rzis, '^[ABCDEFGHJKLM]'), bold = T) %>%
+  #row_spec(select_rows(rzis, '^[IV]'), italic = T)
+  add_indent(select_rows(rzis, '^[-]'))
 ```
 
+`r pagebreak()`
+
+### 3 Rachunek przepływów pieniężnych
+
+```{r}
+rpp %>%
+  select_at(vars(1:6)) %>%
+  mutate_at(vars(1:6), ~ifelse(.x == '-', '', as.character(.x))) %>%
+  mutate_at(vars(1), ~ str_trunc(.x, 74, "right")) %>% 
+  kable(booktabs = T, escape = F, longtable = T,
+        align=c("l",rep("r",5))) %>%
+  #column_spec(1, width = "5in") %>%
+  kable_styling(latex_options = c("striped"),
+                bootstrap_options = c("striped", "hover", "condensed")) %>%
+  row_spec(select_rows(rpp, '^[ABCDEFG]'), bold = T) %>%
+  row_spec(select_rows(rpp, '^[IV]'), italic = T) %>%
+  add_indent(setdiff(1:count(rpp)[[1]],
+                     c(select_rows(rpp, '^[ABCDEFG]'),
+                       select_rows(rpp, '^[IV]'))))
+ 
+```
