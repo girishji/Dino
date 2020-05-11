@@ -112,8 +112,8 @@ for (rok in (rzis_st %>% names())[-1]) {
 
 mrzis <- tribble(
   ~Wyszczegółnienie,
-  'Przychodyogółem',
-  'Kosztyogółem',
+  'Przychody ogółem',
+  'Koszty ogółem',
   'Przychody netto ze sprzedaży produktów, towarów i materiałów',
   'Koszty sprzedanych produktów, towarów i materiałów',
   'Zysk brutto ze sprzedaży',
@@ -196,7 +196,7 @@ dynamika <- function(tabl, columns) {
         prev_val <- (select(tbl, !!prev) %>% slice(row_num))[[1]]
         prev_val <- as.integer(prev_val)
         val <- as.numeric(num)
-        val <- round((val - prev_val) / prev_val * 100, digits = 1)
+        val <- round((val) / prev_val * 100, digits = 1)
         return (ifelse(is.na(val), '-', val))
       }
       tabl <- tabl %>% mutate(!!cname := f(tabl, !!sym(rok), row_number()))
@@ -288,9 +288,9 @@ wskaźniki_rzis <- function() {
   wskaźniki <- wskaźniki %>% 
     add_column(`5` = (lata %>% map_dbl(f, rzis)))
   
-  return(wskaźniki)
+  return(wskaźniki %>% mutate_at(vars(-1), ~ str_c(.x, '%')))
 }
 
-wskaźniki <- wskaźniki_rzis()
+wskaźniki <- wskaźniki_rzis() 
 wskaźniki
 

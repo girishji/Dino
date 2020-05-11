@@ -239,7 +239,8 @@ dynamika <- function(tabl, columns) {
         prev_val <- (select(tbl, !!prev) %>% slice(row_num))[[1]]
         prev_val <- as.integer(prev_val)
         val <- as.numeric(num)
-        val <- round((val - prev_val) / prev_val * 100, digits = 1)
+        #val <- round((val - prev_val) / prev_val * 100, digits = 1)
+        val <- round((val) / prev_val * 100, digits = 1)
         return (ifelse(is.na(val), '-', val))
       }
       tabl <- tabl %>% mutate(!!cname := f(tabl, !!sym(rok), row_number()))
@@ -304,7 +305,7 @@ wskaźniki_bilans <- function() {
     kap_st <- as.integer(kap_wł) + as.integer(zob_dł)
     new_col <- c(new_col, f(kap_st, akt_tr))
     
-    zob_kr <- (select(pasywa_st, !!rok) %>% slice(14))[[1]]
+    zob_kr <- (select(pasywa_st, !!rok) %>% slice(13))[[1]]
     akt_ob <- (select(aktywa_st, !!rok) %>% slice(7))[[1]]
     new_col <- c(new_col, f(zob_kr, akt_tr))
     akt_og <- (select(aktywa_st, !!rok) %>% slice(12))[[1]]
@@ -314,7 +315,7 @@ wskaźniki_bilans <- function() {
     new_col <- c(new_col, f(kap_ob_netto, akt_ob))
     wskaźniki <- wskaźniki %>% add_column(!!rok := new_col)
   }
-  return(wskaźniki)
+  return(wskaźniki %>% mutate_at(vars(-1), ~str_c(.x, '%')))
 }
 
 wskaźniki_bilans()

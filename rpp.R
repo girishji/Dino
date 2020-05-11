@@ -73,7 +73,7 @@ lata <- c('2015', '2016', '2017', '2018', '2019')
         prev_val <- (select(tbl, !!prev) %>% slice(row_num))[[1]]
         prev_val <- as.integer(prev_val)
         val <- as.numeric(num)
-        val <- round((val - prev_val) / prev_val * 100, digits = 1)
+        val <- round((val) / prev_val * 100, digits = 1)
         return (ifelse(is.na(val), '-', val))
       }
       rpp <- rpp %>% mutate(!!cname := f(rpp, !!sym(rok), row_number()))
@@ -241,7 +241,10 @@ wskaźniki_rpp <- function() {
   wskaźniki <- wskaźniki %>% 
     add_column(`3.4` = (lata %>% map_dbl(f, rpp, pasywa)))
   
-  return(wskaźniki)
+  return(wskaźniki  %>% 
+           mutate_at(vars(-1), 
+                     ~ ifelse(str_detect(.x, '-'), as.character(.x), 
+                              str_c(.x, '%'))))
 }
 
 wskaźniki <- wskaźniki_rpp()

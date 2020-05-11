@@ -275,7 +275,7 @@ jm <- jm %>%
 jm <- jm %>% arrange(rok)
 wskaźniki <- bind_rows(wskaźniki, jm)
 
-wskaźniki %>% select(8:16)
+#wskaźniki %>% select(8:16)
   
 
 
