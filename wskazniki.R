@@ -86,7 +86,7 @@ wskaźniki_fin <- function() {
   }
   
   nr <- lata %>% map_dbl(~ gv(.x, rzis, 1))
-  col_n <- nr / sredni(aktywa, 47) * 100
+  col_n <- nr / sredni(aktywa, 47)
   wskaźniki <- wskaźniki %>% 
     add_column(`3.2` = col_n) %>% 
     mutate_at(vars(`3.2`), ~ ifelse(row_number() == 1, '-', round(.x, digits = 1)))
@@ -116,10 +116,10 @@ wskaźniki_fin <- function() {
   ## Wskaźniki rentowności
   
   wskaźniki <- wskaźniki %>% 
-    add_column(`4.1` = map_dbl(lata, ~ ratio100(gv(.x, rzis, 5) -
+    add_column(`4.1` = map_dbl(lata, ~ ratio100(gv(.x, rzis, 42),
+                                                gv(.x, rzis, 5) -
                                                   gv(.x, rzis, 6) -
-                                                  gv(.x, rzis, 9),
-                                                gv(.x, rzis, 1))))
+                                                  gv(.x, rzis, 9))))
   
   
   wskaźniki <- wskaźniki %>% 
@@ -253,9 +253,9 @@ jm <- jm %>% add_column('3.5' =  c(mean(zap), -1) * 365 / pr.n.sp)
 # rentowności
 
 zy.nt <- jrzis.g(21) 
-jm <- jm %>% add_column('4.1' =  -1 * zy.nt / ko.wł.sp)
+jm <- jm %>% add_column('4.1' =  -100 * zy.nt / ko.wł.sp)
 
-jm <- jm %>% add_column('4.2' =  zy.nt / pr.n.sp)
+jm <- jm %>% add_column('4.2' =  100 * zy.nt / pr.n.sp)
 
 #ROA
 jm <- jm %>% add_column('5.1' =  100 * zy.nt / c(mean(ak.og), -1))
@@ -345,16 +345,16 @@ wsk2 <- tibble(
   'Wyszczególnienie' = c(
     'Wskaźnik bieżącej płynności',
     'Wskaźnik szybkiej płynności',
-    'Wskaźnik podwyższonej płynności',
     'Wskaźnik poziomu zadłużenia',
-    'Wskaźnik zadłużenia kapitału własnego',
     'Wskaźnik zadłużenia długoterminowego',
+    'Wskaźnik zdolności kredytowej',
     'Wskaźnik operacyjności (poziomu kosztów)',
     'Wskaźnik rotacji aktywów (produktywność aktywów)',
     'Wskaźnik cyklu należności',
     'Wskaźnik cyklu zobowiązań',
     'Wskaźnik cyklu zapasów',
     'Wskaźnik rentowności sprzedaży netto',
+    'Marża zysku netto',
     'Zwrot z aktywów (ROA)',
     'Zwrot z kapitału własnego (ROE)',
     'Zwrot z inwestycji (ROI)')
@@ -370,7 +370,7 @@ wsk2 <- wsk2 %>% add_column('2019_j' = (wskaźniki %>% slice(7) %>% unlist(use.n
 
 # add %
 wsk2 <- wsk2 %>% 
-  mutate_at(vars(3:6, 8), ~ ifelse(row_number() > 12, str_c(.x, '%'), as.character(.x)))
+  mutate_at(vars(-1), ~ ifelse(row_number() > 10 & !str_detect(.x, '-'), str_c(.x, '%'), as.character(.x)))
 wsk2
 
 

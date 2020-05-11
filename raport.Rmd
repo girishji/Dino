@@ -41,8 +41,9 @@ select_rows <- function(tabl, pattern_r) {
                    unlist(., use.names=FALSE)))
 }
 
-mycolor <- "#F0F8FF"
-#mycolor <- "#CCFF00"
+#mycolor <- "#F0F8FF"
+mycolor <- "#FFF5D3"
+#mycolor <- "#FFFB89"
 
 ```
 
@@ -791,19 +792,57 @@ wsk2 %>%
                  full_width = F,
                  bootstrap_options = c("striped", "hover", "condensed")) %>%
   column_spec(7:8, background = mycolor) %>% 
+  group_rows("Wskaźniki płynności", 1, 2) %>% 
+  group_rows("Wskaźniki zadłużenia", 3, 5) %>% 
+  group_rows("Wskaźniki operacyjności", 6, 10) %>% 
+  group_rows("Wskaźniki rentowności", 11, 15) %>% 
   add_header_above(c(" " = 1, "Grupa Dino" = 5, "Jeronimo Martins" = 2))
 
 ```
-
+    
 ### 5.1 Wskaźniki płynności
 
+* **Wskaźnik bieżącej płynności** jest poniżej poziomu optymalnego dla spółki 
+Nie stanowi to problemu, 
+ponieważ spółka ma wysoki ROA w porównaniu do konkurencji. 
+
+* **Wskaźnik szybkiej płynności** jest bliski wartości optymalnej, ale z każdym rokiem 
+spada. Jest to jednak lepszy niż konkurencja.
 
 ### 5.2 Wskaźniki zadłużenia
 
+* **Wskaźnik poziomu zadłużenia** jest bliski wartości optymalnej dla spółki.
+
+* **Wskaźnik zadłużenia długoterminowego** jest porównywalny (podobny) do konkurencji.
+
+* **Wskaźnik zdolności kredytowej** jest znacznie niższy niż konkurencja. Możemy oczekiwać, że obligacje wyemitowane przez spółkę będą miały niższą pozycję w rankingu, a spółka będzie musiał zapłacić wyższe oprocentowanie swoich obligacji.
+
 ### 5.3 Wskaźniki operacyjności
 
+* **Wskaźnik operacyjności (poziomu kosztów)** jest na poziomie porównywalnym z konkurencją. Niska wartość tego wskaźnki jest wspólna dla tej brańży. 
+
+* **Wskaźnik rotacji aktywów (produktywność aktywów)** jest na imponującym poziomie (2.2) i lepszym niż konkurencja. Pokazuje efektywność wykorzystania aktywów tworzących wartość sprzedaży.
+
+* **Wskaźnik cyklu należności** to tylko około 5 dni i jest o połowę mniejsze niż u konkurencji. Środki pieniężne nie są dłudo zamrożone w należnościach.
+
+* **Wskaźnik cyklu zobowiązań** dla tej spółki jest na wysokim poziomie, ale na znacznie niższym poziomie niż konkurencja. Porównując go do niskiego poziomu wskaźnika cyklu należności, możemy dojść do wniosku, że spółka ma zdolność spłaty zobowiązań.
+
+* **Wskaźnik cyklu zapasów** jest na poziomie porównywalnym z konkurencją. 
 
 ### 5.4 Wskaźniki rentowności
+
+* **Wskaźnik rentowności sprzedaży netto** jest znacznie wyższy niż konkurencja. W 2019 roku...
+
+* **Marża zysku netto** jest 2 razy wyższa niż konkurencja, i pokazuje wyższą rentowność sprzedaży.
+
+* **Zwrot z aktywów (ROA)**
+Wskaźnik odzwierciedla rentowność majątku
+
+* **Zwrot z kapitału własnego (ROE)**
+
+* **Zwrot z inwestycji (ROI)**
+
+
 
 ### 5.5 Wskaźniki rynkowe
 
