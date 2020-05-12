@@ -238,7 +238,9 @@ bil %>%
   column_spec(c(5:6, 9:10), background = mycolor)
 ```
 
-### 2.2 Kapitał obrotowy netto
+`r pagebreak()`
+
+### 2.3 Kapitał obrotowy netto
 
 Ujemna wartość kapitału obrotowego netto w obu latach wskazuję na to, iż całość aktywów bieżących finansowana jest ze zobowiązań bieżących, a to oznacza, że w przedsiębiorstwie nie występuje kapitał obrotowy netto.
 
@@ -324,7 +326,7 @@ kon %>%
   kable(escape = F, col.names = col_names, booktabs = T,
         caption = "Kapitał obrotowy netto",
         align=c("l",rep("r",4))) %>% 
-  kable_styling(latex_options = c("striped"),
+  kable_styling(latex_options = c("striped", "hold_position"),
                 bootstrap_options = c("striped", "hover", "condensed"),
                 full_width = F) %>% 
   add_header_above(c("Wyszczególnienie" = 1, "Wartość(w tys.zł.)" = 2, 
@@ -437,6 +439,7 @@ mrzis %>%
   column_spec(c(5:6, 9:10), background = mycolor)
 ```
 
+
 `r pagebreak()`
 
 ### 3.3 Analiza wskażnikowa
@@ -534,11 +537,12 @@ rpp %>%
   kable(booktabs = T, escape = F,
         caption = "Syntetyczna analiza sald",
         align=c("l",rep("r",5))) %>%
-  kable_styling(latex_options = c("striped"),
+  kable_styling(latex_options = c("striped", "hold_position"),
                 full_width = F,
                 bootstrap_options = c("striped", "hover", "condensed")) %>%
-  row_spec(c(4, 8, 12, 16), color = "#8B0000") %>% 
+  #row_spec(c(4, 8, 12, 16), color = "#8B0000") %>% 
   row_spec(c(1, 5, 9, 13:16), bold = T) %>% 
+  row_spec(c(4, 8, 12), hline_after = T) %>% 
   add_header_above(c(" " = 1, "w tys. zl." = 5))
 ```
 
@@ -570,7 +574,7 @@ rpp_str %>%
   kable(booktabs = T, escape = F, col.names = gsub("_st", "", names(rpp_str)),
         caption = "Analiza pionowa rachunku przepływów pieniężnych",
         align=c("l",rep("r",5))) %>%
-  kable_styling(latex_options = c("striped"),
+  kable_styling(latex_options = c("striped", "hold_position"),
                 full_width = F,
                 bootstrap_options = c("striped", "hover", "condensed")) %>%
   column_spec(5:7, background = mycolor) %>% 
@@ -653,8 +657,9 @@ rpp %>%
                 full_width = F,
                 bootstrap_options = c("striped", "hover", "condensed")) %>%
   row_spec(c(1:3, 14:15, 20, 24:26, 31, 41:45), bold = T) %>% 
-  row_spec(c(1, 25, 15, 45), color = "#8B0000") %>% 
+  #row_spec(c(45), color = "#8B0000") %>% 
   column_spec(7:10, background = mycolor) %>% 
+  row_spec(c(24, 14, 41), hline_after = T) %>% 
   add_header_above(c(" " = 1, "Wartość (w tys. zl.)" = 5, "Dynamika (w %)" = 4))
 
 ```
@@ -788,7 +793,7 @@ wsk2 %>%
         col.names = c('Wyszczególnienie', '2015', '2016',
                       '2017', '2018', '2019', '2018', '2019')) %>% 
         #align=c("l",rep("r",7))) %>%
-  kable_styling(latex_options = c("striped"),
+  kable_styling(latex_options = c("striped", "hold_position"),
                  full_width = F,
                  bootstrap_options = c("striped", "hover", "condensed")) %>%
   column_spec(7:8, background = mycolor) %>% 
@@ -821,7 +826,7 @@ spada. Jest to jednak lepszy niż konkurencja.
 
 * **Wskaźnik operacyjności (poziomu kosztów)** jest na poziomie porównywalnym z konkurencją. Niska wartość tego wskaźnki jest wspólna dla tej brańży. 
 
-* **Wskaźnik rotacji aktywów (produktywność aktywów)** jest na imponującym poziomie (2.2) i lepszym niż konkurencja. Pokazuje efektywność wykorzystania aktywów tworzących wartość sprzedaży.
+* **Wskaźnik rotacji aktywów (produktywność aktywów)** jest na bardzo wysokim poziomie (2.2) i lepszym niż konkurencja. Pokazuje efektywność wykorzystania aktywów tworzących wartość sprzedaży.
 
 * **Wskaźnik cyklu należności** to tylko około 5 dni i jest o połowę mniejsze niż u konkurencji. Środki pieniężne nie są dłudo zamrożone w należnościach.
 
@@ -831,32 +836,28 @@ spada. Jest to jednak lepszy niż konkurencja.
 
 ### 5.4 Wskaźniki rentowności
 
-* **Wskaźnik rentowności sprzedaży netto** jest znacznie wyższy niż konkurencja. W 2019 roku...
+* **Wskaźnik rentowności sprzedaży netto** jest znacznie wyższy niż konkurencja. W 2019 wyniósł 4.5%, a dla konkurencji 2.03%.
 
 * **Marża zysku netto** jest 2 razy wyższa niż konkurencja, i pokazuje wyższą rentowność sprzedaży.
 
-* **Zwrot z aktywów (ROA)**
-Wskaźnik odzwierciedla rentowność majątku
+* **Zwrot z aktywów (ROA)** odzwierciedla rentowność majątku. W 2019 wyniósł 9.2%, a dla konkurencji 3.41%. 
 
-* **Zwrot z kapitału własnego (ROE)**
+* **Zwrot z kapitału własnego (ROE)** informuje o rentowności zaangażowanego w firmie kapitału. W 2019 wyniósł 29%, a dla konkurencji 13%. Możemy użyć tej wartości do wyceny ceny akcji. Także, wysoka wartość ROE sugeruje, że spółka nie powinna wypłacać dywidendy, reinwestować zysków i dalej się rozwijać.
 
-* **Zwrot z inwestycji (ROI)**
-
-
+* **Zwrot z inwestycji (ROI)** pokazuje rentowność majątku całkowitego. W 2019 wyniósł 13.2%, a dla konkurencji 4.94%. Znaczna różnica ROC między spółka a konkurencją sugeruje, że spółka będzie zwiększył udział w rynku kosztem konkurencji.
 
 ### 5.5 Wskaźniki rynkowe
 
- Wskaźnikcena-zysk(P/E)
-cena rynkowa 1 akcji 
-Zysk netto na 1 akcję
+```{r}
+wryn %>% 
+  kable(booktabs = T, 
+        caption = "Wskaźniki rynkowe (12 maja 2020 r)") %>% 
+  kable_styling(latex_options = c("striped", "hold_position"),
+                 full_width = F,
+                 bootstrap_options = c("striped", "condensed")) %>%
+  column_spec(1, bold = T)
+```
 
-Wskaźnik cena do wartości księgowej (P/BV):
-cena 1 akcji
-wartość księgowa na 1 akcję 
-
-wskaźnik stopy dywidendy (DPS) =
-dywidenda
-cena rynkowa 1 akcji
 
 ### 5.6 Model DuPonta dla spółki Dino
 
@@ -866,7 +867,7 @@ dp2 %>%
   kable(booktabs = T,
         caption = "Model DuPonta dla spółki Dino",
         align=c("l",rep("r",5))) %>%
-  kable_styling(latex_options = c("striped"),
+  kable_styling(latex_options = c("striped", "hold_position"),
                 full_width = F,
                 bootstrap_options = c("striped", "condensed")) %>%
   row_spec(5, hline_after = T)
@@ -877,6 +878,7 @@ dp2 %>%
 `r pagebreak()`
 
 ## 6 Podsumowanie Analizy spółki Grupa Dino
+
 
 `r pagebreak()`
 
@@ -913,7 +915,8 @@ bil %>%
   #column_spec(1, width = "5in") %>%
   row_spec(bold_r(bil), bold = T) %>%
   row_spec(italic_r(bil), italic = T) %>%
-  add_indent(indent_r(bil))
+  add_indent(indent_r(bil)) %>% 
+  row_spec(47, hline_after = T)
 ```
 
 `r pagebreak()`

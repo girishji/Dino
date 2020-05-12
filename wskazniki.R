@@ -175,7 +175,7 @@ PE
 #bv <- 
 bv <- get_cur(aktywa, 47) - get_cur(aktywa, 2) - get_cur(pasywa, 10)
 P_BV <- share_p * num_shares / (as.numeric(bv) * 1000) 
-bv
+P_BV
 
 # DPS
 # 0 (row 37 of RPP)
@@ -228,7 +228,7 @@ zo.dł <- jbilans.g(38)
 jm <- jm %>% add_column('2.2' = zo.dł / ak.og)
 
 amort <- c(528383, 269431)
-zy.nt <- jrzis.g(8)
+zy.nt <- jrzis.g(21)
 ka.wł <- jbilans.g(30)
 ka.ob <- ak.og - ka.wł
 za.ef <- ka.ob - pmo
@@ -252,7 +252,6 @@ jm <- jm %>% add_column('3.5' =  c(mean(zap), -1) * 365 / pr.n.sp)
 
 # rentowności
 
-zy.nt <- jrzis.g(21) 
 jm <- jm %>% add_column('4.1' =  -100 * zy.nt / ko.wł.sp)
 
 jm <- jm %>% add_column('4.2' =  100 * zy.nt / pr.n.sp)
@@ -277,8 +276,31 @@ wskaźniki <- bind_rows(wskaźniki, jm)
 
 #wskaźniki %>% select(8:16)
   
+# P/E
+
+j_share_p = 16.36
+j_num_shares <- 629293220
+
+jPE <- j_share_p * j_num_shares / (zy.nt[1] * 1000)
+jPE
+
+# P/BV
+#bv <- 
+j_bv <- (jbilans.g(30))[1] - (jbilans.g(5))[1] 
+jP_BV <- j_share_p * j_num_shares / (j_bv * 1000) 
+jP_BV
+
+# DPS
+#jDPS <- '3.1%'
 
 
+wryn <- tribble(
+  ~' ', ~'Grupa Dino', ~'Jeronimo Martins',
+  'Wskaźnikcena-zysk(P/E)', PE, jPE,
+  'Wskaźnik cena do wartości księgowej (P/BV)', P_BV, jP_BV,
+  'Wskaźnik stopy dywidendy (DPS)', 0, 3.1,
+)  %>% mutate_at(vars(-1), ~str_c(round(.x, digits = 1), '%'))
+wryn
 
 
 ##############################################################
