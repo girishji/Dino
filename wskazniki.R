@@ -1,4 +1,4 @@
-##
+## girish palya
 
 options(tibble.print_min = Inf) 
 
@@ -296,7 +296,7 @@ jP_BV
 
 wryn <- tribble(
   ~' ', ~'Grupa Dino', ~'Jeronimo Martins',
-  'Wskaźnikcena-zysk(P/E)', PE, jPE,
+  'Wskaźnik cena-zysk(P/E)', PE, jPE,
   'Wskaźnik cena do wartości księgowej (P/BV)', P_BV, jP_BV,
   'Wskaźnik stopy dywidendy (DPS)', 0, 3.1,
 )  %>% mutate_at(vars(-1), ~str_c(round(.x, digits = 1), '%'))
@@ -394,6 +394,7 @@ wsk2 <- wsk2 %>% add_column('2019_j' = (wskaźniki %>% slice(7) %>% unlist(use.n
 wsk2 <- wsk2 %>% 
   mutate_at(vars(-1), ~ ifelse(row_number() > 10 & !str_detect(.x, '-'), str_c(.x, '%'), as.character(.x)))
 wsk2
+
 
 
 

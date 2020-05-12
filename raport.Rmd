@@ -826,7 +826,7 @@ spada. Jest to jednak lepszy niż konkurencja.
 
 * **Wskaźnik operacyjności (poziomu kosztów)** jest na poziomie porównywalnym z konkurencją. Niska wartość tego wskaźnki jest wspólna dla tej brańży. 
 
-* **Wskaźnik rotacji aktywów (produktywność aktywów)** jest na bardzo wysokim poziomie (2.2) i lepszym niż konkurencja. Pokazuje efektywność wykorzystania aktywów tworzących wartość sprzedaży.
+* **Wskaźnik rotacji aktywów (produktywność aktywów)** jest na bardzo wysokim poziomie (2,2) i lepszym niż konkurencja. Pokazuje efektywność wykorzystania aktywów tworzących wartość sprzedaży.
 
 * **Wskaźnik cyklu należności** to tylko około 5 dni i jest o połowę mniejsze niż u konkurencji. Środki pieniężne nie są dłudo zamrożone w należnościach.
 
@@ -836,11 +836,11 @@ spada. Jest to jednak lepszy niż konkurencja.
 
 ### 5.4 Wskaźniki rentowności
 
-* **Wskaźnik rentowności sprzedaży netto** jest znacznie wyższy niż konkurencja. W 2019 wyniósł 4.5%, a dla konkurencji 2.03%.
+* **Wskaźnik rentowności sprzedaży netto** jest znacznie wyższy niż konkurencja. W 2019 wyniósł 4,5%, a dla konkurencji 2,03%.
 
 * **Marża zysku netto** jest 2 razy wyższa niż konkurencja, i pokazuje wyższą rentowność sprzedaży.
 
-* **Zwrot z aktywów (ROA)** odzwierciedla rentowność majątku. W 2019 wyniósł 9.2%, a dla konkurencji 3.41%. 
+* **Zwrot z aktywów (ROA)** odzwierciedla rentowność majątku. W 2019 wyniósł 9,2%, a dla konkurencji 3,41%. 
 
 * **Zwrot z kapitału własnego (ROE)** informuje o rentowności zaangażowanego w firmie kapitału. W 2019 wyniósł 29%, a dla konkurencji 13%. Możemy użyć tej wartości do wyceny ceny akcji. Także, wysoka wartość ROE sugeruje, że spółka nie powinna wypłacać dywidendy, reinwestować zysków i dalej się rozwijać.
 
@@ -879,6 +879,19 @@ dp2 %>%
 
 ## 6 Podsumowanie Analizy spółki Grupa Dino
 
+W badanym okresie wyraźnie widać niezwykle szybko rozwijająca się firma. Poprzez przeprowadzenie analizy finansowej spółki możemy zauważyć, iż spółka utrzymywała wysoki ROI rok po roku. W okresie dwóch lat spółka wygenerowała zysk netto, i wzrosła go o 45%. Jednak przepływy pieniężne netto nie wzrosły w tym okresie, co świadczyło o tym, iż 
+firma może rosnąć w tempie wyższym niż optymalne.
+
+W bilansie spółki możemy również zauważyć, że wskaźnik (poziomu) zadłużenia jest na niezwykle wysokim poziomie (68%). Jest to jednak typowe w gronie spółek supermarketów (Jeronimo Martins ma 77%), i w dużej mierzę nie spowoduje problemów z wierzytelnością.
+
+Z Rachunku zysków i strat, możemy zaobserwować wzrost przychodów ze sprzedaży produktów, a także kosztów co może wskazywać na rozwój spółki i ich inwestycji. Wynik finansowy generuje przede wszystkim podstawowa działalność (sprzedaż) spółki.
+
+Ogólnie spókla jest w dobrej sytuacji, gdyż generuje dodatnie przepływy pieniężne na podstawowej działalności - operacyjnej. Podejmuje nowe inwestycje w celu ekspansji, stąd ujemne saldo na działalności inwestycyjnej oraz spłaca zobowiązania finansowe.
+
+Z wskaźników możemy również odczytać, iż spółka nie posiada istotnych problemów i swoją działalność będzie rozwijać w kolejnych latach. Przede wszystkim wskaźniki rentowności są na doskonałym poziomie, szczególnie wskaźnik rentowności sprzedaży netto i zwrot z inwestycji (ROI).
+
+Jeśli chodzi o wskaźniki rynkowe, wskaźnik cena-zysk (P/E) wyniosł 52,4%. Dla porównania, Polska - Obligacje Rządowe 10-letnie, w momencie pisania tego tekstu wynosi 1,467%. Jego PE wynosi 68,1 (100 / 1,467). Inwestorzy płacą wysoką cenę za posiadanie tej firmy.
+
 `r pagebreak()`
 
 ## Bibliografia
@@ -887,8 +900,8 @@ dp2 %>%
 
 ### **R project** ([github.com/girishji/Dino](https://github.com/girishji/Dino))
 - */data*: Sprawozdania finansowe
-- */raport.Rmd*: źródło raportu
-- */bilans.R*, */rpp.R*, */rzis.R*, */wskazniki.R*: obliczenia
+- */raport.Rmd*: Źródło raportu
+- */bilans.R*, */rpp.R*, */rzis.R*, */wskazniki.R*: Obliczenia
   
 
 `r pagebreak()`

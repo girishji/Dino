@@ -1,6 +1,5 @@
-## 
+## girish palya
 
-# https://rlang.r-lib.org/reference/quasiquotation.html
 
 options(tibble.print_min = Inf) 
 
