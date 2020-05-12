@@ -844,7 +844,7 @@ spada. Jest to jednak lepszy niż konkurencja.
 
 * **Zwrot z kapitału własnego (ROE)** informuje o rentowności zaangażowanego w firmie kapitału. W 2019 wyniósł 29%, a dla konkurencji 13%. Możemy użyć tej wartości do wyceny ceny akcji. Także, wysoka wartość ROE sugeruje, że spółka nie powinna wypłacać dywidendy, reinwestować zysków i dalej się rozwijać.
 
-* **Zwrot z inwestycji (ROI)** pokazuje rentowność majątku całkowitego. W 2019 wyniósł 13.2%, a dla konkurencji 4.94%. Znaczna różnica ROC między spółka a konkurencją sugeruje, że spółka będzie zwiększył udział w rynku kosztem konkurencji.
+* **Zwrot z inwestycji (ROI)** pokazuje rentowność majątku całkowitego. W 2019 wyniósł 13.2%, a dla konkurencji 4.94%. Znaczna różnica ROI między spółka a konkurencją sugeruje, że spółka będzie zwiększył udział w rynku kosztem konkurencji.
 
 ### 5.5 Wskaźniki rynkowe
 
@@ -879,6 +879,17 @@ dp2 %>%
 
 ## 6 Podsumowanie Analizy spółki Grupa Dino
 
+`r pagebreak()`
+
+## Bibliografia
+
+Źródła - raport tworzony był przy pomocy:
+
+### **R project** ([github.com/girishji/Dino](https://github.com/girishji/Dino))
+- */data*: Sprawozdania finansowe
+- */raport.Rmd*: źródło raportu
+- */bilans.R*, */rpp.R*, */rzis.R*, */wskazniki.R*: obliczenia
+  
 
 `r pagebreak()`
 
