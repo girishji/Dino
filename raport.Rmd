@@ -52,7 +52,7 @@ mycolor <- "#FFF5D3"
 ## 1 Dane spółki, charakterystyka, notowania
 
 Spółka [Dino](https://grupadino.pl) to Polska sieć handlu spożywczego założona w 1999 roku przez Tomasza Biernackiego. Jest to wiodący gracz w rosnącym segmencie średniej wielkości supermarketów w Polsce, zlokalizowanych głównie w mniejszych miejscowościach, małych i średnich
-miastach oraz na peryferiach dużych miast. W latach 2010-2019 liczba sklepów wzrosła ze 111 na koniec 2010 do 1218 na koniec 2019 roku.
+miastach oraz na peryferiach dużych miast. W latach 2010-2019 liczba sklepów wzrosła ze 111 na koniec 2010 roku do 1218 na koniec 2019 roku.
 
 * **Zarząd Spółki**: Szymon Piduch – Prezes Zarządu, Michał Krauze – Członek Zarządu, Dyrektor Finansowy, Michał Muskała – Członek Zarządu, Dyrektor Inwestycji
 * **Rada Nadzorcza**: Tomasz Biernacki - przewodniczący rady nadzorczej, Eryk Bajer - członek rady nadzorczej, Sławomir Jakszuk - niezależny członek rady nadzorczej, Piotr Nowjalis - niezależny członek rady nadzorczej, Maciej Polanowski - członek rady nadzorczej
@@ -70,9 +70,9 @@ Poniżej przedstawiamy wydarzenia, które odegrały ważną rolę w jej historii
 - 2003 : Dino zacieśnia relacje z zakładami mięsnymi Agro-Rydzyna
 - 2004-2009 : Rozwój wokół centrum dystrybucyjnego
 - 2010 : 100 Sklepów i okres dynamicznej ekspansji
-- 2013 : 300 sklepów i drugie centrum Dystrybucyjne
+- 2013 : 300 sklepów i drugie centrum dystrybucyjne
 - 2014 - 2015 : 500 sklepów 
-- 2016 : 10,000 pracowników i trzecie centrum Dystrybucyjne
+- 2016 : 10,000 pracowników i trzecie centrum dystrybucyjne
 - 2017 : Debiut na GPW
 - 2018 : 202 otwarcia nowych marketów
 - 2019 : 243 nowe markety
@@ -82,7 +82,7 @@ Poniżej przedstawiamy wydarzenia, które odegrały ważną rolę w jej historii
 
 ![](imgs/akcjonariat.png){ width=70% }
 
-Każda akcja Dino Polska S.A. uprawnia do wykonywania jednego głosu na walnym zgromadzeniu.
+Każda akcja Dino Polska S.A. uprawnia do oddania jednego głosu na walnym zgromadzeniu.
 
 Ponad 50% udziałów należy do założyciela spółki.
 
@@ -95,9 +95,9 @@ Ponad 50% udziałów należy do założyciela spółki.
 
 ![](imgs/notowania2.png){ width=60% }
 
-Kurs odniesienia spółki Grupa Dino 8 maja wynosiła 169,90 zł. 
+Kurs odniesienia spółki Grupa Dino z dnia 8 maja wynosił 169,90 zł. 
 
-Od debiutu w GPW zauważalny jest widoczny trend wznoszący wskazujący apetyt inwestorów na spółki najszybciej rozwijające się.
+Od debiutu na GPW zauważalny jest widoczny trend rosnący wskazujący na apetyt inwestorów na spółki najszybciej rozwijające się.
 
 #### 1.4.1 Cena akcji w porównaniu z WIG
 <small>(na niebiesko: Dino, na żółto: WIG)</small>
@@ -106,25 +106,22 @@ Od debiutu w GPW zauważalny jest widoczny trend wznoszący wskazujący apetyt i
 
 Na wykresie widzimy wyraźny wzrost cen akcji Dino Polska w porównaniu z WIG.
 Sytuacja związana z koronawirusem jedynie chwilowo wpłynęła na spadek
-wartości akcji, po czym, znów nastąpił wzrost.
+wartości akcji, po czym znów nastąpił wzrost.
 
-Supermarkety nie należą do rodzaju spółek cyklicznych, a więć
-koniunktura gospodarcza nie ma większego wpływu na 
+Supermarkety nie należą do rodzaju spółek cyklicznych, a więc
+koniunktura gospodarcza nie ma większego wpływu na ich 
 działalność.
 
 ### 1.5 Konkurencja
 
-Biedronka (Jeronimo Martins) i Lidl są najbliższymi konkurentami pod względem 
-wielkości sklepów, ale Stokrotka i Polomarket to polskie firmy.
+Biedronka (Jeronimo Martins) i Lidl są najbliższymi konkurentami Dino Polska pod względem ilości sklepów, a Stokrotka i Polomarket to polskie firmy konkurencyjne.
 
-Stokrotka jest firmą franczyzową, a zarówno Stokrotka, jak i Polomarket to firmy prywatne. 
-Nie publikują sprawozdań finansowych, a to, co podają o Ministerstwo Sprawiedliwości, 
-jest sporządzony niezgodnie z MSR.
+Zarówno Stokrotka (firma franczyzowa), jak i Polomarket to firmy prywatne, które nie publikują sprawozdań finansowych, a to, co podają do Ministerstwa Sprawiedliwości jest sporządzone niezgodnie z MSR.
 
-Z tych powodów porównamy spółka Dino do Biedronki (Jeronimo Martins).
+Z tych powodów porównamy spółkę Dino z siecią Biedronka (Jeronimo Martins).
 
 Jeronimo Martins jest portugalską firmą działającą w Polsce, Portugalii i Kolumbii. 
-Większość operacji odbywa się w Polsce i Portugalii. 95% jej działalności pochodzi 
+Większość operacji odbywa się w Polsce i Portugalii i 95% jej działalności pochodzi 
 z supermarketów (retail) i powiązanej dystrybucji żywności.
 
 ```{r}
@@ -139,9 +136,9 @@ tribble(
   "Eurospar", 250, "Holandia",
   "Intermarché", 230, "Francja",
   "Mila",187, "Polska",
-  "ChataPolska", 166, "Polska",
+  "Chata Polska", 166, "Polska",
   "Aldi",132, "Niemcy",
-  "PiotriPaweł", 70, "Polska",
+  "Piotr i Paweł", 70, "Polska",
   "Arhelan", 55, "Polska",
   "Frac", 21, "Polska",
   "Auchan", 33, "Francja",
@@ -149,7 +146,7 @@ tribble(
             caption = "Konkurencja") %>% 
   kable_styling(latex_options = c("striped"),
                 bootstrap_options = c("striped", "condensed")) %>% 
-  footnote(general = "Żródło: Wikipedia", general_title = "")
+  footnote(general = "Źródło: Wikipedia", general_title = "")
 
 ```
 
@@ -161,29 +158,24 @@ Naszym celem badania bilansu jest poznanie kondycji spółki.
 
 ### 2.1 Analiza pionowa bilansu
 
-Zdecydowana większość aktywów (około 70%) to aktywa trwałe, w szczególności środki trwałe i inwestycje długoterminowe w Agro-Rydzyna, jednostki powiązanej. Obecność znaczących niepłynnych aktywów to typowe dla  spółki z branży supermarketów, który nie opiera się na modelu franczyzy. 
+Zdecydowana większość aktywów (około 70%) to aktywa trwałe, w szczególności środki trwałe i inwestycje długoterminowe w Agro-Rydzyna, jednostki powiązanej. Obecność znaczących niepłynnych aktywów to typowe dla spółki z branży supermarketów, która nie opiera się na modelu franczyzy. 
 
-Zapasy stanowią około 50% aktywów obrotowych. Również, spółka posiada mniej środki pieniężne i inne aktywa pieniężne.
+Zapasy stanowią około 50% aktywów obrotowych. 
 
-Jeśli chodzi o pasywa, kapitał własny rośnie z każdym rokiem, ponieważ cały zysku netto
-(z każdym rokiem) jest inwestowany w spółkę. Fakt ten znajduje odzwierciedlenie w pozycji
-A.II i A.IV. A.II wskazuje zakumulowaną kwotę reinwestycji zysku roku ubiegłego, a A.IV 
-jest zyskiem roku danego.
+Jeśli chodzi o pasywa, kapitał własny rośnie z każdym rokiem, ponieważ cały zysk netto (z każdym rokiem) jest inwestowany w spółkę. Fakt ten znajduje odzwierciedlenie w pozycji A.II i A.IV. A.II wskazuje skumulowaną kwotę reinwestycji zysku roku ubiegłego, a A.IV jest zyskiem roku danego.
 
 Następujące informacje podano w sprawozdaniu finansowym:     
 
 >12.1. Podział zysku za rok poprzedni:
 >Zwyczajne Walne Zgromadzenie Akcjonariuszy, które odbyło się w dniu 13 czerwca 2019 roku podjęło uchwałę o przeznaczeniu zysku za rok poprzedni na kapitał zapasowy.
 
-Tego należy się spodziewać, ponieważ 
-wypłacanie dywidend byłoby nieefektywne. Jest to szybko rozwijająca się spółka, 
-która potrzebuje inwestycji w nowe sklepy i centra dystrybucyjne.
+Tego należy się spodziewać, ponieważ wypłacanie dywidend byłoby nieefektywne. Jest to szybko rozwijająca się spółka, która potrzebuje inwestycji w nowe sklepy i centra dystrybucyjne.
 
-Zobowiązania ogółem jest ponad 2 razy wyższa niż zarówno aktywa obrotowe jak i kapitał własny. 
+Zobowiązania ogółem są ponad 2 razy wyższe niż zarówno aktywa obrotowe jak i kapitał własny. 
 
-Zobowiązania krótkoterminowe, większość to zobowiązania z tytułu dostaw i usług (Załącznik: pozycja B.III.3.d w  bilansie), stanowią około 70% z zobowiązań.
+Zobowiązania krótkoterminowe, większość to zobowiązania z tytułu dostaw i usług (Załącznik: pozycja B.III.3.d w  bilansie), stanowią około 70% zobowiązań.
 
-Zobowiązania ogółem wzrósł nieznacznie od 2017 do 2018 w stosunku do kapitałów własnych.
+Zobowiązania ogółem wzrosły nieznacznie od 2017 roku do 2018 roku w stosunku do kapitałów własnych.
 
 
 ```{r}
@@ -212,9 +204,9 @@ bil %>%
 ### 2.2 Analiza pozioma bilansu
 
 
-Zarówno aktywa trwałe i obrotowe rosną o około 30% z roku na rok. Kapitał własne rośnie również w podobnym tempie, co wskazuje na zrównoważony wzrost.
+Zarówno aktywa trwałe i obrotowe rosną o około 30% z roku na rok. Również kapitał własny rośnie w podobnym tempie, co wskazuje na zrównoważony wzrost.
 
-Zobowiązania wzrosły o ponad 30% z roku na rok, jednak zysk netto wrósł również o 50% z roku na rok.
+Zobowiązania wzrosły o ponad 30% z roku na rok, jednak zysk netto wzrósł również o 50% z roku na rok.
 
 ```{r}
 col_names <- c("Elementy bilansu", '2017', '2018', '2019', '2018', '2019',
@@ -242,7 +234,7 @@ bil %>%
 
 ### 2.3 Kapitał obrotowy netto
 
-Ujemna wartość kapitału obrotowego netto w obu latach wskazuję na to, iż całość aktywów bieżących finansowana jest ze zobowiązań bieżących, a to oznacza, że w przedsiębiorstwie nie występuje kapitał obrotowy netto.
+Ujemna wartość kapitału obrotowego netto w obu latach wskazuje na to, iż całość aktywów bieżących finansowana jest ze zobowiązań bieżących, a to oznacza, że w przedsiębiorstwie nie występuje kapitał obrotowy netto.
 
 W związku z ujemnymi wartościami kapitału obrotowego netto w badanych latach nie obliczamy w naszym sprawozdaniu **udziału kapitału obrotowego netto w finansowaniu aktywów ogółem** oraz **udziału kapitału obrotowego netto w finansowaniu aktywów obrotowych przedsiębiorstwa**.
 
@@ -262,7 +254,7 @@ kon <- tribble(
   'Aktywa bieżące ogółem', '', '', '', '',
   'Zobowiązania bieżące', '', '', '', '',
   'Rezerwy na zobowiązania krótkoterminowe', '', '', '', '',
-  'Rozliczenia międzyokresowe krótkoterminow', '', '', '', '',
+  'Rozliczenia międzyokresowe krótkoterminowe', '', '', '', '',
   'Zobowiązania bieżące ogółem', '', '', '', '',
   'Kapitał stały', '', '', '', '',
   'Aktywa stałe', '', '', '', '',
@@ -337,7 +329,7 @@ kon %>%
 
 `r pagebreak()`
 
-### 2.3 Analiza wskażnikowa
+### 2.3 Analiza wskaźnikowa
 
 ```{r}
 wskaźniki <- wskaźniki_bilans()
@@ -358,9 +350,9 @@ $$\small \frac{Kapitał\ własny}{Aktywa\ trwałe} * 100$$
 
 `r wsk_disp(wskaźniki, 1)`
 
-Wskaźnik ten informuje o stopniu, w jakim kapitał własny pokrywa aktywa trwałe. Zgodnie z jedną z zasad bilansowych, kapitał własny powinien wystarczać na sfinansowanie aktywów trwałych, co oznacza, że wskaźnik ten powinien przyjmować wartość co najmniej równą 100%. W przypadku spółki Dino sytuacja jest niekorzystna gdyż wartości w ciągu pięciu lat wynoszą poniżej 100%. Duża niższa wartość wskaźnika niż 100% spółka nie wskazuje mniejszą wiarygodność kredytową, tak długo, jak rosną przepływy pieniężne i zysk netto.
+Wskaźnik ten informuje o stopniu, w jakim kapitał własny pokrywa aktywa trwałe. Zgodnie z jedną z zasad bilansowych, kapitał własny powinien wystarczać na sfinansowanie aktywów trwałych, co oznacza, że wskaźnik ten powinien przyjmować wartość co najmniej równą 100%. W przypadku spółki Dino sytuacja jest niekorzystna, gdyż wartości w ciągu pięciu lat wynoszą poniżej 100%. Dużo niższa wartość wskaźnika poniżej 100% nie wskazuje na mniejszą wiarygodność kredytową spółki tak długo, jak rosną przepływy pieniężne i zysk netto.
 
-Spółka informuje ciągły spadek w *Dług netto / EBITDA* w [wybranych danach finansowych (1.3)](#wdf)
+Spółka odnotowuje ciągły spadek w *Dług netto / EBITDA* w [wybranych danych finansowych (1.3)](#wdf)
 
 #### 2.2.2 Wskaźnik pokrycia aktywów trwałych kapitałem stałym
      
@@ -368,23 +360,23 @@ $$\small \frac{Kapitał\ stały}{Aktywa\ trwałe} * 100$$
 
 `r wsk_disp(wskaźniki, 2)`
 
-Aktywa trwałe nie są finansowane kapitałem długoterminowym. Srebrna zasada nie jest spełniona ponieważ aktywa trwałe nie są w całości finansowane przez kapitał stały. Wartość poniżej 100% może oznacza, że spółka ma małą wiarygodność kredytową.
+Aktywa trwałe nie są finansowane kapitałem długoterminowym. Srebrna zasada nie jest spełniona, ponieważ aktywa trwałe nie są w całości finansowane przez kapitał stały. Wartość poniżej 100% może oznaczać, że spółka ma małą wiarygodność kredytową.
 
-#### 2.2.3 Wskaźnik pokrycia aktywów obrotowych zobowiązanymi krótkoterminowymi
+#### 2.2.3 Wskaźnik pokrycia aktywów obrotowych zobowiązaniami krótkoterminowymi
      
 $$\small \frac{Zobowiązania\ krótkoterminowe}{Aktywa\ obrotowe} * 100$$
 
 `r wsk_disp(wskaźniki, 3)`
 
-Wskaźnik ten pokazuję możliwości przedsiębiorstwa do regulowania zobowiązań posiadanymi środkami obrotowymi. Wartość tego wskaźnika wskazuje stabilną sytuację.
+Wskaźnik ten pokazuje możliwości przedsiębiorstwa do regulowania zobowiązań posiadanymi środkami obrotowymi. Wartość tego wskaźnika wskazuje stabilną sytuację.
 
 `r pagebreak()`
 
 ## 3 Wstępna analiza rachunku zysków i strat
 
-Przychody ze sprzedaży stanowią największą część przychodów ogółem, co wynika z działalności spółki, której głównym celem jest sprzedaż dla indywidualnych osób artykułów spożywczych i dóbr używanych w gospodarstwie domowym.
+Przychody ze sprzedaży stanowią największą część przychodów ogółem, co wynika z działalności spółki, której głównym celem jest sprzedaż dla indywidualnych osób artykułów spożywczych i dóbr używanych w gospodarstwach domowych.
 
-Podobna sytuacja przedstawia się po stronie kosztów, tutaj również tak jak w przypadku przychodów największe koszty występują jako koszty sprzedanych produktów, towarów i materiałów.
+Podobna sytuacja przedstawia się po stronie kosztów, tutaj również tak, jak w przypadku przychodów, największe koszty występują jako koszty sprzedanych produktów, towarów i materiałów.
  
 **Zysk netto**
 Zysk netto stanowi zaledwie 3-4% łącznych przychodów ze sprzedaży, co jest wyższy dla sektora detalicznego (0.5 - 3.5%). Zysk netto wzrósł około o 50% z roku na rok. Może to być spowodowane tym, że firma była w stanie znaleźć dobre lokalizacje dla nowych sklepów.
@@ -442,7 +434,7 @@ mrzis %>%
 
 `r pagebreak()`
 
-### 3.3 Analiza wskażnikowa
+### 3.3 Analiza wskaźnikowa
 
 ```{r}
 wskaźniki <- wskaźniki_rzis()
@@ -474,11 +466,11 @@ $$\small \frac{Zysk\ brutto}{Zysk\ z\ działalności\ operacyjnej} * 100$$
 
 `r wsk_disp(wskaźniki, '2')`
 
-Koszty finansowe i odsetki spowodowały różnicę między zyskiem brotto i 
-z dziłalności operacyjnej. 
+Koszty finansowe i odsetki spowodowały różnicę między zyskiem brutto i 
+z działalności operacyjnej. 
 
 2016 r. jest wyjątkiem, ponieważ jednorazowo przychód finansowych 
-pochodził z spółki zależnej Vitrena Holdings, jako diwidendy i udziały w zyskach.
+pochodził z spółki zależnej Vitrena Holdings, jako dywidendy i udziały w zyskach.
 
 Wzrost tej wskaźniki w ciągu ostatnich 3 lat pokazuje poprawę wydajności.
 
@@ -518,8 +510,8 @@ W ciągu ostatnich 3 lat efektywna stopa opodatkowania spółki była średnia d
 ### 4.1 Syntetyczna analiza sald
 
 W ciągu ostatnich pięciu lat saldo przepływów operacyjnych było dodatnie, 
-w przeciwieństwie do salda przepływów inwestycyjnych które przez cały ten okres było ujemne.
-Z kolei, saldo przepływów finansowych w ciągu pierwszych dwóch lat było ujemne, a
+w przeciwieństwie do salda przepływów inwestycyjnych, które przez cały ten okres było ujemne.
+Z kolei saldo przepływów finansowych w ciągu pierwszych dwóch lat było ujemne, a
 później tylko dodatnie. Na podstawie tych sald można wyciągnąć wniosek, że spółka
 Dino jest przedsiębiorstwem rozwijającym się. Mimo że saldo przepływów finansowych
 w latach 2015 i 2016 było ujemne, to zostało pokryte przez wysokie dodatnie 
@@ -548,12 +540,12 @@ rpp %>%
 
 ### 4.2 Analiza pionowa rachunku przepływów pieniężnych
 
-Analizując dane z lat 2017, 2018, 2019, zysk netto stanowił kolejno ponad 31%,
-33%, 45% salda przepływów operacyjnych, co pokazuje, że spółka jest w dobrej
+Analizując dane z lat 2017, 2018 i 2019 zysk netto stanowił kolejno ponad 31%,
+33% i 45% salda przepływów operacyjnych, co pokazuje, że spółka jest w dobrej
 sytuacji ekonomicznej. Amortyzacja była na poziomie około 15% w skali trzech lat.
 
 Istotne jest, że od 1 stycznia 2019 roku, MSSF 16 zastąpił MSR 17 Leasing oraz
-związane z nim interpretacje. Spółka ujawniła w sprawozdaniu finansowym
+związane z tym interpretacje. Spółka ujawniła w sprawozdaniu finansowym
 następujące informacje:
 
 > Rachunkowość leasingodawcy zgodnie z MSSF 16 pozostaje zasadniczo niezmieniona
@@ -562,11 +554,11 @@ operacyjny lub finansowy, stosując podobne zasady jak w MSR 17. Dlatego też MS
 16 nie miał wpływu na te umowy leasingowe, w których Grupa jest leasingodawcą.
 
 Krótko mówiąc, zmiany w traktowaniu leasingu dla leasingobiorcy dotyczą leasingu
-finansowego, nie miały wpływu na wysokość amortyzacji (pozycja A.II.1). Także,
+finansowego, nie miały wpływu na wysokość amortyzacji (pozycja A.II.1). Tak więc,
 większość umów leasingowych to leasing finansowy.
 
 Zmiana zapotrzebowania na kapitał obrotowy netto została wyliczona na poziomie 
-minus 43%, 45%, 29%. Tak ujemne wartości mogą wynikać z rozwoju spółki.
+minus 43%, 45%, i 29%. Tak ujemne wartości mogą wynikać z rozwoju spółki.
 
 
 ```{r}
@@ -598,7 +590,7 @@ w 2016 roku ze względu na zwrot dywidendy do spółki zależnej Vitrena Holding
 Ta transakcja miała charakter wewnętrzny i nie powinna zwiększyć przepływów
 pieniężnych.
 
-Zmiana stanu zapasów, zmienia się wraz z rozwojem spółki. Także, amortyzacja 
+Zmiana stanu zapasów zmienia się wraz z rozwojem spółki, także amortyzacja 
 rośnie w podobnym tempie każdego roku. 
 
 Kwoty z pozycji zmiana stanu zobowiązań krótkoterminowych (A.II.8) mają duży
@@ -607,7 +599,7 @@ wyniku finansowym danego roku, mimo że płatności będą dokonywane w przyszł
 roku. W takim przypadku, wiedząc, że przez wystąpienie zobowiązania odroczony
 jest termin przepływu pieniężnego w stosunku do ujawnienia kosztu, należy
 dokonać korekty w rachunku przepływów pieniężnych. Znaczące dodatnie kwoty w
-pozycji A.II.8 oznacza po prostu, że dostawcy zgodzili się czekać na płatności.
+pozycji A.II.8 oznaczają po prostu, że dostawcy zgodzili się czekać na płatności.
 Wskazuje to, że Dino ma moc dyktowania warunków od dostawców.
 
 
@@ -622,8 +614,8 @@ Dino składa się z 6 innych firm o nazwie ‘Centrum Wynajmu Nieruchomości 1-6
 S.A.’. Kupno i sprzedaż nieruchomości, i wynajem i zarządzanie nieruchomościami
 odbywa się za pośrednictwem tych firm.
 
-W odniesieniu do pozycji b.I.3 i B.II.3 odzwierciedlają one transakcje między
-główną spółką Dino a spółkami zależnymi Agro-Rydzina i Centrum Wynajmu
+W odniesieniu do pozycji B.I.3 i B.II.3 odzwierciedlają one transakcje między
+główną spółką Dino a spółkami zależnymi Agro-Rydzyna i Centrum Wynajmu
 Nieruchomości. Sprawozdania finansowe nie wyjaśniają dokładnego charakteru tych
 transakcji.
 
@@ -666,7 +658,7 @@ rpp %>%
 
 `r pagebreak()`
 
-### 4.4 Analiza wskażnikowa
+### 4.4 Analiza wskaźnikowa
 
 
 ```{r}
@@ -684,7 +676,7 @@ wsk_disp <- function(wsk, coln, item) {
 #### 4.3.1 Wskaźniki struktury przepływów pieniężnych
 
 W ciągu ostatnich 3 lat 30–45% przepływów pieniężnych netto z działalności operacyjnej 
-wygenerowało zysk netto, a jedynie 14-15% wygenerowało się z amortyzacji. 
+wygenerowało zysk netto, a jedynie 14-15% wygenerowało z amortyzacji. 
 
 $$\small \frac{Zysk\ netto}{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej} * 100$$
 
@@ -727,7 +719,7 @@ $$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{W
 
 ##### 4.3.2.4 Wskaźnik pokrycia wypłaty dywidend
 
-Spółka nie wypłaca dywidenda. 
+Spółka nie wypłaca dywidend. 
 
 $$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Wypłaty\ dywidend} * 100$$
 
@@ -747,7 +739,7 @@ $$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Z
 ##### 4.3.3.1 Wskaźnik pieniężnej wydajności sprzedaży
 
 Oczekiwana jest niska wartość tego wskaźnika.
-Jak wspomniano wcześniej, spółka ma niską marżę no produkty.
+Jak wspomniano wcześniej, spółka ma niską marżę na produkty.
     
 $$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Przychody\ ze\ sprzedaży} * 100$$
 
@@ -756,7 +748,7 @@ $$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{P
 
 ##### 4.3.3.2 Wskaźnik pieniężnej płynności finansowej
 
-Wskaźnik pokazuje, w jak dużym stopniu wynik na podstawowej działalności przedsiębiorstwa przyczynił się do zysku ze sprzedaż. Z roku na rok spadek tego wskaźnika nie jest dobrym znakiem.
+Wskaźnik pokazuje, w jak dużym stopniu wynik z podstawowej działalności przedsiębiorstwa przyczynił się do zysku ze sprzedaży. Z roku na rok spadek tego wskaźnika nie jest dobrym znakiem.
 
 $$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Zysk\ ze\ sprzedaży} * 100$$
 
@@ -765,7 +757,7 @@ $$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Z
        
 ##### 4.3.3.3 Wskaźnik pieniężnej wydajności aktywów
 
-Wskaźnik uokazuje, że majątek firmy jest efektywnie wykorzystywane. 
+Wskaźnik pokazuje, że majątek firmy jest efektywnie wykorzystywany. 
     
 $$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Aktywa\ ogółem} * 100$$
 
@@ -774,7 +766,7 @@ $$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{A
    
 ##### 4.3.3.4 Wskaźnik pieniężnej wydajności kapitału własnego
 
-Wskaźnik ukazują, że kapitał własny firmy jest efektywnie wykorzystywane. 
+Wskaźnik pokazuje, że kapitał własny firmy jest efektywnie wykorzystywany. 
     
 $$\small \frac{Przepływy\ pieniężne\ netto\ z\ działalności\ operacyjnej}{Kapitał\ własny} * 100$$
 
@@ -812,7 +804,7 @@ Nie stanowi to problemu,
 ponieważ spółka ma wysoki ROA w porównaniu do konkurencji. 
 
 * **Wskaźnik szybkiej płynności** jest bliski wartości optymalnej, ale z każdym rokiem 
-spada. Jest to jednak lepszy niż konkurencja.
+spada. Jest jednak lepszy niż u konkurencji.
 
 ### 5.2 Wskaźniki zadłużenia
 
@@ -820,31 +812,31 @@ spada. Jest to jednak lepszy niż konkurencja.
 
 * **Wskaźnik zadłużenia długoterminowego** jest porównywalny (podobny) do konkurencji.
 
-* **Wskaźnik zdolności kredytowej** jest znacznie niższy niż konkurencja. Możemy oczekiwać, że obligacje wyemitowane przez spółkę będą miały niższą pozycję w rankingu, a spółka będzie musiał zapłacić wyższe oprocentowanie swoich obligacji.
+* **Wskaźnik zdolności kredytowej** jest znacznie niższy niż u konkurencji. Możemy oczekiwać, że obligacje wyemitowane przez spółkę będą miały niższą pozycję w rankingu, a spółka będzie musiała zapłacić wyższe oprocentowanie swoich obligacji.
 
 ### 5.3 Wskaźniki operacyjności
 
-* **Wskaźnik operacyjności (poziomu kosztów)** jest na poziomie porównywalnym z konkurencją. Niska wartość tego wskaźnki jest wspólna dla tej brańży. 
+* **Wskaźnik operacyjności (poziomu kosztów)** jest na poziomie porównywalnym z konkurencją. Niska wartość tego wskaźnika jest wspólna dla tej branży. 
 
-* **Wskaźnik rotacji aktywów (produktywność aktywów)** jest na bardzo wysokim poziomie (2,2) i lepszym niż konkurencja. Pokazuje efektywność wykorzystania aktywów tworzących wartość sprzedaży.
+* **Wskaźnik rotacji aktywów (produktywność aktywów)** jest na bardzo wysokim poziomie (2,2) i lepszym niż u konkurencji. Pokazuje efektywność wykorzystania aktywów tworzących wartość sprzedaży.
 
-* **Wskaźnik cyklu należności** to tylko około 5 dni i jest o połowę mniejsze niż u konkurencji. Środki pieniężne nie są dłudo zamrożone w należnościach.
+* **Wskaźnik cyklu należności** to tylko około 5 dni i jest o połowę mniejszy niż u konkurencji. Środki pieniężne nie są długo zamrożone w należnościach.
 
-* **Wskaźnik cyklu zobowiązań** dla tej spółki jest na wysokim poziomie, ale na znacznie niższym poziomie niż konkurencja. Porównując go do niskiego poziomu wskaźnika cyklu należności, możemy dojść do wniosku, że spółka ma zdolność spłaty zobowiązań.
+* **Wskaźnik cyklu zobowiązań** dla tej spółki jest na wysokim poziomie, ale na znacznie niższym poziomie niż u konkurencji. Porównując go do niskiego poziomu wskaźnika cyklu należności, możemy dojść do wniosku, że spółka ma zdolność spłaty zobowiązań.
 
 * **Wskaźnik cyklu zapasów** jest na poziomie porównywalnym z konkurencją. 
 
 ### 5.4 Wskaźniki rentowności
 
-* **Wskaźnik rentowności sprzedaży netto** jest znacznie wyższy niż konkurencja. W 2019 wyniósł 4,5%, a dla konkurencji 2,03%.
+* **Wskaźnik rentowności sprzedaży netto** jest znacznie wyższy niż u konkurencji. W 2019 wyniósł 4,5%, a dla konkurencji 2,03%.
 
-* **Marża zysku netto** jest 2 razy wyższa niż konkurencja, i pokazuje wyższą rentowność sprzedaży.
+* **Marża zysku netto** jest 2 razy wyższa niż u konkurencji  i pokazuje wyższą rentowność sprzedaży.
 
 * **Zwrot z aktywów (ROA)** odzwierciedla rentowność majątku. W 2019 wyniósł 9,2%, a dla konkurencji 3,41%. 
 
-* **Zwrot z kapitału własnego (ROE)** informuje o rentowności zaangażowanego w firmie kapitału. W 2019 wyniósł 29%, a dla konkurencji 13%. Możemy użyć tej wartości do wyceny ceny akcji. Także, wysoka wartość ROE sugeruje, że spółka nie powinna wypłacać dywidendy, reinwestować zysków i dalej się rozwijać.
+* **Zwrot z kapitału własnego (ROE)** informuje o rentowności zaangażowanego w firmie kapitału. W 2019 wyniósł 29%, a dla konkurencji 13%. Możemy użyć tej wartości do wyceny ceny akcji. Także  wysoka wartość ROE sugeruje, że spółka nie powinna wypłacać dywidendy, reinwestować zysków i dalej się rozwijać.
 
-* **Zwrot z inwestycji (ROI)** pokazuje rentowność majątku całkowitego. W 2019 wyniósł 13.2%, a dla konkurencji 4.94%. Znaczna różnica ROI między spółka a konkurencją sugeruje, że spółka będzie zwiększył udział w rynku kosztem konkurencji.
+* **Zwrot z inwestycji (ROI)** pokazuje rentowność majątku całkowitego. W 2019 roku wyniósł 13.2%, a dla konkurencji 4.94%. Znaczna różnica ROI między spółką a konkurencją sugeruje, że spółka będzie zwiększać udział w rynku kosztem konkurencji.
 
 ### 5.5 Wskaźniki rynkowe
 
@@ -879,18 +871,18 @@ dp2 %>%
 
 ## 6 Podsumowanie Analizy spółki Grupa Dino
 
-W badanym okresie wyraźnie widać niezwykle szybko rozwijająca się firma. Poprzez przeprowadzenie analizy finansowej spółki możemy zauważyć, iż spółka utrzymywała wysoki ROI rok po roku. W okresie dwóch lat spółka wygenerowała zysk netto, i wzrosła go o 45%. Jednak przepływy pieniężne netto nie wzrosły w tym okresie, co świadczyło o tym, iż 
+W badanym okresie wyraźnie widać niezwykle szybko rozwijającą się firmę. Poprzez przeprowadzenie analizy finansowej spółki możemy zauważyć, iż spółka utrzymywała wysoki ROI rok po roku. W okresie dwóch lat spółka wygenerowała zysk netto i podwyższyła go o 45%. Jednak przepływy pieniężne netto nie wzrosły w tym okresie, co świadczy o tym, iż 
 firma może rosnąć w tempie wyższym niż optymalne.
 
-W bilansie spółki możemy również zauważyć, że wskaźnik (poziomu) zadłużenia jest na niezwykle wysokim poziomie (68%). Jest to jednak typowe w gronie spółek supermarketów (Jeronimo Martins ma 77%), i w dużej mierzę nie spowoduje problemów z wierzytelnością.
+W bilansie spółki możemy również zauważyć, że wskaźnik (poziomu) zadłużenia jest na niezwykle wysokim poziomie (68%). Jest to jednak typowe w gronie spółek supermarketów (Jeronimo Martins ma 77%) i w dużej mierze nie spowoduje problemów z wierzytelnością.
 
-Z Rachunku zysków i strat, możemy zaobserwować wzrost przychodów ze sprzedaży produktów, a także kosztów co może wskazywać na rozwój spółki i ich inwestycji. Wynik finansowy generuje przede wszystkim podstawowa działalność (sprzedaż) spółki.
+Z Rachunku zysków i strat możemy zaobserwować wzrost przychodów ze sprzedaży produktów, a także kosztów, co może wskazywać na rozwój spółki i jej inwestycji. Wynik finansowy generuje przede wszystkim podstawowa działalność (sprzedaż) spółki.
 
-Ogólnie spókla jest w dobrej sytuacji, gdyż generuje dodatnie przepływy pieniężne na podstawowej działalności - operacyjnej. Podejmuje nowe inwestycje w celu ekspansji, stąd ujemne saldo na działalności inwestycyjnej oraz spłaca zobowiązania finansowe.
+Ogólnie spółka jest w dobrej sytuacji, gdyż generuje dodatnie przepływy pieniężne na podstawowej działalności - operacyjnej. Podejmuje nowe inwestycje w celu ekspansji, stąd ujemne saldo na działalności inwestycyjnej oraz spłaca zobowiązania finansowe.
 
-Z wskaźników możemy również odczytać, iż spółka nie posiada istotnych problemów i swoją działalność będzie rozwijać w kolejnych latach. Przede wszystkim wskaźniki rentowności są na doskonałym poziomie, szczególnie wskaźnik rentowności sprzedaży netto i zwrot z inwestycji (ROI).
+Ze wskaźników możemy również odczytać, iż spółka nie posiada istotnych problemów i swoją działalność będzie rozwijać w kolejnych latach. Przede wszystkim wskaźniki rentowności są na doskonałym poziomie, szczególnie wskaźnik rentowności sprzedaży netto i zwrot z inwestycji (ROI).
 
-Jeśli chodzi o wskaźniki rynkowe, wskaźnik cena-zysk (P/E) wyniosł 52,4%. Dla porównania, Polska - Obligacje Rządowe 10-letnie, w momencie pisania tego tekstu wynosi 1,467%. Jego PE wynosi 68,1 (100 / 1,467). Inwestorzy płacą wysoką cenę za posiadanie tej firmy.
+Jeśli chodzi o wskaźniki rynkowe, wskaźnik cena-zysk (P/E) wyniósł 52,4%. Dla porównania, Polska - Obligacje Rządowe 10-letnie, w momencie pisania tego tekstu wynosi 1,467%. Jego PE wynosi 68,1 (100 / 1,467). Inwestorzy płacą wysoką cenę za posiadanie tej firmy.
 
 `r pagebreak()`
 
@@ -980,3 +972,5 @@ rpp %>%
                        select_rows(rpp, '^[IV]'))))
  
 ```
+
+
